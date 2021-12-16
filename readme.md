@@ -13,7 +13,7 @@ are problems with sub-main.
 
 ### 2. Branch naming convention
 
-Please name your branches according to the following convention: featureName-yourName, where featureName
+Suggested naming convention for branches: featureName-yourName, where featureName
 is the name of the feature you're working on in that branch and yourName is your name. 
 
 For example, if James is working on the manager controller, he can name his branch, "manager-controller-james". 
