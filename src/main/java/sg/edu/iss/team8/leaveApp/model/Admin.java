@@ -5,7 +5,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("2")
+@DiscriminatorValue("Admin")
 public class Admin extends User{
 	@Column(name = "adminDescription")
 	private String description;
