@@ -1,5 +1,6 @@
 package sg.edu.iss.team8.leaveApp.model;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -8,17 +9,26 @@ import javax.persistence.Entity;
 public class Employee extends User {
 
 	
-	
+	@Column(name = "[Annual Leave balance]")
 	private Integer annualLeaveN;
+	
+	@Column(name = "[Medical leave balance]")
 	private Integer medicalLeaveN;
+	
+
+	@Column(name = "[Compensation leave balance]")
 	private Integer compLeaveN;
+	
+	@Column(name = "[Reports to]")
+	private Integer reportsTo;
 	
 	public Employee() {
 		super();
 	}
 	
-	public Employee(String name, String password, Integer annualLeaveN, Integer medicalLeaveN, Integer compLeaveN) {
-		super(name,password);
+	public Employee(String name, String username, String password, Integer reportsTo, Integer annualLeaveN, Integer medicalLeaveN, Integer compLeaveN) {
+		super(name, username, password);
+		this.reportsTo = reportsTo;
 		this.annualLeaveN = annualLeaveN;
 		this.medicalLeaveN = medicalLeaveN;
 		this.compLeaveN = compLeaveN;
@@ -48,6 +58,14 @@ public class Employee extends User {
 
 	public void setCompLeaveN(Integer compLeaveN) {
 		this.compLeaveN = compLeaveN;
+	}
+	
+	public Integer getReportsTo() {
+		return reportsTo;
+	}
+
+	public void setReportsTo(Integer reportsTo) {
+		this.reportsTo = reportsTo;
 	}
 	
 	

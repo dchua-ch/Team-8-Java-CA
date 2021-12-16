@@ -4,10 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -17,6 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import sg.edu.iss.team8.leaveApp.Team8LeaveApplication;
 import sg.edu.iss.team8.leaveApp.model.Admin;
 import sg.edu.iss.team8.leaveApp.model.Employee;
+import sg.edu.iss.team8.leaveApp.model.Manager;
 import sg.edu.iss.team8.leaveApp.model.User;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Team8LeaveApplication.class)
@@ -33,16 +34,18 @@ public class UserRepoTest {
 	public void TestCreateUser()
 	{
 		System.out.println("Executing TestCreateUser()");
-		User myUser = new User("Billy","obvious password");
-		Employee myEmployee = new Employee("Jane", "cool password",4,2,1);
-		Admin myAdmin = new Admin("Adekunle", "uncrackable password","overworked sys admin");
+		User myUser = new User("Billy","Hillbilly123","obvious password");
+		Employee myEmployee = new Employee("Jane","TarzanNumber1Fan", "cool password",1,4,2,1);
+		Admin myAdmin = new Admin("Adekunle", "chef33","uncrackable password");
+		Manager myManager = new Manager("Hilda","bestboss22", "manager password",2,3,3,3);
 		
 		urepo.saveAndFlush(myUser);
 		urepo.saveAndFlush(myEmployee);
 		urepo.saveAndFlush(myAdmin);
+		urepo.saveAndFlush(myManager);
 		
 		List<User> users = urepo.findAll();
-		assertEquals(users.size(),3);
+		assertEquals(users.size(),4);
 	
 	}
 	

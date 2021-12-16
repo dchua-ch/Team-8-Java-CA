@@ -12,12 +12,13 @@ import javax.persistence.InheritanceType;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="emp_type", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorColumn(name="user_type", discriminatorType = DiscriminatorType.STRING)
 public class User {
 	@Id
 	@GeneratedValue
 	private Integer userId;
 	private String name;
+	private String username;
 	private String password;
 	
 	// no-args constructor
@@ -26,8 +27,9 @@ public class User {
 	
 	
 	
-	public User(String name, String password) {
+	public User(String name, String username, String password) {
 		super();
+		this.username = username;
 		this.name = name;
 		this.password = password;
 	}
