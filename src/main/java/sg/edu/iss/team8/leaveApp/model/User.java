@@ -16,7 +16,7 @@ import javax.persistence.InheritanceType;
 public class User {
 	@Id
 	@GeneratedValue
-	private Integer userId;
+	public Integer userId;
 	private String name;
 	private String username;
 	private String password;
@@ -69,6 +69,13 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", name=" + name + ", username=" + username + ", password=" + password + "]";
 	}
 	
 	

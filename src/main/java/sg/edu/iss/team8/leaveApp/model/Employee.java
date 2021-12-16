@@ -5,7 +5,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("Employee")
+@DiscriminatorValue("employee")
 public class Employee extends User {
 
 	
@@ -66,6 +66,12 @@ public class Employee extends User {
 
 	public void setReportsTo(Integer reportsTo) {
 		this.reportsTo = reportsTo;
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [annualLeaveN=" + annualLeaveN + ", medicalLeaveN=" + medicalLeaveN + ", compLeaveN="
+				+ compLeaveN + ", reportsTo=" + reportsTo + "]";
 	}
 	
 	

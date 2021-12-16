@@ -49,6 +49,37 @@ public class UserRepoTest {
 	
 	}
 	
+	@Test
+	@Order(2)
+	public void TestGetAllEmployees()
+	{
+		System.out.println("Executing TestGetAllEmployees()...");
+		// get employee
+		List<Employee> employees = urepo.getAllEmployees();
+		System.out.println(employees.get(0));
+		assertEquals(employees.get(0).getName(), "Jane");
+	}
+	
+	@Test
+	@Order(3)
+	public void TestUpdateUserType()
+	{
+		System.out.println("Executing TestUpdateUserType()...");
+		// get employee
+		List<Employee> employees = urepo.getAllEmployees();
+		int targetId = employees.get(0).userId;
+		String targetUserType = "manager";
+		urepo.updateUserType();
+		List<Manager> managers = urepo.getAllManagers();
+		for(Manager manager : managers)
+		{
+			System.out.println(manager);
+		}
+		assertEquals(managers.size(),2);
+		
+	}
+	
+	
 	//@Test
 	//@Order(2)
 	public void TestDeleteAllUser() 
