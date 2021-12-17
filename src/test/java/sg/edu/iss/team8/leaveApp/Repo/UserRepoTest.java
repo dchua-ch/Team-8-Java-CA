@@ -2,6 +2,7 @@ package sg.edu.iss.team8.leaveApp.Repo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -30,8 +31,8 @@ public class UserRepoTest {
 	@Autowired 
 	UserRepo urepo;
 	
-	@Test
-	@Order(1)
+	//@Test
+	//@Order(1)
 	public void TestCreateUser()
 	{
 		System.out.println("Executing TestCreateUser()");
@@ -50,8 +51,8 @@ public class UserRepoTest {
 		assertEquals(users.size(),4);
 	}
 	
-	@Test
-	@Order(2)
+	//@Test
+	//@Order(2)
 	public void TestGetAllEmployees()
 	{
 		System.out.println("Executing TestGetAllEmployees()...");
@@ -64,8 +65,8 @@ public class UserRepoTest {
 		assertEquals(employees.size(), 2);
 	}
 	
-	@Test
-	@Order(3)
+	//@Test
+	//@Order(3)
 	public void TestUpdateUserType()
 	{
 		System.out.println("Executing TestUpdateUserType()...");
@@ -81,13 +82,72 @@ public class UserRepoTest {
 	}
 	
 	
-	@Test
-	@Order(4)
+	//@Test
+	//@Order(4)
 	public void TestDeleteAllUser() 
 	{
 		System.out.println("Executing TestDeleteAllUser()");
 		urepo.deleteAll();
 		List<User> users = urepo.findAll();
 		assertEquals(users.size(),0);
+	}
+	
+	//@Test
+	//@Order(5)
+	public void TestSavePolymorphicList()
+	{
+		
+		System.out.println("Executing TestSavePolymorphicList()...");
+		
+		//User myUser = new User("Billy","Hillbilly123","obvious password");
+		Employee myEmployee = new Employee("Jane");
+		Employee myEmployee2 = new Employee("MarryManager");
+		Admin myAdmin = new Admin("Adekunle");
+		Manager myManager = new Manager("Hilda");
+		
+		List<User> users = new ArrayList<User>();
+		users.add(myEmployee);
+		users.add(myEmployee2);
+		users.add(myAdmin);
+		users.add(myManager);
+		
+		urepo.saveAllAndFlush(users);
+		List<User> usersInDB = urepo.findAll();
+		
+		assertEquals(usersInDB.size(),4);
+	}
+	
+	@Test
+	@Order(6)
+	public void TestGetUserByName()
+	{
+		Admin targetAdmin = null;
+		Manager targetManager = null;
+		Employee targetEmployee = null;
+		String targetName = "MarryManager";
+		var targetUser = urepo.getUserByName(targetName);	
+		System.out.println(targetUser.getClass());
+		//assertEquals(targetUser.getClass(),Admin.class);
+		var userType = targetUser.getClass();
+		if (userType == Admin.class)
+		{
+			targetAdmin = (Admin) targetUser;
+			System.out.println("Admin: " + targetAdmin.getName());
+			assertEquals(targetAdmin.getName(),targetName);
+		}
+		else if (userType == Manager.class)
+		{
+			targetManager = (Manager) targetUser;
+			System.out.println("Manager: " + targetManager.getName());
+			assertEquals(targetManager.getName(),targetName);
+		}
+		else if (userType == Employee.class)
+		{
+			targetEmployee = (Employee) targetUser;
+			System.out.println("Employee: " +targetEmployee.getName());
+			assertEquals(targetEmployee.getName(),targetName);
+		}
+		
+		
 	}
 }

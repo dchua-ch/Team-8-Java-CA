@@ -19,6 +19,17 @@ public interface UserRepo extends JpaRepository<User, Integer>{
 	@Modifying
 	@Query(value = "update User U set U.user_type = :usertype where u.name = :name",nativeQuery=true)
 	public void updateUserType(@Param("usertype") String usertype, @Param("name") String name);
+	/*
+	@Transactional
+	@Modifying
+	@Query(value = "update User U set U.user_type = :usertype where u.userId = :userId",nativeQuery=true)
+	public void updateUserTypeById(@Param("usertype") String usertype, @Param("userId") Integer userId);
+	*/
+	@Query("select U from User U where U.username = :username")
+	public <T> T getUserByUsername(@Param("username") String username);
+	
+	@Query("select U from User U where U.name = :name")
+	public <T> T getUserByName(@Param("name") String name);
 	
 	@Query("select U from User U where TYPE(U) = 'employee'")
 	public List<Employee> getAllEmployees();
