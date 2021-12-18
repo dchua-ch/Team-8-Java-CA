@@ -13,17 +13,20 @@ import sg.edu.iss.team8.leaveApp.model.Employee;
 import sg.edu.iss.team8.leaveApp.model.Manager;
 import sg.edu.iss.team8.leaveApp.model.User;
 
-public interface UserRepo extends JpaRepository<User, Integer>{
-	
+public interface UserRepo extends JpaRepository<User, Integer> {
+
 	@Transactional
 	@Modifying
-	@Query(value = "update User U set U.user_type = :usertype where u.name = :name",nativeQuery=true)
+	@Query(value = "update User U set U.user_type = :usertype where u.name = :name", nativeQuery = true)
 	public void updateUserType(@Param("usertype") String usertype, @Param("name") String name);
-	
+
 	@Query("select U from User U where TYPE(U) = 'employee'")
 	public List<Employee> getAllEmployees();
-	
+
 	@Query("select U from User U where TYPE(U) = 'manager'")
 	public List<Manager> getAllManagers();
-	
+
+	@Query("SELECT DISTINCT u2 FROM User u1, User u2 WHERE u1.userId = u2.reportsTo AND u1.userId = :userId")
+	public List<Employee> findSubordinates(@Param("userId") Integer userId);
+
 }

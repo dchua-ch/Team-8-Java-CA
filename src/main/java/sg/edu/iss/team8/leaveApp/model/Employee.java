@@ -39,6 +39,16 @@ public class Employee extends User{
 	public Employee(String name) {
 		super(name);
 	}
+	
+	public Employee(String name, String username, String password, 
+			Integer annualLeaveN, Integer medicalLeaveN, 
+			Integer compLeaveN, Integer reportsTo) {
+		super(name, username, password); 
+		this.annualLeaveN = annualLeaveN;
+		this.medicalLeaveN = medicalLeaveN;
+		this.compLeaveN = compLeaveN;
+		this.reportsTo = reportsTo;
+	}
 
 	@OneToMany(mappedBy = "employee", cascade = { CascadeType.ALL })
 	@LazyCollection(LazyCollectionOption.FALSE)

@@ -54,4 +54,20 @@ public class Leave {
 		this.status = status;
 		this.comments = comments;
 	}
+	
+	public Leave(LocalDate startDate, LocalDate endDate, LeaveEnum leaveType, String addtnlReason,
+			String workDissemination, String contact, StatusEnum status, String comments, Employee employee) {
+		super();
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.leaveType = leaveType;
+		this.addtnlReason = addtnlReason;
+		this.workDissemination = workDissemination;
+		this.contact = contact;
+		this.status = status;
+		this.comments = comments;
+		this.employee = employee;
+	}
+	
+	
 }
