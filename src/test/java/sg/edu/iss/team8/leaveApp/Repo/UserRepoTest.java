@@ -16,10 +16,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import sg.edu.iss.team8.leaveApp.Team8LeaveApplication;
+import sg.edu.iss.team8.leaveApp.helpers.LeaveEnum;
+import sg.edu.iss.team8.leaveApp.helpers.StatusEnum;
 import sg.edu.iss.team8.leaveApp.model.Admin;
 import sg.edu.iss.team8.leaveApp.model.Employee;
+import sg.edu.iss.team8.leaveApp.model.Leave;
 import sg.edu.iss.team8.leaveApp.model.Manager;
+import sg.edu.iss.team8.leaveApp.model.OvertimeHours;
 import sg.edu.iss.team8.leaveApp.model.User;
+import sg.edu.iss.team8.leaveApp.repo.LeaveRepo;
 import sg.edu.iss.team8.leaveApp.repo.UserRepo;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Team8LeaveApplication.class)
@@ -30,6 +35,8 @@ AutoConfigureTestDatabase.Replace.NONE)
 public class UserRepoTest {
 	@Autowired 
 	UserRepo urepo;
+	@Autowired
+	LeaveRepo lrepo;
 	
 	//@Test
 	//@Order(1)
@@ -93,7 +100,29 @@ public class UserRepoTest {
 		assertEquals(users.size(),0);
 	}
 	
+
+	@Test
+	@Order(5)
+	public void TestAddLeave() {
+		Employee employee = urepo.getAllEmployees().get(0);
+		Leave leave1 = new Leave();
+		leave1.setLeaveType(LeaveEnum.ANNUAL);
+		leave1.setStatus(StatusEnum.APPLIED);
+		leave1.setEmployee(employee);
+		employee.addLeave(leave1);
+
+		urepo.saveAndFlush(employee);
+	}
 	
-	
-	
+	@Test
+	@Order(6)
+	public void TestAddOTHours() {
+		Employee employee = urepo.getAllEmployees().get(0);
+		OvertimeHours ot1 = new OvertimeHours();
+		ot1.setEmployee(employee);
+		employee.addOTHours(ot1);
+
+		urepo.saveAndFlush(employee);
+	}
+
 }
