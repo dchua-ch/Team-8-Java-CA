@@ -10,6 +10,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,6 +37,10 @@ public class Leave {
 	@Enumerated(EnumType.STRING)
 	private StatusEnum status;
 	private String comments;
+	
+	@ManyToOne
+	@JoinColumn(name = "userid")
+	private Employee employee;
 	
 	public Leave(LocalDate startDate, LocalDate endDate, LeaveEnum leaveType, String addtnlReason,
 			String workDissemination, String contact, StatusEnum status, String comments) {
