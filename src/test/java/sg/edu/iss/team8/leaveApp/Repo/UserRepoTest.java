@@ -3,6 +3,7 @@ package sg.edu.iss.team8.leaveApp.Repo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -26,6 +27,7 @@ import sg.edu.iss.team8.leaveApp.model.OvertimeHours;
 import sg.edu.iss.team8.leaveApp.model.User;
 import sg.edu.iss.team8.leaveApp.repo.LeaveRepo;
 import sg.edu.iss.team8.leaveApp.repo.UserRepo;
+import sg.edu.iss.team8.leaveApp.service.LeaveService;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Team8LeaveApplication.class)
 @TestMethodOrder(OrderAnnotation.class)
@@ -37,6 +39,9 @@ public class UserRepoTest {
 	UserRepo urepo;
 	@Autowired
 	LeaveRepo lrepo;
+	
+	@Autowired 
+	LeaveService lService; 
 	
 //	@Test
 //	@Order(1)
@@ -170,23 +175,26 @@ public class UserRepoTest {
 		
 		Leave leave10 = new Leave(LocalDate.parse("2020-01-08"), LocalDate.parse("2020-01-10"),LeaveEnum.ANNUAL , "...",
 				"...", "94444", StatusEnum.APPLIED, "...", employee2); 
-		Leave leave11 = new Leave(LocalDate.parse("2020-01-08"), LocalDate.parse("2020-01-10"),LeaveEnum.COMPENSATION , "...",
+		Leave leave11 = new Leave(LocalDate.parse("2020-05-08"), LocalDate.parse("2020-01-12"),LeaveEnum.ANNUAL , "...",
+				"...", "94444", StatusEnum.APPLIED, "...", employee2); 
+		Leave leave12 = new Leave(LocalDate.parse("2020-01-08"), LocalDate.parse("2020-01-10"),LeaveEnum.COMPENSATION , "...",
 				"...", "94444", StatusEnum.DELETED, "...", employee2); 
-		Leave leave12 = new Leave(LocalDate.parse("2020-01-08"), LocalDate.parse("2020-01-10"),LeaveEnum.MEDICAL , "...",
+		Leave leave13 = new Leave(LocalDate.parse("2020-01-08"), LocalDate.parse("2020-01-10"),LeaveEnum.MEDICAL , "...",
 				"...", "94444", StatusEnum.APPROVED, "...", employee2);
 		employee2.addLeave(leave10);
 		employee2.addLeave(leave11);
 		employee2.addLeave(leave12);
+		employee2.addLeave(leave13);
 		
-		Leave leave13 = new Leave(LocalDate.parse("2020-01-08"), LocalDate.parse("2020-01-10"),LeaveEnum.ANNUAL , "...",
+		Leave leave14 = new Leave(LocalDate.parse("2020-01-08"), LocalDate.parse("2020-01-10"),LeaveEnum.ANNUAL , "...",
 				"...", "95555", StatusEnum.APPLIED, "...", employee3); 
-		Leave leave14 = new Leave(LocalDate.parse("2020-01-08"), LocalDate.parse("2020-01-10"),LeaveEnum.COMPENSATION , "...",
+		Leave leave15 = new Leave(LocalDate.parse("2020-01-08"), LocalDate.parse("2020-01-10"),LeaveEnum.COMPENSATION , "...",
 				"...", "95555", StatusEnum.DELETED, "...", employee3); 
-		Leave leave15 = new Leave(LocalDate.parse("2020-01-08"), LocalDate.parse("2020-01-10"),LeaveEnum.MEDICAL , "...",
+		Leave leave16 = new Leave(LocalDate.parse("2020-01-08"), LocalDate.parse("2020-01-10"),LeaveEnum.MEDICAL , "...",
 				"...", "95555", StatusEnum.APPROVED, "...", employee3);
-		employee3.addLeave(leave13);
 		employee3.addLeave(leave14);
 		employee3.addLeave(leave15);
+		employee3.addLeave(leave16);
 		
 		
 		urepo.saveAndFlush(manager1);
@@ -200,7 +208,7 @@ public class UserRepoTest {
 		assertEquals(users.size(),6);
 		
 		List<Leave> leaves = lrepo.findAll(); 
-		assertEquals(leaves.size(), 15);
+		assertEquals(leaves.size(), 16);
 	}
 	
 	@Test
@@ -226,12 +234,39 @@ public class UserRepoTest {
 	
 	@Test 
 	@Order(3)
-	public void TestFindPendingLeaveByUID() {
-		System.out.println("Executing TestFindPendingLeaveByUID()");
-		List<Leave> llist = lrepo.findPendingLeaveByUID(9); 
+	public void TestFindLeaveByUID() {
+		System.out.println("Executing TestFindLeaveByUID()");
+		List<Leave> llist = urepo.findLeaveByUID(9); 
 		for (Leave l : llist) {
 			System.out.println(l.getStatus());
 		}
-		assertEquals(llist.size(), 1);
+		assertEquals(llist.size(), 3);
+	}
+	
+	@Test
+	@Order(4)
+	public void TestFindPendingLeaveByUID() {
+		System.out.println("Executing TestFindPendingLeaveByUID");
+		ArrayList<Leave> pendingList = lService.findPendingLeaveByUID(9); 
+		for(Leave l : pendingList) {
+			System.out.println(l.getLeaveId());
+		}
+		assertEquals(pendingList.size(), 1);
+	}
+	
+	@Test
+	@Order(5)
+	public void TestFindLeaveByUIDAndLID() {
+		System.out.println("Executing TestFindLeaveByUIDAndLID");
+		Leave leave = lService.findLeaveByUIDAndLID(5, 7); 
+		assertEquals(leave.getLeaveType(), LeaveEnum.COMPENSATION);
+	}
+	
+	@Test
+	@Order(6)
+	public void TestFindByUserId() {
+		System.out.println("Executing TestFindByUserId()");
+		Employee employee = urepo.findByUserId(1); 
+		assertEquals(employee.getName(), "Peter"); 
 	}
 }

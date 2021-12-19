@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8"/>
+	<title>Leave Approval Page</title>
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}">
+</head>
+<body>
+	<h1>Leaves Pending Approval</h1>
+	<div th:if="${not #lists.isEmpty(pendinghistory)}">
+		<table class="table">
+			<tr th:each="entry, stat : ${pendinghistory}">
+				<td>
+					<div th:if="${not #lists.isEmpty(entry.value)}">
+						<span><b>Emloyee Name: </b></span><span th:text="${entry.key.name}">Name</span ><br/>
+						<table border="1 pt" class="table">
+							<thead class="thead-dark">
+								<tr>
+									<th>Start Date</th >
+									<th>End Date</th >
+									<th>Leave Type</th >
+									<th>Status</th >
+									<th>Leave Details</th >
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="leave : ${entry.value}">
+									<td th:text="${leave.startDate}">Start Date</td>
+									<td th:text="${leave.endDate}">End Date</td>
+									<td th:text="${leave.leaveType}">Leave Type</td>
+									<td th:text="${leave.status}">Status</td>
+									<td><a th:href="@{/manager/course/display/} + ${entry.key.userId} + @{/} + ${leave.leaveId}">View Details</a  ></td>
+								</tr>
+							</tbody>
+						</table >
+					</div>
+				</td>
+			</tr >
+		</table >
+	</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

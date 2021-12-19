@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Leave Details for Approval</title>
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}">
+</head>
+
+<body>
+	<h1>Leave Details for Approval</h1>
+	<table class="table">
+		<tr>
+			<td>
+				<form action="#" th:action="@{/manager/course/edit/} + ${employee.userId} + @{/} + ${leave.leaveId}"
+					th:object="${outcome}" method="POST">
+					<div class="form-group row">
+						<label for="name" class="col-sm-2 col-form-label">Employee Name:</label>
+						<div class="col-sm-10">
+							<input type="text" readonly class="form-control-plaintext" id="name"
+								th:value="${employee.name}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="leaveType" class="col-sm-2 col-form-label">Leave Type:</label>
+						<div class="col-sm-10">
+							<input type="text" readonly class="form-control-plaintext" id="leaveType"
+								th:value="${leave.leaveType}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="startDate" class="col-sm-2 col-form-label">Start Date:</label>
+						<div class="col-sm-10">
+							<input type="text" readonly class="form-control-plaintext" id="startDate"
+								th:value="${leave.startDate}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="endDate" class="col-sm-2 col-form-label">End Date:</label>
+						<div class="col-sm-10">
+							<input type="text" readonly class="form-control-plaintext" id="endDate"
+								th:value="${leave.endDate}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="reason" class="col-sm-2 col-form-label">Additional Reasons:</label>
+						<div class="col-sm-10">
+							<input type="text" readonly class="form-control-plaintext" id="reason"
+								th:value="${leave.addtnlReason}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="workDissemination" class="col-sm-2 col-form-label">Work Dissemination:</label>
+						<div class="col-sm-10">
+							<input type="text" readonly class="form-control-plaintext" id="workDissemination"
+								th:value="${leave.workDissemination}">
+						</div>
+					</div>
+					&nbsp;&nbsp;			 
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="approve" id="approve"
+							th:field="${outcome.decision}" th:value="APPROVED">
+						<label class="form-check-label" for="approve">
+							Approve
+						</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="reject" id="reject"
+							th:field="${outcome.decision}" th:value="REJECTED">
+						<label class="form-check-label" for="reject">
+							Reject
+						</label>
+					</div>
+					&nbsp;&nbsp;
+					<div class="form-group col-md-4">
+						<label for="comments">Comments:</label>
+						<textarea class="form-control" id="comments" rows="3" th:field="${outcome.comments}"></textarea>
+					</div>
+					&nbsp;&nbsp;
+					<div>
+						<input th:type="submit" th:value="Update" class="btn btn-primary">
+					</div>
+				</form>
+			</td>
+		</tr>
+	</table>
+</body>
+
+
+</html>
