@@ -21,26 +21,27 @@ public class LeaveServiceImpl implements LeaveService {
 	
 	@Transactional
 	public Leave submitLeave(Leave leave) {
+		leave.setStatus(StatusEnum.APPLIED);
 		return lrepo.saveAndFlush(leave);
 	}
 
 	@Transactional
 	public void updateLeave(Leave leave) {
 		leave.setStatus(StatusEnum.UPDATED);
-		lrepo.save(leave);
+		lrepo.saveAndFlush(leave);
 	}
 	
 	@Transactional
 	public void deleteLeave(Leave leave) {
 		leave.setStatus(StatusEnum.DELETED);
-		lrepo.save(leave);
+		lrepo.saveAndFlush(leave);
 		return;
 	}
 	
 	@Transactional
 	public void cancelLeave(Leave leave) {
 		leave.setStatus(StatusEnum.CANCELLED);
-		lrepo.save(leave);
+		lrepo.saveAndFlush(leave);
 		return;
 	}
 
