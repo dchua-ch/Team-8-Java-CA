@@ -21,3 +21,5 @@ This would make it easier for us to know what each branch is for and who it belo
 Jill, would like to make changes to James's code, she can create a new branch from his branch and call it "manager-controller-jill".
 
 If you're making branches to test stuff out, you can also name it using test-yourName, e.g. "test-james".
+
+testReadme- pinze 
