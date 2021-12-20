@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>OT History</title>
+</head>
+<body>
+	<h2>Subordinates OT History</h2>
+<!--	<div th:if="${not #lists.isEmpty(OTHistory)}">-->
+	<div>
+		<table>
+			<tr class="listRecord" th:each="subordinate, stat : ${OTHistory}">
+				<td>
+					<div th:if="${not #lists.isEmpty(subordinate.value)}">
+						<table style="border: 1;">
+								<tr class="listHeading">
+									<th><span th:text="#{fieldLabel.SubordinateName}"></span></th>
+									<th><span th:text="#{fieldLabel.Reference}"></span></th>
+									<th><span th:text="#{fieldLabel.OTDate}"></span></th>
+									<th><span th:text="#{fieldLabel.Hours}"></span></th>
+								</tr>
+								<tr th:each="OTDay : ${subordinate.value}" class="listRecord">
+									<td align="left" th:text="${OTDay.employee.name}">EmpId</td>
+									<td align="left" th:text="${OTDay.overtimeId}">Id</td>
+									<td align="left" th:text="${#temporals.format(OTDay.date, 'dd/MMM/yyyy')}">Date</td>
+									<td align="left" th:text="${OTDay.hours}">Hours</td>
+								</tr>
+						</table>
+						
+					</div >
+				</td>
+			</tr>
+		</table>
+	</div  >
+</body>
+</html >

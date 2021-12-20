@@ -18,10 +18,13 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import sg.edu.iss.team8.leaveApp.repo.UserRepo;
+import sg.edu.iss.team8.leaveApp.services.UserService;
 
 @Entity
 @Data
@@ -40,6 +43,7 @@ public class Employee extends User{
 		super(name);
 	}
 
+
 	@OneToMany(mappedBy = "employee", cascade = { CascadeType.ALL })
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private Collection<Leave> leaves = new ArrayList<Leave>();
@@ -55,4 +59,15 @@ public class Employee extends User{
 	public void addOTHours(OvertimeHours ot) {
 		this.otHours.add(ot);
 	}
+	
+	
+	public Employee(String name, String uname, String pwd) {
+		super(name, uname, pwd);
+	}
+	
+	public Employee(String name, String uname, String pwd, Integer reportsTo) {
+		super(name, uname, pwd);
+		this.reportsTo = reportsTo;
+	}
+	
 }

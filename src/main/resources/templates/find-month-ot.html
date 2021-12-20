@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org">
+<head>
+	<title>OT Hours Form</title>
+</head>
+<body>
+	<header></header>
+	<div></div>
+	
+	<h1>Search OT Hours By Month</h1>
+	<form action = "#" th:object = "${OTMonth}" th:action = "@{/manager/filtersubordinatelistot1summary/}" method="GET">
+		<table>
+			<tbody>
+				<tr>
+					<td><span th:text="#{fieldLabel.Month}"></span></td>
+					<td><input type="text" th:field="*{month}" size="40"/></td>
+				</tr>
+				<tr>
+					<td><span th:text="#{fieldLabel.Year}"></span></td>
+					<td><input type="text" th:field="*{year}" size="40"/></td>
+				</tr>
+				<tr>
+					<td><input type="submit" value="Search"/></td>
+					<td><input type="reset" value="Reset"/></td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</body>
+</html>

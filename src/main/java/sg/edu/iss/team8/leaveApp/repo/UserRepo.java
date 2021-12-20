@@ -1,5 +1,6 @@
 package sg.edu.iss.team8.leaveApp.repo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -20,10 +21,23 @@ public interface UserRepo extends JpaRepository<User, Integer>{
 	@Query(value = "update User U set U.user_type = :usertype where u.name = :name",nativeQuery=true)
 	public void updateUserType(@Param("usertype") String usertype, @Param("name") String name);
 	
+//	@Transactional
+//	@Modifying
+//	@Query(value = "update User U set U.compLeaven = :compleaven where u.userId = :userId",nativeQuery=true)
+//	public void updateCompLeave(@Param("compleaven") Integer compleaven, @Param("userId") Integer userId);
+	
 	@Query("select U from User U where TYPE(U) = 'employee'")
 	public List<Employee> getAllEmployees();
 	
 	@Query("select U from User U where TYPE(U) = 'manager'")
 	public List<Manager> getAllManagers();
 	
+	@Query("SELECT u FROM User u WHERE u.username=:un AND u.password=:pwd")
+	public User findUserByNamePwd(@Param("un") String uname, @Param("pwd") String pwd);
+	
+	@Query("SELECT DISTINCT u2 FROM User u1, User u2 WHERE u1.userId = u2.reportsTo AND u1.userId = :eid")
+	public ArrayList<Employee> findSubordinates(@Param("eid") Integer eid);
+	
+//	@Query(value = "select u.user_type from user u where u.user_Id = :userId", nativeQuery = true)
+//	public String findUserType(@Param("userId") Integer userId);
 }

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org">
+<head>
+	<title>OT Hours Form</title>
+</head>
+<body>
+	<header></header>
+	<div></div>
+	
+	<h1>OT Hours Form</h1>
+	<form action = "#" th:object = "${OTHours}" th:action = "@{/staff/saveot}" method = "post">
+		<table>
+			<tbody>
+				<tr>
+					<td><span th:text="#{fieldLabel.OTDate}"></span></td>
+					<td><input type="text" th:field="*{date}" size="40" placeholder="dd/MM/yyyy"/></td>
+				</tr>
+				<tr>
+					<td><span th:text="#{fieldLabel.Hours}"></span></td>
+					<td><input type="text" th:field="*{hours}" size="40"/></td>
+				</tr>
+				<tr>
+					<td><input type="submit" value="Save"/></td>
+					<td><input type="reset" value="Reset"/></td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</body>
+</html>
