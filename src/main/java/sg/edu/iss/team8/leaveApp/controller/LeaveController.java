@@ -1,5 +1,6 @@
 package sg.edu.iss.team8.leaveApp.controller;
 
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,10 +40,11 @@ public class LeaveController {
 	//--set status to applied
 	//--before processing with db, must validate
 	@PostMapping("/submit")
-	public String submitLeave(@ModelAttribute("leave") Leave leave) {
-		
-		//if (result.hasErrors())
-		//	return "some";
+	public String submitLeave(@ModelAttribute("leave") @Valid Leave leave,
+								BindingResult result) {
+		if (result.hasErrors()) {
+			return "some";
+		}
 		
 		lservice.submitLeave(leave);
 		return "some";
@@ -62,10 +64,12 @@ public class LeaveController {
 	//Manage Leave - update
 	//post request
 	@PostMapping("/update/{leaveId}")
-	public String updateLeave(@ModelAttribute("leave") Leave leave) {
+	public String updateLeave(@ModelAttribute("leave") @Valid Leave leave,
+								BindingResult result) {
 		
-		//if (result.hasErrors())
-				//	return "some";
+		if (result.hasErrors()) {
+			return "some";
+		}
 		
 		lservice.updateLeave(leave);
 		return "some";
