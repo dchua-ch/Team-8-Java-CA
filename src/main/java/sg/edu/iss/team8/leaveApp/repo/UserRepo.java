@@ -21,9 +21,19 @@ public interface UserRepo extends JpaRepository<User, Integer>{
 	public void updateUserType(@Param("usertype") String usertype, @Param("name") String name);
 	
 	@Query("select U from User U where TYPE(U) = 'employee'")
-	public List<Employee> getAllEmployees();
-	
+	public List<User> getAllEmployees();
+
 	@Query("select U from User U where TYPE(U) = 'manager'")
-	public List<Manager> getAllManagers();
+	public List<User> getAllManagers();
+
+	@Query("select U from User U where TYPE(U) = 'admin'")
+	public List<User> getAlladmins();
+
+
+	@Query("select U from User U")
+	public List<User> getAllUsers();
+
+
+	//List<Book> books = bookRepository.findAll();
 	
 }

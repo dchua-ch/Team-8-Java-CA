@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><head/>
+<body>
+<h3>User List page</h3>
+<a th:href="@{/admin/user/create}">Add User</a>
+<div th:if="${not #lists.isEmpty(userList)}">
+
+    <table style="border: 1;">
+        <thead>
+        <tr class="listHeading">
+            <th><span th:text="userId"></span></th>
+            <th><span th:text="userName"></span></th>
+            <th><span th:text="password"></span></th>
+            <th><span th:text="comp_leaven"></span></th>
+<!--            <th><span th:text="#{fieldLabel.user_type}"></span></th>-->
+            <th><span th:text="edit"></span></th>
+            <th><span th:text="delete"></span></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="user : ${userList}" class="listRecord">
+            <td th:text="${user.userId}">Id</td>
+            <td th:text="${user.name}">Name</td>
+            <td th:text="${user.password}">Password</td>
+            <th><span th:text="${user.compLeaveN}"></span></th>
+<!--            <td th:text="${user.user_type}">Employee</td>-->
+
+            <td><a th:href="@{/admin/user/edit/}+${user.userId}"
+                   class="btn btn-default"><span th:text="edit"></span></a></td>
+            <td><a th:href="@{/admin/user/delete/}+${user.userId}"
+                   class="btn btn-default"><span th:text="delete"></span></a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
