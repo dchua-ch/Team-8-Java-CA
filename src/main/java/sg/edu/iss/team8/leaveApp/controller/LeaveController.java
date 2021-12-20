@@ -1,20 +1,23 @@
 package sg.edu.iss.team8.leaveApp.controller;
 
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.iss.team8.leaveApp.model.Leave;
 import sg.edu.iss.team8.leaveApp.service.LeaveService;
 import sg.edu.iss.team8.leaveApp.service.LeaveServiceImpl;
+import sg.edu.iss.team8.leaveApp.validator.LeaveValidator;
 
 @Controller
 @RequestMapping("/leave")
@@ -26,6 +29,14 @@ public class LeaveController {
 	@Autowired
 	public void setLeaveService(LeaveServiceImpl lserviceImpl) {
 		this.lservice = lserviceImpl;
+	}
+	
+	@Autowired
+	private LeaveValidator lValidator;
+	
+	@InitBinder("leave")
+	private void initLeaveBinder(WebDataBinder binder) {
+		binder.addValidators(lValidator);
 	}
 	
 	//add leave (create a leave object)
@@ -50,7 +61,6 @@ public class LeaveController {
 		return "some";
 	}
 	
-	
 	//Manage Leave - update
 	//get request
 	@GetMapping("/update/{leaveId}")
@@ -63,10 +73,10 @@ public class LeaveController {
 	
 	//Manage Leave - update
 	//post request
+	//dates must be validated: start cannot be after end
 	@PostMapping("/update/{leaveId}")
 	public String updateLeave(@ModelAttribute("leave") @Valid Leave leave,
 								BindingResult result) {
-		
 		if (result.hasErrors()) {
 			return "some";
 		}
