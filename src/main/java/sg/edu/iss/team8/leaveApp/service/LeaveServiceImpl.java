@@ -79,4 +79,9 @@ public class LeaveServiceImpl implements LeaveService {
 		}
 		return withinRange;
 	}
+	
+	@Override
+	public Leave findLeaveById(Integer leaveId) {
+		return lrepo.findLeaveByID(leaveId);
+	}
 }

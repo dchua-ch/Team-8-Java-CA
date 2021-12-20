@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Subordinate Leave History</title>
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}">
+</head>
+
+<body>
+	<div class="container">
+		<h1>Leave Details</h1>
+		<div class="row">
+			<form action="#" th:action="@{/manager/leave-history/} + ${employee.reportsTo}" method="GET">
+				<div class="form-group row">
+					<label for="name" class="col-sm-3 col-form-label">Employee Name:</label>
+					<div class="col-sm-5">
+						<input type="text" readonly class="form-control-plaintext" id="name"
+							th:value="${employee.name}">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="leaveType" class="col-sm-3 col-form-label">Leave Type:</label>
+					<div class="col-sm-5">
+						<input type="text" readonly class="form-control-plaintext" id="leaveType"
+							th:value="${leave.leaveType}">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="status" class="col-sm-3 col-form-label">Status:</label>
+					<div class="col-sm-5">
+						<input type="text" readonly class="form-control-plaintext" id="status"
+							th:value="${leave.status}">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="startDate" class="col-sm-3 col-form-label">Start Date:</label>
+					<div class="col-sm-5">
+						<input type="text" readonly class="form-control-plaintext" id="startDate"
+							th:value="${leave.startDate}">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="endDate" class="col-sm-3 col-form-label">End Date:</label>
+					<div class="col-sm-5">
+						<input type="text" readonly class="form-control-plaintext" id="endDate"
+							th:value="${leave.endDate}">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="reason" class="col-sm-3 col-form-label">Additional Reasons:</label>
+					<div class="col-sm-5">
+						<input type="text" readonly class="form-control-plaintext" id="reason"
+							th:value="${leave.addtnlReason}">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="workDissemination" class="col-sm-3 col-form-label">Work
+						Dissemination:</label>
+					<div class="col-sm-5">
+						<input type="text" readonly class="form-control-plaintext" id="workDissemination"
+							th:value="${leave.workDissemination}">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="comments" class="col-sm-3 col-form-label">Comments:</label>
+					<div class="col-sm-5">
+						<input type="text" readonly class="form-control-plaintext" id="comments"
+							th:value="${leave.comments}">
+					</div>
+				</div>
+				&nbsp;
+				<div>
+					<input th:type="submit" th:value="Back" class="btn btn-primary">
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+
+</html>
