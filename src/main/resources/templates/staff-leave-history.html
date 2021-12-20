@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>My leaving applications </title>
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}">
+</head>
+
+<body>
+	<div>
+		<table style=" border: 1;">
+			<tr class="listHeading">
+				<th><span th:text="#{fieldLabel.reference}"></span></th>
+				<th><span th:text="#{fieldLabel.leaveType}"></span></th>
+				<th><span th:text="#{fieldLabel.startDate}"></span></th>
+				<th><span th:text="#{fieldLabel.endDate}"></span></th>
+				<th><span th:text="#{fieldLabel.status}"></span></th>
+				<th><span th:text="#{fieldLabel.addtnlReason}"></span></th>
+				<th><span th:text="#{fieldLabel.Details}"></span></th>
+				
+				
+			</tr>
+			<tr th:each="leave:${leaves}" class="listRecord">
+				<td align="left" th:text="${leave.leaveId}">Id</td>
+				<td align="left" th:text="${leave.leaveType}">leaveType</td>
+				<td align="left" th:text="${leave.startDate}">From</td>
+				<td align="left" th:text="${leave.endDate}">To</td>
+				<td align="left" th:text="${leave.status}">status</td>
+				<td align="left" th:text="${leave.addtnlReason}">addtnlReason</td>
+				<td align="left" ><a href="ldetails.html" th:href="@{/staff/history/details/}+${leave.leaveId}" th.utext="#{leave.viewdetails}">viewdetails</a></td>
+				
+			</tr  >
+		</table>
+	</div>
+</body>
+
+</html>
