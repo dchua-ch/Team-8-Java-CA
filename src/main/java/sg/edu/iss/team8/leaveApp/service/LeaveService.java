@@ -1,16 +1,19 @@
 package sg.edu.iss.team8.leaveApp.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import sg.edu.iss.team8.leaveApp.model.Leave;
 
 public interface LeaveService {
-	List<Leave> findLeaveByUID(Integer userId); 
+	public List<Leave> findLeaveByUID(Integer userId); 
 	
-	Leave findLeaveByUIDAndLID(Integer userid, Integer leaveId);
+	public Leave findLeaveByUIDAndLID(Integer userid, Integer leaveId);
 	
-	ArrayList<Leave> findPendingLeaveByUID(Integer userId);
+	public ArrayList<Leave> findPendingLeaveByUID(Integer userId);
 	
-	void updateLeave(Leave leave);
+	public void updateLeave(Leave leave);
+	
+	public List<Leave> findLeaveWithinDateRange(List<Leave> lList, LocalDate start, LocalDate end);
 }

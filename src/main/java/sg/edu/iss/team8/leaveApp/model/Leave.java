@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,9 +34,10 @@ public class Leave {
 	private String addtnlReason;
 	private String workDissemination;
 	private String contact;
-	@Column(name = "status", columnDefinition = "ENUM('APPLIED', 'APPROVED', 'REJECTED', 'DELETED', 'CANCELLED', 'ARCHIVED')")
+	@Column(name = "status", columnDefinition = "ENUM('APPLIED', 'APPROVED', 'REJECTED', 'DELETED', 'CANCELLED', 'ARCHIVED', 'UPDATED')")
 	@Enumerated(EnumType.STRING)
 	private StatusEnum status;
+	@NotEmpty
 	private String comments;
 	
 	@ManyToOne

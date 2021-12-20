@@ -1,5 +1,5 @@
 package sg.edu.iss.team8.leaveApp.helpers;
 
 public enum StatusEnum {
-	APPLIED, APPROVED, REJECTED, DELETED, CANCELLED, ARCHIVED
+	APPLIED, APPROVED, REJECTED, DELETED, CANCELLED, ARCHIVED, UPDATED
 }
