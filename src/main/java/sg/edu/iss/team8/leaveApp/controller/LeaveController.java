@@ -47,13 +47,13 @@ public class LeaveController {
 	}
 	
 	//add/initialize a Leave object
-	@RequestMapping("/add")
+	@GetMapping("/add")
 	public String addLeave(Model model) {
 		Leave newLeave = new Leave();
 		model.addAttribute("leave", newLeave);
 		String msg = "New leave created";
 		System.out.println(msg);
-		return "some";
+		return "apply-leave";
 	}
 	
 	//submit the Leave to persist
