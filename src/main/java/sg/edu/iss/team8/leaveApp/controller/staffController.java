@@ -39,8 +39,9 @@ public class staffController {
 	@Autowired
 	LeaveService lService;
 	
+	//Check all personal leaves
 	@RequestMapping(value = "/history/{uid}")
-	public String pendingApprovals(@PathVariable("uid") Integer userId, Model model /* HttpSession session */) {
+	public String personalHistory(@PathVariable("uid") Integer userId, Model model /* HttpSession session */) {
 		// UserSession usession = (UserSession) session.getAttribute("usession");
 		
 		ArrayList<Leave> all = new ArrayList<Leave>();
@@ -59,6 +60,7 @@ public class staffController {
 //			model.addAttribute("leaves", all);
 //			return "staff-leave-history";
 //	}
+	//leave details for the specific leave
 	@RequestMapping(value = "/history/details/{id}" ,method = RequestMethod.GET)
 	public ModelAndView leaveDetails(@PathVariable Integer id) {
 		ModelAndView mav = new ModelAndView("ldetails");

@@ -16,4 +16,6 @@ public interface LeaveService {
 	public void updateLeave(Leave leave);
 	
 	public List<Leave> findLeaveWithinDateRange(List<Leave> lList, LocalDate start, LocalDate end);
+	
+	public Leave findLeaveById(Integer leaveId);
 }

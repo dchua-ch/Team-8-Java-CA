@@ -8,15 +8,14 @@
 </head>
 
 <body>
-	<div>
-		<table style=" border: 1;">
+	<div >
+		<table class="table table-striped">
 			<tr class="listHeading">
 				<th><span th:text="#{fieldLabel.reference}"></span></th>
 				<th><span th:text="#{fieldLabel.leaveType}"></span></th>
 				<th><span th:text="#{fieldLabel.startDate}"></span></th>
 				<th><span th:text="#{fieldLabel.endDate}"></span></th>
 				<th><span th:text="#{fieldLabel.status}"></span></th>
-				<th><span th:text="#{fieldLabel.addtnlReason}"></span></th>
 				<th><span th:text="#{fieldLabel.Details}"></span></th>
 				
 				
@@ -27,12 +26,11 @@
 				<td align="left" th:text="${leave.startDate}">From</td>
 				<td align="left" th:text="${leave.endDate}">To</td>
 				<td align="left" th:text="${leave.status}">status</td>
-				<td align="left" th:text="${leave.addtnlReason}">addtnlReason</td>
-				<td align="left" ><a href="ldetails.html" th:href="@{/staff/history/details/}+${leave.leaveId}" th.utext="#{leave.viewdetails}">viewdetails</a></td>
+				<td align="left" ><a href="ldetails.html" th:href="@{/staff/history/details/}+${leave.leaveId}" th.utext="#{leave.viewdetails}">View details</a></td>
 				
 			</tr  >
 		</table>
-	</div>
+	</div >
 </body>
 
 </html>

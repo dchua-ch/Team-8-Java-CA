@@ -97,4 +97,37 @@ public class ManagerController {
 
 		return "forward:/manager/pending/" + managerId;
 	}
+	// Routes to view which displays the leave history for subordinates (i.e.
+		// APPROVED or REJECTED or ARCHIVED leaves)
+		@RequestMapping(value = "/leave-history/{uid}", method = RequestMethod.GET)
+		public String subLeaveHistory(@PathVariable("uid") Integer userId, Model model) {
+			List<Employee> subordinates = eService.findSubordinates(userId);
+			HashMap<Employee, List<Leave>> hm = new HashMap<Employee, List<Leave>>();
+			for (Employee employee : subordinates) {
+				List<Leave> lList = lService.findLeaveByUID(employee.getUserId());
+				List<Leave> lRecord = new ArrayList<Leave>();
+				for (Leave leave : lList) {
+					lRecord.add(leave);
+//					if (leave.getStatus() == StatusEnum.APPROVED || leave.getStatus() == StatusEnum.REJECTED) {
+//						lRecord.add(leave);
+//					}
+				}
+				hm.put(employee, lRecord);
+			}
+
+			model.addAttribute("leavehistory", hm);
+			return "manager-history";
+		}
+		
+		
+		@RequestMapping(value="/leave-history/display/{uid}/{lid}", method= RequestMethod.GET)
+		public String displayPastLeaveDetails(@PathVariable("uid") Integer userId, @PathVariable("lid") Integer leaveId, Model model) {
+			Leave leave = lService.findLeaveById(leaveId);
+			Employee employee = eService.findByUserId(userId); 
+			
+			model.addAttribute("employee", employee);
+			model.addAttribute("leave", leave);
+			
+			return "manager-leave-history-details";
+		}
 }
