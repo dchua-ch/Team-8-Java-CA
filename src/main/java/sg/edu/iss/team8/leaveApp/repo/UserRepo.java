@@ -10,15 +10,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import sg.edu.iss.team8.leaveApp.model.Employee;
-import sg.edu.iss.team8.leaveApp.model.Manager;
 import sg.edu.iss.team8.leaveApp.model.User;
 
 public interface UserRepo extends JpaRepository<User, Integer>{
 	
 	@Transactional
 	@Modifying
-	@Query(value = "update User U set U.user_type = :usertype where u.name = :name",nativeQuery=true)
-	public void updateUserType(@Param("usertype") String usertype, @Param("name") String name);
+	@Query(value = "update User U set U.user_type = :usertype where u.user_id = :userId",nativeQuery=true)
+	public void updateUserType(@Param("usertype") String usertype, @Param("userId") String userId);
 	
 	@Query("select U from User U where TYPE(U) = 'employee'")
 	public List<User> getAllEmployees();
@@ -29,11 +28,11 @@ public interface UserRepo extends JpaRepository<User, Integer>{
 	@Query("select U from User U where TYPE(U) = 'admin'")
 	public List<User> getAlladmins();
 
-
 	@Query("select U from User U")
 	public List<User> getAllUsers();
 
 
-	//List<Book> books = bookRepository.findAll();
-	
+	@Query("select U from User U where TYPE(U) = :type and U.userId = :id")
+	public User getOneUser(String type, String id);
+
 }
