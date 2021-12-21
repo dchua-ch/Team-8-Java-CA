@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
+<!--<head>
 	<meta charset="UTF-8" />
 	<title>Subordinate Leave History</title>
 	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}">
-</head>
+</head>-->
+
+<head th:replace="fragments/layout.html :: html_head"/>
 
 <body>
+	<div th:replace="fragments/layout.html::menu"/>
 	<div class="container">
 		<h1>Leave Details</h1>
 		<div class="row">
-			<form action="#" th:action="@{/manager/leave-history/} + ${employee.reportsTo}" method="GET">
+			<form action="#" th:action="@{/manager/leave-history/}" method="GET">
 				<div class="form-group row">
 					<label for="name" class="col-sm-3 col-form-label">Employee Name:</label>
 					<div class="col-sm-5">

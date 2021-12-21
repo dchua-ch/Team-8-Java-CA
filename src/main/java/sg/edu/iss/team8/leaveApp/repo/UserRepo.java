@@ -35,7 +35,10 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 	
 	public Employee findByUserId(Integer userId); 
 	
-//	@Query("SELECT L FROM User U JOIN U.leaves L WHERE U.userid = :userId  AND U.leaves.status = StatusEnum.APPLIED")
-//	public List<Leave> findPendingLeaveByUID(@Param("userId") Integer userId);
+	@Query("SELECT u FROM User u WHERE u.username=:un AND u.password=:pwd")
+	public User findUserByNamePwd(@Param("un") String uname, @Param("pwd") String pwd);
+	
+	@Query(value = "SELECT user_type FROM user WHERE user_id = :uid ", nativeQuery = true)
+	public String getEmpTypeByUID(@Param("uid") Integer userId); 
 	
 }

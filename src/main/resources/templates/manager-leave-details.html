@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
+<!--<head>
 	<meta charset="UTF-8" />
 	<title>Leave Details for Approval</title>
 	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}">
-</head>
+</head>-->
+
+<head th:replace="fragments/layout.html :: html_head"/>
 
 <body>
+	<div th:replace="fragments/layout.html::menu"/>
 	<div class="container">
 		<h1>Leave Details for Approval</h1>
 		<div class="row">
@@ -76,6 +79,7 @@
 					<div class="form-group col-md-4">
 						<label for="comments">Comments:</label>
 						<textarea class="form-control" id="comments" rows="4" th:field="${outcome.comments}"></textarea>
+						<p th:if="${#fields.hasErrors('${outcome.comments}')}" th:errors="${outcome.comments}"></p >
 					</div>
 					&nbsp;&nbsp;
 					<div>

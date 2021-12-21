@@ -283,4 +283,12 @@ public class UserRepoTest {
 		Leave leave = lrepo.findLeaveByID(8); 
 		assertEquals(leave.getStatus(), StatusEnum.DELETED); 
 	}
+	
+	@Test
+	@Order(7)
+	public void TestGetEmpTypeByUID() {
+		System.out.println("Executing TestGetEmpTypeByUID()");
+		String empType = urepo.getEmpTypeByUID(1); 
+		assertEquals(empType, "manager"); 
+	}
 }
