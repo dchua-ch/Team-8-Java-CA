@@ -40,8 +40,8 @@ public class CalendarController {
 		binder.addValidators(lValidator);
 	}
 	
-	@GetMapping("/leaves")
-	public List<Leave> getLeaves() {
+	@GetMapping("/getAllLeaves")
+	public List<Leave> getAllLeaves() {
 		return lrepo.findAll();
 	}
 	

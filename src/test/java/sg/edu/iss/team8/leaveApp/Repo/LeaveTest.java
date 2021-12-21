@@ -3,6 +3,7 @@ package sg.edu.iss.team8.leaveApp.Repo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -34,18 +35,20 @@ public class LeaveTest {
 	@Test
 	@Order(1)
 	public void testCreateLeave() {
-		Leave leave1 = new Leave(LocalDate.parse("2020-01-08"), LocalDate.parse("2020-01-10"),LeaveEnum.ANNUAL , "...",
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		Leave leave1 = new Leave(LocalDate.parse("08/01/2020", format), LocalDate.parse("10/01/2020", format),LeaveEnum.ANNUAL , "...",
 				"...", "91111", StatusEnum.APPLIED, "..."); 
-		Leave leave2 = new Leave(LocalDate.parse("2020-01-08"), LocalDate.parse("2020-01-10"),LeaveEnum.COMPENSATION , "...",
+		Leave leave2 = new Leave(LocalDate.parse("08/01/2020", format), LocalDate.parse("10/01/2020", format),LeaveEnum.COMPENSATION , "...",
 				"...", "91111", StatusEnum.DELETED, "..."); 
-		Leave leave3 = new Leave(LocalDate.parse("2020-01-08"), LocalDate.parse("2020-01-10"),LeaveEnum.MEDICAL , "...",
+		Leave leave3 = new Leave(LocalDate.parse("08/01/2020", format), LocalDate.parse("10/01/2020", format),LeaveEnum.MEDICAL , "...",
 				"...", "91111", StatusEnum.APPROVED, "...");
+		lrepo.deleteAll();
 		lrepo.saveAndFlush(leave1);
 		lrepo.saveAndFlush(leave2);
 		lrepo.saveAndFlush(leave3);
 		
 		List<Leave> leaves = lrepo.findAll();
 		assertEquals(leaves.size(), 3);
-		//Date format in this test was able to store in DB because controller was bypassed
+		
 	}
 }
