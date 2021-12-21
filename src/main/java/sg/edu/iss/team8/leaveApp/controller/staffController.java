@@ -40,19 +40,23 @@ public class staffController {
 	LeaveService lService;
 	
 	//Check all personal leaves
-	@RequestMapping(value = "/history/{uid}")
-	public String personalHistory(@PathVariable("uid") Integer userId, Model model /* HttpSession session */) {
-		// UserSession usession = (UserSession) session.getAttribute("usession");
+	@RequestMapping(value = "/history/")
+	public String personalHistory(Model model, HttpSession session) {
+		UserSession usession = (UserSession) session.getAttribute("usession");
 		
 		ArrayList<Leave> all = new ArrayList<Leave>();
-		//UserSession usession = (UserSession) session.getAttribute("usession");
-		all.addAll(lService.findLeaveByUID(userId));
+		all.addAll(lService.findLeaveByUID(usession.getUser().userId));
 		model.addAttribute("leaves", all);
 		return "staff-leave-history";
 
 	}
 	
+//	@RequestMapping(value = "/history/{uid}")
+//	public String personalHistory(@PathVariable("uid") Integer userId, Model model, HttpSession session) {
+//		UserSession usession = (UserSession) session.getAttribute("usession");
+//		
 //	@RequestMapping(value = "/history")
+	
 //	public String staffLeaveHistory(Model model) {
 //			ArrayList<Leave> all = new ArrayList<Leave>();
 //			//UserSession usession = (UserSession) session.getAttribute("usession");
