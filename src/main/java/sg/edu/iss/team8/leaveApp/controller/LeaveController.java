@@ -39,17 +39,17 @@ public class LeaveController {
 		binder.addValidators(lValidator);
 	}
 	
-	//add leave (create a leave object)
+	//add/initialize a Leave object
 	@RequestMapping("/add")
 	public String addLeave(Model model) {
 		Leave newLeave = new Leave();
 		model.addAttribute("leave", newLeave);
+		String msg = "New leave created";
+		System.out.println(msg);
 		return "some";
 	}
 	
-	//submit leave
-	//--set status to applied
-	//--before processing with db, must validate
+	//submit the Leave to persist
 	@PostMapping("/submit")
 	public String submitLeave(@ModelAttribute("leave") @Valid Leave leave,
 								BindingResult result) {
@@ -58,11 +58,12 @@ public class LeaveController {
 		}
 		
 		lservice.submitLeave(leave);
+		String msg = "Leave was successfully submitted.";
+		System.out.println(msg);
 		return "some";
 	}
 	
-	//Manage Leave - update
-	//get request
+	//get the Leave object to display on the update page
 	@GetMapping("/update/{leaveId}")
 	public String updateLeavePage(@PathVariable("leaveId") Integer leaveId,
 									Model model) {
@@ -71,9 +72,7 @@ public class LeaveController {
 		return "some";
 	}
 	
-	//Manage Leave - update
-	//post request
-	//dates must be validated: start cannot be after end
+	//update the Leave with the new values from the page
 	@PostMapping("/update/{leaveId}")
 	public String updateLeave(@ModelAttribute("leave") @Valid Leave leave,
 								BindingResult result) {
@@ -82,24 +81,28 @@ public class LeaveController {
 		}
 		
 		lservice.updateLeave(leave);
+		String msg = "Leave was successfully updated.";
+		System.out.println(msg);
 		return "some";
 	}
 	
-	//Manage leave - delete
-	//--set status to deleted
+	//"delete" the Leave object
 	@GetMapping("/delete/{leaveId}")
 	public String deleteLeave(@PathVariable("leaveId") Integer leaveId) {
 		Leave leaveToDelete = lservice.findLeaveById(leaveId);
 		lservice.deleteLeave(leaveToDelete);
+		String msg = "Leave was successfully deleted.";
+		System.out.println(msg);
 		return "forward:/somepage";
 	}
 	
-	//Manage leave - cancel
-	//--set status to cancel
+	//"cancel" the Leave
 	@GetMapping("/cancel/{leaveId}")
 	public String cancelLeave(@PathVariable("leaveId") Integer leaveId) {
 		Leave leaveToCancel = lservice.findLeaveById(leaveId);
 		lservice.cancelLeave(leaveToCancel);
+		String msg = "Leave was successfully cancelled.";
+		System.out.println(msg);
 		return "forward:/somepage";
 	}
 	
