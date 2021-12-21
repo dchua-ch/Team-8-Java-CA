@@ -16,7 +16,7 @@ import sg.edu.iss.team8.leaveApp.service.LeaveService;
 import sg.edu.iss.team8.leaveApp.service.LeaveServiceImpl;
 import sg.edu.iss.team8.leaveApp.validator.LeaveValidator;
 
-@CrossOrigin(origins = "SOMESOME")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/calendarAPI")
 public class CalendarController {

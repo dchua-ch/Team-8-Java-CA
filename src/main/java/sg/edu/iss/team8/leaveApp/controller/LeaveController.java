@@ -1,8 +1,12 @@
 package sg.edu.iss.team8.leaveApp.controller;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,6 +40,9 @@ public class LeaveController {
 	
 	@InitBinder("leave")
 	private void initLeaveBinder(WebDataBinder binder) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		dateFormat.setLenient(false);
+		binder.registerCustomEditor(LocalDate.class, new CustomDateEditor(dateFormat, false));
 		binder.addValidators(lValidator);
 	}
 	

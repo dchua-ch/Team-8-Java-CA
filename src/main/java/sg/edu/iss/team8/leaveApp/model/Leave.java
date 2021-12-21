@@ -2,7 +2,6 @@ package sg.edu.iss.team8.leaveApp.model;
 
 import java.time.LocalDate;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,7 +26,9 @@ public class Leave {
 	@Id
 	@GeneratedValue (strategy = GenerationType.AUTO)
 	private Integer leaveId;
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private LocalDate startDate;
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private LocalDate endDate;
 	@Column(name = "leaveType", columnDefinition = "ENUM('ANNUAL', 'MEDICAL', 'COMPENSATION')")
 	@Enumerated(EnumType.STRING)
