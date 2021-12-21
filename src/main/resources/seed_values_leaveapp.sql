@@ -72,7 +72,7 @@ VALUES
 INSERT INTO leaveapp.user
 (user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to)
 VALUES
-('admin', 6, 'Adam', 'pwd', 'joe', null, null, null, null);
+('admin', 6, 'Adam', 'pwd', 'adam', null, null, null, null);
 
 
 
