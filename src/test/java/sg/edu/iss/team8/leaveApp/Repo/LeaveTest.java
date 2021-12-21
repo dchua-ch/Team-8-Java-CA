@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -49,6 +50,19 @@ public class LeaveTest {
 		
 		List<Leave> leaves = lrepo.findAll();
 		assertEquals(leaves.size(), 3);
-		
+	}
+	
+	@Test
+	@Order(2)
+	public void testFindLeaveByLeaveId() {
+		List<Leave> leaves = lrepo.findAll();
+		Integer id1 = leaves.get(0).getLeaveId();
+		Integer id2 = leaves.get(1).getLeaveId();
+		Leave sampleLeave1 = lrepo.findLeaveById(id1);
+		Leave sampleLeave2 = lrepo.findLeaveById(id2);
+		List<Leave> leavesList = new ArrayList<>();
+		leavesList.add(sampleLeave1);
+		leavesList.add(sampleLeave2);
+		assertEquals(leavesList.size(), 2);
 	}
 }
