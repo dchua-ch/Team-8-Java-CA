@@ -1,11 +1,18 @@
 package sg.edu.iss.team8.leaveApp.service;
 
-import sg.edu.iss.team8.leaveApp.helpers.StatusEnum;
+import java.util.List;
+
 import sg.edu.iss.team8.leaveApp.model.Leave;
 
 public interface LeaveService {
 	
 	public Leave findLeaveById(Integer leaveId);
+	
+	public List<Leave> findLeaveByUserId(Integer userId);
+	
+	public List<Leave> findPendingLeaveByUserId(Integer userId);
+	
+	public List<Leave> findApplicableLeaveByUserId(Integer userId);
 	
 	public Leave submitLeave(Leave leave);
 	

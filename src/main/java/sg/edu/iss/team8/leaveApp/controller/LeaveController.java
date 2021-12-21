@@ -2,7 +2,9 @@ package sg.edu.iss.team8.leaveApp.controller;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,7 @@ public class LeaveController {
 	}
 	
 	//add/initialize a Leave object
+	//add session logic to get userId
 	@RequestMapping("/add")
 	public String addLeave(Model model) {
 		Leave newLeave = new Leave();
@@ -57,13 +60,14 @@ public class LeaveController {
 	}
 	
 	//submit the Leave to persist
+	//add session logic to get userId
 	@PostMapping("/submit")
 	public String submitLeave(@ModelAttribute("leave") @Valid Leave leave,
 								BindingResult result) {
 		if (result.hasErrors()) {
 			return "some";
 		}
-		
+		//leave.getEmployee().setUserId(null)
 		lservice.submitLeave(leave);
 		String msg = "Leave was successfully submitted.";
 		System.out.println(msg);
@@ -111,6 +115,27 @@ public class LeaveController {
 		String msg = "Leave was successfully cancelled.";
 		System.out.println(msg);
 		return "forward:/somepage";
+	}
+	
+	//get user leave history
+	//might have overlap with RZ's code, but included for good measure.
+	@GetMapping("/leavehistory")
+	public String getLeaveHistory(Model model, HttpSession session) {
+		UserSession usession = (UserSession) session.getAttribute("usession");
+		Integer userId = usession.getUser().getUserId();
+		List<Leave> leaveHistory = lservice.findLeaveByUserId(userId);
+		model.addAttribute("leaveHistory", leaveHistory);
+		return "some";
+	}
+	
+	//get user pending leaves
+	@GetMapping("pendingleaves")
+	public String getPendingLeaves(Model model, HttpSession session) {
+		UserSession usession = (UserSession) session.getAttribute("usession");
+		Integer userId = usession.getUser().getUserId();
+		List<Leave> pendingLeaves = lservice.findPendingLeaveByUserId(userId);
+		model.addAttribute("pendingLeaves", pendingLeaves);
+		return "some";
 	}
 	
 }

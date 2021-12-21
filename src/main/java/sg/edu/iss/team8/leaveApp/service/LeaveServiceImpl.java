@@ -1,5 +1,8 @@
 package sg.edu.iss.team8.leaveApp.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +20,38 @@ public class LeaveServiceImpl implements LeaveService {
 	@Transactional
 	public Leave findLeaveById(Integer leaveId) {
 		return lrepo.findLeaveById(leaveId);
+	}
+	
+	@Transactional
+	public List<Leave> findLeaveByUserId(Integer userId) {
+		return lrepo.findLeaveByUserId(userId);
+	}
+	
+	@Transactional
+	public List<Leave> findPendingLeaveByUserId(Integer userId) {
+		List<Leave> userLeaves = lrepo.findLeaveByUserId(userId);
+		List<Leave> pendingLeaves = new ArrayList<>();
+		for (Leave leave : userLeaves) {
+			if (leave.getStatus() == StatusEnum.APPLIED || 
+					leave.getStatus() == StatusEnum.UPDATED) {
+				pendingLeaves.add(leave);
+			}
+		}
+		return pendingLeaves;
+	}
+	
+	@Transactional
+	public List<Leave> findApplicableLeaveByUserId(Integer userId) {
+		List<Leave> userLeaves = lrepo.findLeaveByUserId(userId);
+		List<Leave> applicableLeaves = new ArrayList<>();
+		for (Leave leave : userLeaves) {
+			if (leave.getStatus() == StatusEnum.APPLIED ||
+					leave.getStatus() == StatusEnum.APPROVED ||
+					leave.getStatus() == StatusEnum.UPDATED) {
+				applicableLeaves.add(leave);
+			}
+		}
+		return applicableLeaves;
 	}
 	
 	@Transactional
