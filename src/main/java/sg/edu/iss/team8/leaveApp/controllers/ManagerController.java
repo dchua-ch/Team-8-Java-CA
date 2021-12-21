@@ -76,7 +76,7 @@ public class ManagerController {
 	public String employeeListOT1summary(@ModelAttribute ("total") @Valid MonthYear OTMonth, @ModelAttribute ("OTMonth") @Valid MonthYear OTMonth2, HttpSession session, Model model) {
 		UserSession usession = (UserSession) session.getAttribute("usession");
 		User u = usession.getUser();
-		if (u.getClass() == Manager.class) { 
+		if (u.getClass().getSimpleName().equalsIgnoreCase("manager")) { 
 			HashMap<Employee, Double> hrsmap = new HashMap<Employee, Double>();
 			for (Employee subordinate : urepo.findSubordinates(u.getUserId())) {
 				System.out.println(oservice.findTotalOTHoursByMonthYearUserId(OTMonth.getMonth(), OTMonth.getYear(), subordinate.getUserId()));
@@ -96,7 +96,7 @@ public class ManagerController {
 		UserSession usession = (UserSession) session.getAttribute("usession");
 		User u = usession.getUser();
 		System.out.println("test1");
-		if (u.getClass() == Manager.class) { 
+		if (u.getClass().getSimpleName().equalsIgnoreCase("manager")) { 
 			Employee employee = (Employee) uservice.findUser(id);
 			System.out.println("test2");
 			System.out.println(month);
@@ -118,7 +118,7 @@ public class ManagerController {
 	public String employeeListOT1(@ModelAttribute ("OTMonth") @Valid MonthYear OTMonth, HttpSession session, Model model) {
 		UserSession usession = (UserSession) session.getAttribute("usession");
 		User u = usession.getUser();
-		if (u.getClass() == Manager.class) { 
+		if (u.getClass().getSimpleName().equalsIgnoreCase("manager")) { 
 			HashMap<Employee, ArrayList<OvertimeHours>> submap = new HashMap<Employee, ArrayList<OvertimeHours>>();
 			HashMap<Employee, Double> hrsmap = new HashMap<Employee, Double>();
 			for (Employee subordinate : urepo.findSubordinates(u.getUserId())) {
