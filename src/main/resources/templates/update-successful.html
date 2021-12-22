@@ -8,8 +8,8 @@
     
 </head>
 <body>
-    <div>
-    <p>Leave is updated.</p>
-    </div>
+    <div  th:object="${leave}">
+    <p>Leave ID: <span th:text = "${leave.leaveId}"></span > is updated.</p>
+    </div >
 </body>
 </html>

@@ -2,6 +2,7 @@ package sg.edu.iss.team8.leaveApp.controller;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -76,6 +77,8 @@ public class LeaveController {
 	
 		return "select-leave";
 	}
+	
+
 	
 	//get the Leave object to display on the update page
 	@GetMapping("/update/{leaveId}")

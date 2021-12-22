@@ -9,10 +9,11 @@
 </head>
 <body>
     <h1>Leave Application form</h1>
-
+	
     <form th:action = "@{'/leave/update/' + ${leave.leaveId}}" th:object="${leave}" method = "POST"> 
+       
         <div class = 'questions'>
-        	
+        	 <p>Update Leave ID: <span th:text = "${leave.leaveId}"></span ></p> 
             <div>
                 <label for="start-date">Start Date: </label>
                 <input type="date" name = "start-date"  th:field = "*{startDate}">
