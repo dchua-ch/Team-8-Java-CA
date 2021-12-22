@@ -86,7 +86,7 @@ public class LeaveTest {
 	@Order(4)
 	public void tesLeaveExclusionCalculation() {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		Leave leave = new Leave(Date.parse("15/12/2021"), Date.parse("22/12/2021"),LeaveEnum.ANNUAL , "...",
+		Leave leave = new Leave(Date.parse("15/12/2021",format), Date.parse("22/12/2021", format),LeaveEnum.ANNUAL , "...",
 				"...", "91111", StatusEnum.APPLIED, "...");
 		int result = lservice.calculateDaysToExclude(leave);
 		assertEquals(result, 2);
@@ -97,7 +97,7 @@ public class LeaveTest {
 	@Order(5)
 	public void testLeaveExclusionCalculation2() {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		Leave leave = new Leave(Date.parse("15/12/2021"), Date.parse("30/12/2021"),LeaveEnum.ANNUAL , "...",
+		Leave leave = new Leave(Date.parse("15/12/2021", format), Date.parse("30/12/2021", format),LeaveEnum.ANNUAL , "...",
 				"...", "91111", StatusEnum.APPLIED, "...");
 		int result = lservice.calculateDaysToExclude(leave);
 		assertEquals(result, 0);	//should be 0 because > 14 days
@@ -108,7 +108,7 @@ public class LeaveTest {
 	@Order(6)
 	public void tesLeaveExclusionCalculation3() {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		Leave leave = new Leave(Date.parse("15/12/2021", format), Date.parse("22/12/2021"),LeaveEnum.MEDICAL , "...",
+		Leave leave = new Leave(Date.parse("15/12/2021", format), Date.parse("22/12/2021", format),LeaveEnum.MEDICAL , "...",
 				"...", "91111", StatusEnum.APPLIED, "...");
 		int result = lservice.calculateDaysToExclude(leave);
 		assertEquals(result, 0);	//should be 0 because MEDICAL Leave
