@@ -12,10 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class LoginController {
 
 	
-	@RequestMapping("/")
-	public ModelAndView defaultHome() {
-		return new ModelAndView("dashboard");
-	}
 
 	@RequestMapping("/login")
 	public ModelAndView login() {

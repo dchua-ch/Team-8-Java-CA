@@ -39,15 +39,4 @@ public class User {
 	private boolean enabled;
 	
 
-	public User(String name) {
-		this.name = name;
-	}
-
-	public User(String name, String username, String password) {
-		super();
-		this.name = name;
-		this.username = username;
-		this.password = password;
-	}
-
 }
