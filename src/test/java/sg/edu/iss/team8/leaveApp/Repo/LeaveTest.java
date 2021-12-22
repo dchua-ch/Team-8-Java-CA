@@ -3,6 +3,7 @@ package sg.edu.iss.team8.leaveApp.Repo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import sg.edu.iss.team8.leaveApp.helpers.LeaveEnum;
 import sg.edu.iss.team8.leaveApp.helpers.StatusEnum;
 import sg.edu.iss.team8.leaveApp.model.Leave;
 import sg.edu.iss.team8.leaveApp.repo.LeaveRepo;
+import sg.edu.iss.team8.leaveApp.service.LeaveService;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Team8LeaveApplication.class)
 @TestMethodOrder(OrderAnnotation.class)
@@ -32,6 +34,8 @@ public class LeaveTest {
 
 	@Autowired
 	private LeaveRepo lrepo;
+	
+	@Autowired LeaveService lservice;
 	
 	@Test
 	@Order(1)
@@ -64,5 +68,49 @@ public class LeaveTest {
 		leavesList.add(sampleLeave1);
 		leavesList.add(sampleLeave2);
 		assertEquals(leavesList.size(), 2);
+	}
+	
+	@Test
+	@Order(3)
+	public void testDateDifference() {
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate date1 = LocalDate.parse("10/12/2021", format);
+		LocalDate date2 = LocalDate.parse("15/12/2021", format);
+		Period period = Period.between(date1, date2);
+		int diff = Math.abs(period.getDays());
+		assertEquals(5, diff);
+	}
+	
+	@Test
+	@Order(4)
+	public void tesLeaveExclusionCalculation() {
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		Leave leave = new Leave(LocalDate.parse("15/12/2021", format), LocalDate.parse("22/12/2021", format),LeaveEnum.ANNUAL , "...",
+				"...", "91111", StatusEnum.APPLIED, "...");
+		int result = lservice.calculateDaysToExclude(leave);
+		assertEquals(result, 2);
+
+	}
+	
+	@Test
+	@Order(5)
+	public void testLeaveExclusionCalculation2() {
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		Leave leave = new Leave(LocalDate.parse("15/12/2021", format), LocalDate.parse("30/12/2021", format),LeaveEnum.ANNUAL , "...",
+				"...", "91111", StatusEnum.APPLIED, "...");
+		int result = lservice.calculateDaysToExclude(leave);
+		assertEquals(result, 0);	//should be 0 because > 14 days
+
+	}
+	
+	@Test
+	@Order(6)
+	public void tesLeaveExclusionCalculation3() {
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		Leave leave = new Leave(LocalDate.parse("15/12/2021", format), LocalDate.parse("22/12/2021", format),LeaveEnum.MEDICAL , "...",
+				"...", "91111", StatusEnum.APPLIED, "...");
+		int result = lservice.calculateDaysToExclude(leave);
+		assertEquals(result, 0);	//should be 0 because MEDICAL Leave
+
 	}
 }

@@ -14,6 +14,8 @@ public interface LeaveService {
 	
 	public List<Leave> findApplicableLeaveByUserId(Integer userId);
 	
+	public int calculateDaysToExclude(Leave leave);
+	
 	public Leave submitLeave(Leave leave);
 	
 	public void updateLeave(Leave leave);

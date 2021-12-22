@@ -1,5 +1,8 @@
 package sg.edu.iss.team8.leaveApp.service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sg.edu.iss.team8.leaveApp.helpers.LeaveEnum;
 import sg.edu.iss.team8.leaveApp.helpers.StatusEnum;
 import sg.edu.iss.team8.leaveApp.model.Leave;
 import sg.edu.iss.team8.leaveApp.repo.LeaveRepo;
@@ -52,6 +56,31 @@ public class LeaveServiceImpl implements LeaveService {
 			}
 		}
 		return applicableLeaves;
+	}
+	
+	@Transactional
+	public int calculateDaysToExclude(Leave leave) {
+		LeaveEnum leaveType = leave.getLeaveType();
+		LocalDate startDate = leave.getStartDate();
+		LocalDate endDate = leave.getEndDate();
+		Period period = Period.between(startDate, endDate);
+		int periodDays = Math.abs(period.getDays());
+		int daysToExclude = 0;
+		if (leaveType == LeaveEnum.ANNUAL && periodDays <= 14) {
+			List<LocalDate> totalDates = new ArrayList<>();
+			while (!startDate.isAfter(endDate)) {
+				totalDates.add(startDate);
+				startDate = startDate.plusDays(1);
+			}
+			for (LocalDate date : totalDates) {
+				DayOfWeek day = date.getDayOfWeek();
+				if (day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY) {
+					daysToExclude++;
+				}
+			}
+		}
+		
+		return daysToExclude;
 	}
 	
 	@Transactional
