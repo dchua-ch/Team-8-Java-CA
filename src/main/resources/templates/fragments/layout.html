@@ -1,0 +1,60 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="html_head" id="html_head">
+	<meta charset="ISO-8859-1">
+	<title>Leave Application Processing System - LAPS</title>
+	<link th:rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+
+<body>
+	<div th:fragment="menu" id="menu">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#">LAPS</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav"
+					aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+	<div class="collapse navbar-collapse" id="main_nav" th:if="${#authorization.expression('hasRole(''EMPLOYEE'')')}">
+					<ul class="navbar-nav">
+						<li class="nav-item active"> <a class="nav-link" href="#">My Calendar </a> </li>
+						<li class="nav-item"><a class="nav-link" href="#"> My Leaves </a></li>
+						<li class="nav-item"><a class="nav-link" href="#"> My Profile </a></li>
+						<div>
+						<li class="nav-item dropdown">
+							<a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown" type="button" th:if="${#authorization.expression('hasRole(''MANAGER'')')}"> Manager </a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="#"> Leave Applications for Approval</a></li>
+								<li><a class="dropdown-item" href="#"> Subordinates Leave History</a></li>
+								<li><a class="dropdown-item" href="#"> Generate Reports</a></li>
+							</ul>
+						</li>
+						</div > 
+						<div>
+						<li class="nav-item dropdown">
+							<a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown" type="button" th:if="${#authorization.expression('hasRole(''EMPLOYEE'')')}"> Employee </a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="#"> Update OT Hours</a></li>
+							</ul>
+						</li>
+						</div >
+					</ul>
+					<ul class="navbar-nav ms-auto">
+						<li class="nav-item"><a class="nav-link" href="#"> Logout </a></li>
+					</ul>
+				</div>
+				<div class="collapse navbar-collapse" id="main_nav" th:if="${#authorization.expression('hasRole(''MANAGER'')')}">
+					<ul class="navbar-nav">
+						<li class="nav-item active"> <a class="nav-link" href="#">Manage Leave Type </a> </li>
+						<li class="nav-item"><a class="nav-link" href="#"> Manage Staff </a></li>
+						<li class="nav-item"><a class="nav-link" href="#"> Manage Approval Hierarchy </a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</div>
+</body>
+
+</html>
+
+
