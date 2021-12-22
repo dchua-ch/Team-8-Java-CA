@@ -41,8 +41,27 @@ public class staffController {
 	LeaveService lService;
 	
 	//Check all personal leaves in current year
-	@RequestMapping(value = "/history/")
-	public String personalHistory(Model model, HttpSession session) {
+//	@RequestMapping(value = "/history/")
+//	public String personalHistory(Model model, HttpSession session) {
+//		UserSession usession = (UserSession) session.getAttribute("usession");
+//		Calendar date = Calendar.getInstance();
+//		ArrayList<Leave> all = new ArrayList<Leave>();
+//		List<Leave> leaves = lService.findLeaveByUID(usession.getUser().userId);
+//		
+//		for(Leave l : leaves) {
+//			if(l.getStartDate().getYear() == date.get(Calendar.YEAR)) {
+//				all.add(l);
+//			}
+//		}
+//		
+//		model.addAttribute("leaves", all);
+//		model.addAttribute("date", date);
+//		return "staff-leave-history";
+//
+//	}
+	//Check all personal leaves in current year
+	@RequestMapping(value = "/history/", method = RequestMethod.GET)
+	public ModelAndView leaveHistory(HttpSession session) {
 		UserSession usession = (UserSession) session.getAttribute("usession");
 		Calendar date = Calendar.getInstance();
 		ArrayList<Leave> all = new ArrayList<Leave>();
@@ -53,11 +72,8 @@ public class staffController {
 				all.add(l);
 			}
 		}
-		
-		model.addAttribute("leaves", all);
-		model.addAttribute("date", date);
-		return "staff-leave-history";
-
+		ModelAndView mav = new ModelAndView("staff-leave-history", "leaves", all);
+		return mav;	
 	}
 	//Check all personal leaves
 	@RequestMapping(value = "/history/all")
@@ -69,19 +85,7 @@ public class staffController {
 		return "staff-leave-history-all";
 		}
 
-//	@RequestMapping(value = "/history/{uid}")
-//	public String personalHistory(@PathVariable("uid") Integer userId, Model model, HttpSession session) {
-//		UserSession usession = (UserSession) session.getAttribute("usession");
-//		
-//	@RequestMapping(value = "/history")
-	
-//	public String staffLeaveHistory(Model model) {
-//			ArrayList<Leave> all = new ArrayList<Leave>();
-//			//UserSession usession = (UserSession) session.getAttribute("usession");
-//			all.addAll(lrepo.findAll());
-//			model.addAttribute("leaves", all);
-//			return "staff-leave-history";
-//	}
+
 	//leave details for the specific leave
 	@RequestMapping(value = "/history/details/{id}" ,method = RequestMethod.GET)
 	public ModelAndView leaveDetails(@PathVariable Integer id) {
