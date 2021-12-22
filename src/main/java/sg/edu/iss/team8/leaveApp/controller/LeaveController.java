@@ -95,11 +95,6 @@ public class LeaveController {
 	public String updateLeavePage(@PathVariable("leaveId") Integer leaveId,
 									Model model) {
 		Leave currentLeave = lservice.findLeaveById(leaveId);
-		System.out.println(currentLeave.getStartDate());
-		System.out.println(currentLeave.getEndDate());
-		System.out.println(currentLeave.getLeaveType());
-		System.out.println(currentLeave.getAddtnlReason());
-		System.out.println(currentLeave.getWorkDissemination());
 		model.addAttribute("leave", currentLeave);
 		return "update-leave";
 	}
