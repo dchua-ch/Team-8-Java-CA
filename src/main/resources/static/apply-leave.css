@@ -1,0 +1,13 @@
+.questions
+{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    border: 1px solid black;
+}
+.questions > div
+{
+    margin: 1em;
+    text-align: left;
+}

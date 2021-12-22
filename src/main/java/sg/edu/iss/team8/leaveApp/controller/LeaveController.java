@@ -40,14 +40,14 @@ public class LeaveController {
 	
 	@InitBinder("leave")
 	private void initLeaveBinder(WebDataBinder binder) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		dateFormat.setLenient(false);
 		binder.registerCustomEditor(LocalDate.class, new CustomDateEditor(dateFormat, false));
 		binder.addValidators(lValidator);
 	}
 	
 	//add/initialize a Leave object
-	@GetMapping("/add")
+	@RequestMapping("/add")
 	public String addLeave(Model model) {
 		Leave newLeave = new Leave();
 		model.addAttribute("leave", newLeave);
@@ -61,13 +61,13 @@ public class LeaveController {
 	public String submitLeave(@ModelAttribute("leave") @Valid Leave leave,
 								BindingResult result) {
 		if (result.hasErrors()) {
-			return "some";
+			return "submit-leave-error";
 		}
 		
 		lservice.submitLeave(leave);
 		String msg = "Leave was successfully submitted.";
 		System.out.println(msg);
-		return "some";
+		return "submitted-leave";
 	}
 	
 	//get the Leave object to display on the update page
