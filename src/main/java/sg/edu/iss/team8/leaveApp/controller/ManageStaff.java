@@ -38,8 +38,6 @@ public class ManageStaff {
     @Autowired
     AdminRepo adrepo;
 
-
-
     @RequestMapping(value = "/list")
     public ModelAndView userListPage() {
         ModelAndView mav = new ModelAndView("user-list");
@@ -56,8 +54,7 @@ public class ManageStaff {
         User user = uService.findUser(id);
         String simpleName = user.getClass().getSimpleName();
         System.out.println(simpleName);
-        System.out.println("看类的类型");
-
+        System.out.println("check user type");
 
         if (simpleName.equals("Employee")){
             Employee myEmployee = emrepo.findById(Integer.valueOf(id)).get();
@@ -67,7 +64,6 @@ public class ManageStaff {
 
             System.out.println(myEmployee.getName() + myEmployee.userId);
             mav.addObject("staff", staff);
-
 
         }else if(simpleName.equals("Manager")){
 
@@ -81,7 +77,7 @@ public class ManageStaff {
 
         }else if(simpleName.equals("Admin")){
             // admin
-            System.out.println("管理员");
+            System.out.println("go to Admin");
 
             Admin myAdmin = adrepo.findById(Integer.valueOf(id)).get();
 
@@ -89,12 +85,19 @@ public class ManageStaff {
                     ,0,0,0,0,"admin");
 //            Staff staff = new Staff(myAdmin.getUserId(),myAdmin.getName(),myAdmin.getUsername(),myAdmin.getPassword()
 //                    ,myAdmin.getAnnualLeaveN(),myAdmin.getMedicalLeaveN(),myAdmin.getCompLeaveN(),myAdmin.getReportsTo(),"admin");
-
+            mav.addObject("staff", staff);
         }
 
         ArrayList<String> eidList = new ArrayList<String>(Arrays.asList("employee","manager","admin"));
         mav.addObject("eidlist", eidList);
 
+
+        ArrayList<String> reportlist = new ArrayList<>();
+        List<User> userList = urepo.getAllUsers();
+        for (User currentUser:userList) {
+            reportlist.add(String.valueOf(currentUser.userId));
+        }
+        mav.addObject("reportlist", reportlist);
         return mav;
     }
 
@@ -109,8 +112,16 @@ public class ManageStaff {
 
         System.out.println(message);
 
-        //change user type, can't success 
-        urepo.updateUserType(staff.getUser_type(), String.valueOf(staff.getUserId()));
+
+        //get data to update
+        System.out.println("get data to update");
+        System.out.println(staff.getUserId());
+        System.out.println(staff.getUser_type());
+
+        urepo.updateUserType(staff.getUser_type(), Integer.valueOf(id));
+        //change user type, can't success
+//        urepo.updateUserType(staff.getUser_type(), staff.getUserId());
+
 
         if (staff.getUser_type().equals("employee")){
             Employee updateEmployee = emrepo.findById(Integer.valueOf(id)).get();
@@ -166,6 +177,14 @@ public class ManageStaff {
         });
         ArrayList<String> eidList = new ArrayList<String>(Arrays.asList("employee","manager","admin"));
         mav.addObject("eidlist", eidList);
+
+
+        ArrayList<String> reportlist = new ArrayList<>();
+        List<User> userList = urepo.getAllUsers();
+        for (User user:userList) {
+            reportlist.add(String.valueOf(user.userId));
+        }
+        mav.addObject("reportlist", reportlist);
 
         return mav;
     }
