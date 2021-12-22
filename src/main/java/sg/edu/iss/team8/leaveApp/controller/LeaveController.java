@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.iss.team8.leaveApp.model.Leave;
+import sg.edu.iss.team8.leaveApp.repo.LeaveRepo;
 import sg.edu.iss.team8.leaveApp.service.LeaveService;
 import sg.edu.iss.team8.leaveApp.service.LeaveServiceImpl;
 import sg.edu.iss.team8.leaveApp.validator.LeaveValidator;
@@ -27,6 +28,9 @@ import sg.edu.iss.team8.leaveApp.validator.LeaveValidator;
 @Controller
 @RequestMapping("/leave")
 public class LeaveController {
+	
+	@Autowired
+	private LeaveRepo lrepo;
 
 	@Autowired
 	private LeaveService lservice;
@@ -74,6 +78,12 @@ public class LeaveController {
 	@GetMapping("/select")
 	public String selectLeavePage(Model model)
 	{
+		List<Leave> leaves= lrepo.findAll();
+		for(Leave leave : leaves)
+		{
+			System.out.println(leave.getLeaveId());
+		}
+		model.addAttribute("leaves",leaves);
 	
 		return "select-leave";
 	}
@@ -96,7 +106,7 @@ public class LeaveController {
 	
 	//update the Leave with the new values from the page
 	@PostMapping("/update/{leaveId}")
-	public String updateLeave(@ModelAttribute("leave") @Valid Leave leave,
+	public String updateLeave(@ModelAttribute("leave")  Leave leave,
 								BindingResult result) {
 		if (result.hasErrors()) {
 			return "leave-update-error";
@@ -112,10 +122,11 @@ public class LeaveController {
 	@GetMapping("/delete/{leaveId}")
 	public String deleteLeave(@PathVariable("leaveId") Integer leaveId) {
 		Leave leaveToDelete = lservice.findLeaveById(leaveId);
+		System.out.println(leaveToDelete.getLeaveId());
 		lservice.deleteLeave(leaveToDelete);
 		String msg = "Leave was successfully deleted.";
 		System.out.println(msg);
-		return "forward:/somepage";
+		return "delete-successful";
 	}
 	
 	//"cancel" the Leave
@@ -125,7 +136,7 @@ public class LeaveController {
 		lservice.cancelLeave(leaveToCancel);
 		String msg = "Leave was successfully cancelled.";
 		System.out.println(msg);
-		return "forward:/somepage";
+		return "cancel-successful";
 	}
 	
 }

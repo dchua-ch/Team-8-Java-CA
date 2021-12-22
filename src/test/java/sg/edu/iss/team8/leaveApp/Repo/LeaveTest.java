@@ -56,7 +56,7 @@ public class LeaveTest {
 		
 	}
 	
-	@Test
+	//@Test
 	public void testUpdateLeave()
 	{
 		
@@ -76,4 +76,17 @@ public class LeaveTest {
 		
 		
 	}
+	
+	@Test
+    public void testGetAllLeaves()
+    {
+		List<Leave> leaves = lrepo.findAll();
+		
+		for(Leave leave : leaves)
+		{
+			System.out.println(leave.getLeaveId());
+		}
+		assertEquals(leaves.size(),5);
+    }
+	
 }
