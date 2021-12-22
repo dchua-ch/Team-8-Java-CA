@@ -28,8 +28,19 @@
 							th:field="${outcome.end}">
 						&nbsp;&nbsp;
 						<div>
+							<input type="checkbox" class="form-check-input" id="comp" th:field="${outcome.comp}">
+							<label class="form-check-label" for="comp">Only Include Compensation Leaves</label>
+						</div>
+						&nbsp;&nbsp;
+						<div><span><b> Please refresh for each new search</b></span></div>
+						&nbsp;
+						<div>
 							<input type="submit" th:value="Submit" class="btn btn-primary" id="btn" />
-							<!--<input type="download" th:value="Download" class="btn btn-secondary"/>-->
+							<input type="button" th:value="Refresh" class="btn btn-secondary" id="refresh" />
+						</div>
+						&nbsp;
+						<div>
+							<input type="button" value="Export to CSV" class="btn-block btn-link" id="export" />
 						</div>
 						</divclass>
 				</form>

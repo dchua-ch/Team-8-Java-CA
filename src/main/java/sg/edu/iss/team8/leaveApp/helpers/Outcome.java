@@ -18,4 +18,5 @@ public class Outcome {
 	private Integer id;
 	private String start; 
 	private String end; 
+	private Boolean comp;
 }

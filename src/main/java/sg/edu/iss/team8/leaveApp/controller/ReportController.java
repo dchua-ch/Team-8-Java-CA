@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import sg.edu.iss.team8.leaveApp.helpers.LeaveEnum;
 import sg.edu.iss.team8.leaveApp.helpers.LeaveSummary;
 import sg.edu.iss.team8.leaveApp.helpers.Outcome;
 import sg.edu.iss.team8.leaveApp.helpers.StatusEnum;
@@ -51,14 +52,22 @@ public class ReportController {
 	}
 	
 	@RequestMapping(value = "/date", method=RequestMethod.GET)
-	public List<LeaveSummary> getLeaveByDate1(@RequestParam("id") Integer id, @RequestParam("start") String start, @RequestParam("end") String end)  {
+	public List<LeaveSummary> getLeaveByDate1(@RequestParam("id") Integer id, @RequestParam("start") String start, @RequestParam("end") String end, @RequestParam("comp") Boolean compOnly)  {
 		Employee emp = eService.findByUserId(id); 
 		List<Leave> allLeave = lService.findLeaveByUID(id); 
 		List<Leave> approved = new ArrayList<Leave>(); 
 		for (Leave l : allLeave) {
-			if (l.getStatus() == StatusEnum.APPROVED) {
-				approved.add(l);
+			if (compOnly) {
+				if (l.getLeaveType() == LeaveEnum.COMPENSATION && l.getStatus() == StatusEnum.APPROVED)
+				{
+					approved.add(l);
+				}
+			} else {
+				if (l.getStatus() == StatusEnum.APPROVED) {
+					approved.add(l);
+				}
 			}
+			
 		}
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); 
