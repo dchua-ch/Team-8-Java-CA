@@ -1,10 +1,10 @@
 package sg.edu.iss.team8.leaveApp.controller;
 
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -49,9 +49,9 @@ public class LeaveController {
 	
 	@InitBinder("leave")
 	private void initLeaveBinder(WebDataBinder binder) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		dateFormat.setLenient(false);
-		binder.registerCustomEditor(LocalDate.class, new CustomDateEditor(dateFormat, false));
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
 		binder.addValidators(lValidator);
 	}
 	
@@ -91,8 +91,10 @@ public class LeaveController {
 		
 		//needs logic for checking if annual leave period <= 14 days.
 		//if period <= 14, weekends should not be included in the leave count
-		LocalDate startDate = leave.getStartDate();
-		LocalDate endDate = leave.getEndDate();
+		Date start = leave.getStartDate();
+		Date end = leave.getEndDate();
+		LocalDate startDate = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate endDate = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		Period period = Period.between(startDate, endDate);
 		int periodDays = Math.abs(period.getDays());
 		int daysToExclude = lService.calculateDaysToExclude(leave);

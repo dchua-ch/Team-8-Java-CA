@@ -3,7 +3,9 @@ package sg.edu.iss.team8.leaveApp.service;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,8 +63,10 @@ public class LeaveServiceImpl implements LeaveService {
 	@Transactional
 	public int calculateDaysToExclude(Leave leave) {
 		LeaveEnum leaveType = leave.getLeaveType();
-		LocalDate startDate = leave.getStartDate();
-		LocalDate endDate = leave.getEndDate();
+		Date start = leave.getStartDate();
+		Date end = leave.getEndDate();
+		LocalDate startDate = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate endDate = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		Period period = Period.between(startDate, endDate);
 		int periodDays = Math.abs(period.getDays());
 		int daysToExclude = 0;
