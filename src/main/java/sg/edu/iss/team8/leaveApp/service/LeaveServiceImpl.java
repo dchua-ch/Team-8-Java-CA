@@ -79,6 +79,21 @@ public class LeaveServiceImpl implements LeaveService {
 		}
 		return withinRange;
 	}
+	@Override
+	public List<Leave> getLeaveByDates(List<Leave> lList, LocalDate start, LocalDate end) {
+		List<Leave> leaves = new ArrayList<Leave>(); 
+		
+		for (Leave l : lList) {
+			if (l.getStatus() == StatusEnum.APPROVED) {
+				if (l.getStartDate().isAfter(start) && l.getEndDate().isBefore(end)) {
+					leaves.add(l);
+				} else if (l.getStartDate().isEqual(start) && l.getEndDate().isEqual(end)) {
+					leaves.add(l); 
+				}
+			}
+		}
+		return leaves;
+	}
 	
 	@Override
 	public Leave findLeaveById(Integer leaveId) {

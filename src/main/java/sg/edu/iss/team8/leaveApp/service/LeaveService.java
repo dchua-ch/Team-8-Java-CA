@@ -18,4 +18,6 @@ public interface LeaveService {
 	public List<Leave> findLeaveWithinDateRange(List<Leave> lList, LocalDate start, LocalDate end);
 	
 	public Leave findLeaveById(Integer leaveId);
+	
+	public List<Leave> getLeaveByDates(List<Leave> lList, LocalDate start, LocalDate end);
 }

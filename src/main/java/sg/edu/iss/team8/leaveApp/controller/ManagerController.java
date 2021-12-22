@@ -37,52 +37,9 @@ public class ManagerController {
 	@Autowired
 	LeaveService lService;
 
-//	// Routes to view which displays list of subordinates leaves which are under
-//	// "APPLIED" status
-//	@RequestMapping(value = "/pending/{uid}")
-//	public String pendingApprovals(@PathVariable("uid") Integer userId, Model model /* HttpSession session */) {
-//		// UserSession usession = (UserSession) session.getAttribute("usession");
-//		HashMap<Employee, List<Leave>> hm = new HashMap<Employee, List<Leave>>();
-//		for (Employee employee : eService.findSubordinates(userId)) {
-//			List<Leave> llist = lService.findPendingLeaveByUID(employee.getUserId());
-//			hm.put(employee, llist);
-//		}
-//
-//		model.addAttribute("pendinghistory", hm);
-//		return "manager-pending";
-//
-//	}
-
-//	// Routes to view which displays leave details for selected employee
-//	@RequestMapping(value = "/leave/display/{uid}/{lid}", method = RequestMethod.GET)
-//	public String displayLeaveDetails(@PathVariable("uid") Integer userId, @PathVariable("lid") Integer leaveId,
-//			Model model) {
-//		Employee employee = eService.findByUserId(userId);
-//		Leave leave = lService.findLeaveByUIDAndLID(userId, leaveId);
-//
-//		HashMap<Employee, Leave> otherSubordinatesLeaves = new HashMap<Employee, Leave>();
-//		for (Employee e : eService.findSubordinates(employee.getReportsTo())) {
-//			List<Leave> llist = lService.findLeaveByUID(e.getUserId());
-//			List<Leave> withinRange = lService.findLeaveWithinDateRange(llist, leave.getStartDate(),
-//					leave.getEndDate());
-//
-//			for (Leave l : withinRange) {
-//				if (l.getEmployee() != employee) {
-//					otherSubordinatesLeaves.put(e, l);
-//				}
-//			}
-//		}
-//
-//		model.addAttribute("employee", employee);
-//		model.addAttribute("leave", leave);
-//		model.addAttribute("others", otherSubordinatesLeaves);
-//		model.addAttribute("outcome", new Outcome());
-//		return "manager-leave-details";
-//	}
-	
 	// Routes to view which displays list of subordinates leaves which are under
 	// "APPLIED" status
-	@RequestMapping(value = "/pending/")
+	@RequestMapping(value = "/pending")
 	public String pendingApprovals(Model model, HttpSession session ) {
 		UserSession usession = (UserSession) session.getAttribute("usession");
 		HashMap<Employee, List<Leave>> hm = new HashMap<Employee, List<Leave>>();
@@ -149,7 +106,7 @@ public class ManagerController {
 
 	// Routes to view which displays the leave history for subordinates (i.e.
 	// APPROVED or REJECTED or ARCHIVED leaves)
-	@RequestMapping(value = "/leave-history/", method = RequestMethod.GET)
+	@RequestMapping(value = "/leave-history", method = RequestMethod.GET)
 	public String subLeaveHistory(HttpSession session, Model model) {
 		UserSession usession = (UserSession) session.getAttribute("usession");
 		List<Employee> subordinates = eService.findSubordinates(usession.getUser().userId);
@@ -180,5 +137,15 @@ public class ManagerController {
 		
 		return "manager-leave-history-details";
 	}
+	
+	/*
+	 * @RequestMapping(value="/report", method=RequestMethod.GET) public
+	 * ModelAndView loadReport(HttpSession session) { UserSession usession =
+	 * (UserSession) session.getAttribute("usession"); List<Employee> subordinates =
+	 * eService.findSubordinates(usession.getUser().userId);
+	 * 
+	 * ModelAndView mav = new ModelAndView("manager-report", "sub", subordinates);
+	 * mav.addObject("outcome", new Outcome()); return mav; }
+	 */
 
 }
