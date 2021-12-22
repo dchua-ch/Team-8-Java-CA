@@ -100,6 +100,10 @@ public class ManagerController {
 	public String subordinateotdetails(HttpSession session, @PathVariable Integer id, @PathVariable Integer month, @PathVariable Integer year) {
 		UserSession usession = (UserSession) session.getAttribute("usession");
 		User u = usession.getUser();
+<<<<<<< HEAD
+=======
+		System.out.println("test1");
+>>>>>>> 39d94a1837e5e6eb6ce548c6868419d9dc416a3d
 		if (u.getClass().getSimpleName().equalsIgnoreCase("manager")) { 
 			Employee employee = (Employee) uservice.findUser(id);
 			Double add = oservice.findTotalOTHoursByMYUserIdStatus(month, year, id, OTEnum.APPLIED) + oservice.findTotalOTHoursByMYUserIdStatus(month, year, id, OTEnum.APPROVED);
@@ -127,6 +131,7 @@ public class ManagerController {
 		UserSession usession = (UserSession) session.getAttribute("usession");
 		User u = usession.getUser();
 		if (u.getClass().getSimpleName().equalsIgnoreCase("manager")) { 
+<<<<<<< HEAD
 			OvertimeHours ot = orepo.findById(otid).orElse(null);
 			ot.setStatus(OTEnum.APPROVED);
 			oservice.updateOTHours(ot);
@@ -161,6 +166,14 @@ public class ManagerController {
 			for (OvertimeHours o : oth) {
 				o.setStatus(OTEnum.LEAVEGIVEN);
 				oservice.updateOTHours(o);
+=======
+			HashMap<Employee, ArrayList<OvertimeHours>> submap = new HashMap<Employee, ArrayList<OvertimeHours>>();
+			HashMap<Employee, Double> hrsmap = new HashMap<Employee, Double>();
+			for (Employee subordinate : urepo.findSubordinates(u.getUserId())) {
+				submap.put(subordinate, oservice.findOvertimeHoursByMonthYearUserId(OTMonth.getMonth(), OTMonth.getYear(), subordinate.getUserId()));
+				System.out.println(oservice.findTotalOTHoursByMonthYearUserId(OTMonth.getMonth(), OTMonth.getYear(), subordinate.getUserId()));
+				hrsmap.put(subordinate, oservice.findTotalOTHoursByMonthYearUserId(OTMonth.getMonth(), OTMonth.getYear(), subordinate.getUserId()));
+>>>>>>> 39d94a1837e5e6eb6ce548c6868419d9dc416a3d
 			}
 			System.out.println(add);
 			Integer newCompLeave = employee.getCompLeaveN() + add.intValue();
