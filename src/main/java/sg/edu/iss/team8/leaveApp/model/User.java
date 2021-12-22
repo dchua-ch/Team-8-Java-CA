@@ -24,7 +24,7 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+/*@Entity
 @Data
 @NoArgsConstructor
 @Table(name="user")
@@ -39,4 +39,31 @@ public class User {
 	private boolean enabled;
 	
 
+}*/
+
+@Entity
+@Data
+@NoArgsConstructor
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="role", discriminatorType = DiscriminatorType.STRING)
+public class User {
+	@Id
+	@GeneratedValue (strategy = GenerationType.AUTO)
+	public Integer userId;
+	private String name;
+	private String username;
+	private String password;
+	private boolean enabled;
+
+	public User(String name) {
+		this.name = name;
+	}
+
+	public User(String name, String username, String password) {
+		super();
+		this.name = name;
+		this.username = username;
+		this.password = password;
+	}
+	
 }

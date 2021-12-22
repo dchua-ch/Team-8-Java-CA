@@ -56,14 +56,14 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 		boolean hasManagerRole = false;
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 		for (GrantedAuthority grantedAuthority : authorities) {
-			if (grantedAuthority.getAuthority().equals("ROLE_EMPLOYEE")) {
+			if (grantedAuthority.getAuthority().equals("employee")) {
 				hasEmployeeRole = true;
 				break;
-			} else if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
+			} else if (grantedAuthority.getAuthority().equals("admin")) {
 				hasAdminRole = true;
 				break;
 			}
-			else if (grantedAuthority.getAuthority().equals("ROLE_MANAGER")) {
+			else if (grantedAuthority.getAuthority().equals("manager")) {
 				hasManagerRole = true;
 				break;
 			}
