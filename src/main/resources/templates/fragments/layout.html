@@ -15,14 +15,14 @@
 					aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
-	<div class="collapse navbar-collapse" id="main_nav" th:if="${#authorization.expression('hasRole(''EMPLOYEE'')')}">
+	<div class="collapse navbar-collapse" id="main_nav">
 					<ul class="navbar-nav">
 						<li class="nav-item active"> <a class="nav-link" href="#">My Calendar </a> </li>
 						<li class="nav-item"><a class="nav-link" href="#"> My Leaves </a></li>
 						<li class="nav-item"><a class="nav-link" href="#"> My Profile </a></li>
 						<div>
 						<li class="nav-item dropdown">
-							<a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown" type="button" th:if="${#authorization.expression('hasRole(''MANAGER'')')}"> Manager </a>
+							<a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown" type="button" sec:authorize="hasAuthority('manager')"> Manager </a>
 							<ul class="dropdown-menu">
 								<li><a class="dropdown-item" href="#"> Leave Applications for Approval</a></li>
 								<li><a class="dropdown-item" href="#"> Subordinates Leave History</a></li>
@@ -32,7 +32,7 @@
 						</div > 
 						<div>
 						<li class="nav-item dropdown">
-							<a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown" type="button" th:if="${#authorization.expression('hasRole(''EMPLOYEE'')')}"> Employee </a>
+							<a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown" type="button" sec:authorize="hasAuthority('employee')"> Employee </a>
 							<ul class="dropdown-menu">
 								<li><a class="dropdown-item" href="#"> Update OT Hours</a></li>
 							</ul>
@@ -40,10 +40,10 @@
 						</div >
 					</ul>
 					<ul class="navbar-nav ms-auto">
-						<li class="nav-item"><a class="nav-link" href="#"> Logout </a></li>
+						<li class="nav-item"><a class="nav-link" th:href="@{/logout}"> Logout </a></li>
 					</ul>
 				</div>
-				<div class="collapse navbar-collapse" id="main_nav" th:if="${#authorization.expression('hasRole(''MANAGER'')')}">
+				<div class="collapse navbar-collapse" id="main_nav" sec:authorize="hasAuthority('admin')">
 					<ul class="navbar-nav">
 						<li class="nav-item active"> <a class="nav-link" href="#">Manage Leave Type </a> </li>
 						<li class="nav-item"><a class="nav-link" href="#"> Manage Staff </a></li>

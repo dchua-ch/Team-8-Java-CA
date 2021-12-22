@@ -29,14 +29,6 @@ public class LoginController {
 		return "adminDashboard";
 	}
 	
-	@RequestMapping("/hello")
-	public String seeHello() {
-		return "hello";
-	}
-	
-	@RequestMapping("/home")
-	public String goHome() {
-		return "home";
-	}
+
 }
 	
