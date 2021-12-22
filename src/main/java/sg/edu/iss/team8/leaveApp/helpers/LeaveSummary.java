@@ -18,17 +18,17 @@ import lombok.NoArgsConstructor;
 public class LeaveSummary {
 
 	private Integer leaveId;
+	private String name;
 	private LocalDate startDate;
 	private LocalDate endDate;
 	private LeaveEnum leaveType;
 	
-	public LeaveSummary(Integer leaveId, LocalDate startDate, LocalDate endDate, LeaveEnum leaveType) {
+	public LeaveSummary(Integer leaveId, String name, LocalDate startDate, LocalDate endDate, LeaveEnum leaveType) {
 		super();
 		this.leaveId = leaveId;
+		this.name = name;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.leaveType = leaveType;
 	}
-	
-	
 }

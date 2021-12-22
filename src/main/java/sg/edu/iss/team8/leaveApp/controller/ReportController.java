@@ -65,7 +65,7 @@ public class ReportController {
 		List<Leave> datedLeave = lService.getLeaveByDates(approved, LocalDate.parse(start, formatter), LocalDate.parse(end, formatter));
 		List<LeaveSummary> leaveSummaryList = new ArrayList<LeaveSummary>(); 
 		for (Leave l : datedLeave) {
-			LeaveSummary ls = new LeaveSummary(l.getLeaveId(), l.getStartDate(), l.getEndDate(), l.getLeaveType());
+			LeaveSummary ls = new LeaveSummary(l.getLeaveId(), l.getEmployee().getName(), l.getStartDate(), l.getEndDate(), l.getLeaveType());
 			leaveSummaryList.add(ls); 
 		}
 		

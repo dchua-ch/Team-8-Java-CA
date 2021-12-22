@@ -9,12 +9,11 @@
 		<h1>View Reports</h1>
 		<div class="row">
 			<div class="col-md-4 mt-5">
-				<!--<form id="reportForm" th:action="@{/reportAPI/date}" method="GET">-->
 				<form>
 					<divclass="form-group">
 						<label for="employee">Choose Employee:</label>
 						<select class="form-control selectpicker" th:field="${outcome.id}" id="employee">
-							<option value="">Nothing selected</option>
+							<option value="">Select</option>
 							<option th:each="employee : ${sub}" th:value="${employee.userId}"
 								th:text="${employee.name}">Name
 							</option>
@@ -35,10 +34,27 @@
 						</divclass>
 				</form>
 			</div>
+			<div class="col-lg mt-5">
+				<span><b>Leave Records:</b></span>
+				<table border="1 pt" class="table">
+					<thead class="thead-dark">
+						<tr>
+							<th>Leave Id</th>
+							<th>Name</th>
+							<th>Start Date</th>
+							<th>End Date</th>
+							<th>Leave Type</th>
+						</tr>
+					</thead>
+					<tbody id="myTable">
+					</tbody>
+				</table>
+
+			</div>
 		</div>
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script th:src="@{/js/report.js}"></script  >
+	<script th:src="@{/js/report.js}"></script>
 </body>
 
 </html>
