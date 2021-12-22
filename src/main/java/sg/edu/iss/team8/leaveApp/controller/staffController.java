@@ -1,6 +1,7 @@
 package sg.edu.iss.team8.leaveApp.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,18 +40,35 @@ public class staffController {
 	@Autowired
 	LeaveService lService;
 	
-	//Check all personal leaves
+	//Check all personal leaves in current year
 	@RequestMapping(value = "/history/")
 	public String personalHistory(Model model, HttpSession session) {
 		UserSession usession = (UserSession) session.getAttribute("usession");
-		
+		Calendar date = Calendar.getInstance();
 		ArrayList<Leave> all = new ArrayList<Leave>();
-		all.addAll(lService.findLeaveByUID(usession.getUser().userId));
+		List<Leave> leaves = lService.findLeaveByUID(usession.getUser().userId);
+		
+		for(Leave l : leaves) {
+			if(l.getStartDate().getYear() == date.get(Calendar.YEAR)) {
+				all.add(l);
+			}
+		}
+		
 		model.addAttribute("leaves", all);
+		model.addAttribute("date", date);
 		return "staff-leave-history";
 
 	}
-	
+	//Check all personal leaves
+	@RequestMapping(value = "/history/all")
+	public String personalAllHistory(Model model, HttpSession session) {
+		UserSession usession = (UserSession) session.getAttribute("usession");
+		ArrayList<Leave> all1 = new ArrayList<Leave>();
+		all1.addAll(lService.findLeaveByUID(usession.getUser().userId));
+		model.addAttribute("leaves", all1);
+		return "staff-leave-history-all";
+		}
+
 //	@RequestMapping(value = "/history/{uid}")
 //	public String personalHistory(@PathVariable("uid") Integer userId, Model model, HttpSession session) {
 //		UserSession usession = (UserSession) session.getAttribute("usession");
@@ -72,4 +90,8 @@ public class staffController {
 		mav.addObject("leave", leave);
 		return mav;	
 	}
+	
+	
+
 }
+

@@ -18,11 +18,11 @@
 				<div class="collapse navbar-collapse" id="main_nav" th:if="${session.usession.empType != 'admin'}">
 					<ul class="navbar-nav">
 						<li class="nav-item active"> <a class="nav-link" href="#">My Calendar </a> </li>
-						<li class="nav-item"><a class="nav-link" th:href="@{/staff/history/}"> My Leaves </a></li>
+						<li class="nav-item"><a class="nav-link" href="/staff/history/"> My Leaves </a></li>
 						<li class="nav-item"><a class="nav-link" href="#"> My Profile </a></li>
 						<div th:if="${session.usession.empType == 'manager'}">
 						<li class="nav-item dropdown">
-							<a class="nav-link  dropdown-toggle" th:href="@{/manager/pending/}" data-toggle="dropdown" type="button"> Manager </a>
+							<a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown" type="button"> Manager </a>
 							<ul class="dropdown-menu">
 								<li><a class="dropdown-item" th:href="@{/manager/pending/}"> Leave Applications for Approval</a></li>
 								<li><a class="dropdown-item" th:href="@{/manager/leave-history/}"> Subordinates Leave History</a></li>
@@ -40,7 +40,7 @@
 						</div >
 					</ul>
 					<ul class="navbar-nav ms-auto">
-						<li class="nav-item"><a class="nav-link" href="#"> Logout </a></li>
+						<li class="nav-item"><a class="nav-link" href="/home/login"> Logout </a></li>
 					</ul>
 				</div>
 				<div class="collapse navbar-collapse" id="main_nav" th:if="${session.usession.empType == 'admin'}">
