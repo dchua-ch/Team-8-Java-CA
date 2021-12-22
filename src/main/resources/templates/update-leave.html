@@ -10,20 +10,20 @@
 <body>
     <h1>Leave Application form</h1>
 	
-    <form th:action = "@{'/leave/update/' + ${leave.leaveId}}" th:object="${leave}" method = "POST"> 
+    <form th:action = "@{'/leave/update/' + ${leave.leaveId}}" th:object="${leave}"  method = "POST"> 
        
         <div class = 'questions'>
         	 <p>Update Leave ID: <span th:text = "${leave.leaveId}"></span ></p> 
             <div>
                 <label for="start-date">Start Date: </label>
-                <input type="date" name = "start-date"  th:field = "*{startDate}">
+                <input type="date" name = "start-date"  th:field  = "*{leave.startDate}">
             </div>
             
             <div>
                 <label for="end-date">End Date: </label>
-                <input type="date" name = "end-date"  th:field = "*{endDate}">
+                <input type="date" name = "end-date"  th:field = "*{leave.endDate}">
             </div>
-          	
+        
             <div>
                 <label for="leave-type">Leave type: </label>
                 <div><input type="radio" name="leave-type" value = "ANNUAL" th:field = "*{leaveType}" id="">Annual Leave</div>

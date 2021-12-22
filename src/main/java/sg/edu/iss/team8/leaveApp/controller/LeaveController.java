@@ -2,6 +2,8 @@ package sg.edu.iss.team8.leaveApp.controller;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -100,8 +102,25 @@ public class LeaveController {
 		System.out.println(currentLeave.getLeaveType());
 		System.out.println(currentLeave.getAddtnlReason());
 		System.out.println(currentLeave.getWorkDissemination());
+		
+//		Date startDate = new Date();
+//		Date endDate = new Date();
 		model.addAttribute("leave", currentLeave);
+//		model.addAttribute("startDate",startDate);
+//		model.addAttribute("endDate",endDate);
+//		System.out.println("Start date: "+ startDate);
+//		System.out.println("End date: "+ endDate);
+//		currentLeave.setStartDate(convertDate(startDate));
+//		currentLeave.setEndDate(convertDate(endDate));
+//		System.out.println("Start date: "+ currentLeave.getStartDate());
+//		System.out.println("End date: "+ currentLeave.getEndDate());
+//		model.addAttribute("updatedLeave",currentLeave);
 		return "update-leave";
+	}
+	
+	private LocalDate convertDate(Date date)
+	{
+		return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 	}
 	
 	//update the Leave with the new values from the page
