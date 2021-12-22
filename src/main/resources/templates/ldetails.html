@@ -23,12 +23,12 @@
 				
 				<tr>
 					<th><span th:text="#{fieldLabel.startDate}"></span></th>
-					<td th:text="${leave.startDate}">From</td>
+					<td th:text="${#dates.format(leave.startDate, 'dd/MM/yyyy')}">From</td>
 				</tr>
 				
 				<tr>
 					<th><span th:text="#{fieldLabel.endDate}"></span></th>
-					<td th:text="${leave.endDate}">To</td>
+					<td th:text="${#dates.format(leave.endDate, 'dd/MM/yyyy')}">To</td>
 				</tr>
 				
 				<tr>
