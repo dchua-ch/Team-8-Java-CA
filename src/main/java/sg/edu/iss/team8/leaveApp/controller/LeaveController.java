@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.iss.team8.leaveApp.helpers.LeaveEnum;
 import sg.edu.iss.team8.leaveApp.model.Leave;
+import sg.edu.iss.team8.leaveApp.repo.LeaveRepo;
 import sg.edu.iss.team8.leaveApp.service.LeaveService;
 import sg.edu.iss.team8.leaveApp.service.LeaveServiceImpl;
 import sg.edu.iss.team8.leaveApp.validator.LeaveValidator;
@@ -32,6 +33,9 @@ import sg.edu.iss.team8.leaveApp.validator.LeaveValidator;
 @Controller
 @RequestMapping("/leave")
 public class LeaveController {
+	
+	@Autowired
+	private LeaveRepo lrepo;
 
 	@Autowired
 	private LeaveService lService;
@@ -62,7 +66,7 @@ public class LeaveController {
 		model.addAttribute("leave", newLeave);
 		String msg = "New leave created";
 		System.out.println(msg);
-		return "some";
+		return "apply-leave";
 	}
 	
 	//submit the Leave to persist
@@ -70,7 +74,7 @@ public class LeaveController {
 	public String submitLeave(@ModelAttribute("leave") @Valid Leave leave,
 								BindingResult result, HttpSession session) {
 		if (result.hasErrors()) {
-			return "some";
+			return "submit-leave-error";
 		}
 		
 		UserSession usession = (UserSession) session.getAttribute("usession");
@@ -111,8 +115,23 @@ public class LeaveController {
 		lService.submitLeave(leave);
 		String msg = "Leave was successfully submitted.";
 		System.out.println(msg);
-		return "some";
+		return "submitted-leave";
 	}
+	
+	@GetMapping("/select")
+	public String selectLeavePage(Model model)
+	{
+		List<Leave> leaves= lrepo.findAll();
+		for(Leave leave : leaves)
+		{
+			System.out.println(leave.getLeaveId());
+		}
+		model.addAttribute("leaves",leaves);
+	
+		return "select-leave";
+	}
+	
+
 	
 	//get the Leave object to display on the update page
 	@GetMapping("/update/{leaveId}")
@@ -120,21 +139,21 @@ public class LeaveController {
 									Model model) {
 		Leave currentLeave = lService.findLeaveById(leaveId);
 		model.addAttribute("leave", currentLeave);
-		return "some";
+		return "update-leave";
 	}
 	
 	//update the Leave with the new values from the page
 	@PostMapping("/update/{leaveId}")
-	public String updateLeave(@ModelAttribute("leave") @Valid Leave leave,
+	public String updateLeave(@ModelAttribute("leave")  Leave leave,
 								BindingResult result) {
 		if (result.hasErrors()) {
-			return "some";
+			return "leave-update-error";
 		}
 		
 		lService.updateLeave(leave);
 		String msg = "Leave was successfully updated.";
 		System.out.println(msg);
-		return "some";
+		return "update-successful";
 	}
 	
 	//"delete" the Leave object
@@ -144,7 +163,7 @@ public class LeaveController {
 		lService.deleteLeave(leaveToDelete);
 		String msg = "Leave was successfully deleted.";
 		System.out.println(msg);
-		return "forward:/somepage";
+		return "delete-successful";
 	}
 	
 	//"cancel" the Leave
@@ -154,7 +173,7 @@ public class LeaveController {
 		lService.cancelLeave(leaveToCancel);
 		String msg = "Leave was successfully cancelled.";
 		System.out.println(msg);
-		return "forward:/somepage";
+		return "cancel-successful";
 	}
 	
 	//get user leave history

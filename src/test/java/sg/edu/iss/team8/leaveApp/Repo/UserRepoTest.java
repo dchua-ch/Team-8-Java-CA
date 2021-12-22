@@ -57,7 +57,7 @@ public class UserRepoTest {
 		assertEquals(users.size(),4);
 	}
 	
-	@Test
+	//@Test
 	@Order(2)
 	public void TestGetAllEmployees()
 	{
@@ -71,7 +71,7 @@ public class UserRepoTest {
 		assertEquals(employees.size(), 2);
 	}
 	
-	@Test
+	//@Test
 	@Order(3)
 	public void TestUpdateUserType()
 	{
@@ -88,7 +88,7 @@ public class UserRepoTest {
 	}
 	
 	
-	@Test
+	//@Test
 	@Order(4)
 	public void TestDeleteAllUser() 
 	{
@@ -98,7 +98,7 @@ public class UserRepoTest {
 		assertEquals(users.size(),0);
 	}
 	
-	@Test
+	//@Test
 	@Order(5)
 	public void TestAddLeave() {
 		Employee employee = urepo.getAllEmployees().get(0);
@@ -111,7 +111,7 @@ public class UserRepoTest {
 		urepo.saveAndFlush(employee);
 	}
 	
-	@Test
+	//@Test
 	@Order(6)
 	public void TestAddOTHours() {
 		Employee employee = urepo.getAllEmployees().get(0);
