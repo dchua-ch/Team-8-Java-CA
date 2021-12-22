@@ -30,7 +30,7 @@
 	    	<td th:text = "${leave.status}"></td>
 	    	<!--"@{'/leave/update/' + ${leave.leaveId}}"-->
 	    	<td>
-	    		<a th:href = "@{'/leave/update/' + ${leave.leaveId}}">Update</a >
+	    		<a th:if = "${leave.getStatus() == StatusEnum.APPLIED ||leave.getStatus() == StatusEnum.UPDATED  }" th:href = "@{'/leave/update/' + ${leave.leaveId}}">Update</a >
 	    	</td >
 	    	<td>
 	    		<a th:href = "@{'/leave/cancel/' + ${leave.leaveId}}">Cancel</a >

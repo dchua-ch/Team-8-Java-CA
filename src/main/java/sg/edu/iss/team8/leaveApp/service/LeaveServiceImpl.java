@@ -21,12 +21,14 @@ public class LeaveServiceImpl implements LeaveService {
 	
 	@Transactional
 	public Leave submitLeave(Leave leave) {
+		
 		leave.setStatus(StatusEnum.APPLIED);
 		return lrepo.saveAndFlush(leave);
 	}
 
 	@Transactional
 	public void updateLeave(Leave leave) {
+		
 		leave.setStatus(StatusEnum.UPDATED);
 		lrepo.saveAndFlush(leave);
 	}

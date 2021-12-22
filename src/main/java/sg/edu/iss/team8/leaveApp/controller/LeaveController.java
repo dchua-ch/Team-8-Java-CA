@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import sg.edu.iss.team8.leaveApp.helpers.StatusEnum;
 import sg.edu.iss.team8.leaveApp.model.Leave;
 import sg.edu.iss.team8.leaveApp.repo.LeaveRepo;
 import sg.edu.iss.team8.leaveApp.service.LeaveService;
@@ -96,6 +97,12 @@ public class LeaveController {
 									Model model) {
 		Leave currentLeave = lservice.findLeaveById(leaveId);
 		model.addAttribute("leave", currentLeave);
+		if (currentLeave.getStatus() != StatusEnum.APPLIED || currentLeave.getStatus() != StatusEnum.UPDATED )
+		{
+			System.out.println("Unable to update " + currentLeave.getStatus() + " leave");
+			return "update-unsuccessful";
+		}
+		
 		return "update-leave";
 	}
 	
@@ -106,6 +113,7 @@ public class LeaveController {
 		if (result.hasErrors()) {
 			return "leave-update-error";
 		}
+		
 		
 		lservice.updateLeave(leave);
 		String msg = "Leave was successfully updated.";
