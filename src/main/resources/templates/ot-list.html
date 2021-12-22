@@ -12,11 +12,15 @@
 				<th><span th:text="#{fieldLabel.Reference}"></span></th>
 				<th><span th:text="#{fieldLabel.OTDate}"></span></th>
 				<th><span th:text="#{fieldLabel.Hours}"></span></th>
+				<th><span th:text="#{fieldLabel.Reason}"></span></th>
+				<th><span th:text="#{fieldLabel.Status}"></span></th>
 			</tr>
 			<tr th:each="OTDay : ${OTHistory}" class="listRecord">
 				<td align="left" th:text="${OTDay.overtimeId}">Id</td>
 				<td align="left" th:text="${#temporals.format(OTDay.date, 'dd/MMM/yyyy')}">Date</td>
 				<td align="left" th:text="${OTDay.hours}">Hours</td>
+				<td align="left" th:text="${OTDay.reason}">Reason</td>
+				<td align="left" th:text="${OTDay.status}">Status</td>
 			</tr>
 		</table>
 	</div>

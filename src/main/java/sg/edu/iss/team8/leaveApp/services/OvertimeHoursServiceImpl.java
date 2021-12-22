@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sg.edu.iss.team8.leaveApp.helpers.OTEnum;
 import sg.edu.iss.team8.leaveApp.model.OvertimeHours;
 import sg.edu.iss.team8.leaveApp.repo.OvertimeHoursRepo;
 
@@ -23,27 +25,51 @@ public class OvertimeHoursServiceImpl implements OvertimeHoursService{
 			return false;
 	}
 
-	public ArrayList<OvertimeHours> findOvertimeHoursByUserId(Integer userId){
-		ArrayList<OvertimeHours> OTHours = orepo.findOvertimeHoursByUserId(userId);
+	public ArrayList<OvertimeHours> findOTHoursByUserId(Integer userId){
+		ArrayList<OvertimeHours> OTHours = orepo.findOTHoursByUserId(userId);
 		return OTHours;
 	}
 	
-	public ArrayList<OvertimeHours> findOvertimeHoursByMonthYear(Integer month, Integer year){
-		ArrayList<OvertimeHours> OTHours = orepo.findOvertimeHoursByMonthYear(month, year);
+	public ArrayList<OvertimeHours> findOTHoursByMY(Integer month, Integer year){
+		ArrayList<OvertimeHours> OTHours = orepo.findOTHoursByMY(month, year);
 		return OTHours;
 	}
 	
-	public ArrayList<OvertimeHours> findOvertimeHoursByMonthYearUserId(Integer month, Integer year, Integer userId){
-		ArrayList<OvertimeHours> OTHours = orepo.findOvertimeHoursByMonthYearUserId(month, year, userId);
+	public ArrayList<OvertimeHours> findOTHoursByMYUserId(Integer month, Integer year, Integer userId){
+		ArrayList<OvertimeHours> OTHours = orepo.findOTHoursByMYUserId(month, year, userId);
 		return OTHours;
 	}
 
-	public Double findTotalOTHoursByMonthYearUserId(Integer month, Integer year, Integer userId) {
-		ArrayList<OvertimeHours> OTHours = findOvertimeHoursByMonthYearUserId(month, year, userId);
+	public Double findTotalOTHoursByMYUserId(Integer month, Integer year, Integer userId) {
+		ArrayList<OvertimeHours> OTHours = findOTHoursByMYUserId(month, year, userId);
 		Double totalhours = 0.0;
 		for (OvertimeHours otday : OTHours) {
 			totalhours += otday.getHours();
 		}
 		return totalhours;
 	}
+	
+	@Transactional
+	@Modifying
+	public boolean updateOTHours (OvertimeHours OTHours) {
+		if (orepo.saveAndFlush(OTHours) != null) 
+			return true;
+		else
+			return false;
+	}
+
+	public ArrayList<OvertimeHours> findOTHoursByMYUserIdStatus(Integer month, Integer year, Integer userId, OTEnum status) {
+		return orepo.findOTHoursByMYUserIdStatus(month, year, userId, status);
+	}
+
+	@Override
+	public Double findTotalOTHoursByMYUserIdStatus(Integer month, Integer year, Integer userId, OTEnum status) {
+		ArrayList<OvertimeHours> OTHours = findOTHoursByMYUserIdStatus(month, year, userId, status);
+		Double totalhours = 0.0;
+		for (OvertimeHours otday : OTHours) {
+			totalhours += otday.getHours();
+		}
+		return totalhours;
+	}
+
 }

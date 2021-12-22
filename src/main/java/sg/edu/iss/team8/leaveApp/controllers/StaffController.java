@@ -2,6 +2,7 @@ package sg.edu.iss.team8.leaveApp.controllers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import sg.edu.iss.team8.leaveApp.helpers.OTEnum;
 import sg.edu.iss.team8.leaveApp.model.Employee;
 import sg.edu.iss.team8.leaveApp.model.Manager;
 import sg.edu.iss.team8.leaveApp.model.OvertimeHours;
@@ -61,11 +63,12 @@ public class StaffController {
 		if (usession != null) {
 			User u = usession.getUser();
 			
-			if (u == null) {
+			if (u.getClass().getSimpleName().equalsIgnoreCase("admin")) {
 				return "adminerror";
 			}
 			else {
 				OTHours.setEmployee((Employee) u);
+				OTHours.setStatus(OTEnum.APPLIED);
 				oservice.saveOTHours(OTHours);
 				return "redirect:/staff/listot";
 			}
@@ -79,17 +82,12 @@ public class StaffController {
 		UserSession usession = (UserSession) session.getAttribute("usession");
 		if (usession != null) { //if not logged in
 			User u = usession.getUser();
-			if (u != null) { //if user is admin
-//				if (oservice.findOvertimeHoursByUserId(u.getUserId()).size() > 0) {
-//					model.addAttribute("OTHistory", oservice.findOvertimeHoursByUserId(u.getUserId()));
-//				}
-				model.addAttribute("OTHistory", oservice.findOvertimeHoursByUserId(u.getUserId()));
-				return "ot-list";
+			if (u.getClass().getSimpleName().equalsIgnoreCase("admin")) { //if user is admin
+				return "adminerror";
 			}
-			return "adminerror";
+			model.addAttribute("OTHistory", oservice.findOTHoursByUserId(u.getUserId()));
+			return "ot-list";
 		}
 		return "forward:/home/login";
 	}
-	
-
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import sg.edu.iss.team8.leaveApp.helpers.OTEnum;
 import sg.edu.iss.team8.leaveApp.model.Employee;
 import sg.edu.iss.team8.leaveApp.model.OvertimeHours;
 
@@ -11,12 +12,17 @@ public interface OvertimeHoursService {
 
 	boolean saveOTHours(OvertimeHours OTHours);
 
-	ArrayList<OvertimeHours> findOvertimeHoursByUserId(Integer userId);
+	ArrayList<OvertimeHours> findOTHoursByUserId(Integer userId);
 
-	ArrayList<OvertimeHours> findOvertimeHoursByMonthYear(Integer month, Integer year);
+	ArrayList<OvertimeHours> findOTHoursByMY(Integer month, Integer year);
 
-	ArrayList<OvertimeHours> findOvertimeHoursByMonthYearUserId(Integer month, Integer year, Integer userId);
+	ArrayList<OvertimeHours> findOTHoursByMYUserId(Integer month, Integer year, Integer userId);
 	
-	Double findTotalOTHoursByMonthYearUserId(Integer month, Integer year, Integer userId);
-
+	ArrayList<OvertimeHours> findOTHoursByMYUserIdStatus(Integer month, Integer year, Integer userId, OTEnum status);
+	
+	Double findTotalOTHoursByMYUserId(Integer month, Integer year, Integer userId);
+	
+	Double findTotalOTHoursByMYUserIdStatus(Integer month, Integer year, Integer userId, OTEnum status);
+	
+	boolean updateOTHours(OvertimeHours OTHours);
 }

@@ -84,7 +84,7 @@ public class UserRepoTest {
 	{
 		System.out.println("Executing TestUpdateUserType()...");
 		// change MaryManager to manager 
-		urepo.updateUserType("manager", "MarryManager");
+		urepo.updateUserType("manager", 3);
 		List<Manager> managers = urepo.getAllManagers();
 		for(Manager manager : managers)
 		{

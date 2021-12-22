@@ -16,15 +16,23 @@ import sg.edu.iss.team8.leaveApp.model.User;
 
 public interface UserRepo extends JpaRepository<User, Integer>{
 	
+//	@Transactional
+//	@Modifying
+//	@Query(value = "update User U set U.user_type = :usertype where u.name = :name",nativeQuery=true)
+//	public void updateUserType(@Param("usertype") String usertype, @Param("name") String name);
+	
 	@Transactional
 	@Modifying
-	@Query(value = "update User U set U.user_type = :usertype where u.name = :name",nativeQuery=true)
-	public void updateUserType(@Param("usertype") String usertype, @Param("name") String name);
+	@Query(value = "update User U set U.user_type = :usertype where U.user_id = :id",nativeQuery=true)
+	public void updateUserType(@Param("usertype") String usertype, @Param("id") Integer id);
 	
 //	@Transactional
 //	@Modifying
 //	@Query(value = "update User U set U.compLeaven = :compleaven where u.userId = :userId",nativeQuery=true)
 //	public void updateCompLeave(@Param("compleaven") Integer compleaven, @Param("userId") Integer userId);
+	
+	@Query("select U from User U")
+	public List<User> getAllUsers();
 	
 	@Query("select U from User U where TYPE(U) = 'employee'")
 	public List<Employee> getAllEmployees();
@@ -40,4 +48,5 @@ public interface UserRepo extends JpaRepository<User, Integer>{
 	
 //	@Query(value = "select u.user_type from user u where u.user_Id = :userId", nativeQuery = true)
 //	public String findUserType(@Param("userId") Integer userId);
+	
 }
