@@ -1,10 +1,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:fragment="html_head" id="html_head">
-	<script src="jquery/jquery.js"></script>
-	<script type="text/javascript" src='js/bootstrap.min.js'></script>
 	<meta charset="ISO-8859-1">
 	<title>Leave Application Processing System - LAPS</title>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
 	<link th:rel="stylesheet" th:href="@{/css/bootstrap.css}">
 </head>
 
@@ -24,7 +24,7 @@
 						<li class="nav-item"><a class="nav-link" href="#"> My Profile </a></li>
 						<div>
 						<li class="nav-item dropdown">
-							<a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown" type="button" th:if="${#authorization.expression('hasAuthority(''manager'')')}"> Manager </a>
+							<a class="nav-link  dropdown-toggle" href="#" data-bs-toggle="dropdown" type="button" th:if="${#authorization.expression('hasAuthority(''manager'')')}"> Manager </a>
 							<ul class="dropdown-menu">
 								<li><a class="dropdown-item" href="#"> Leave Applications for Approval</a></li>
 								<li><a class="dropdown-item" href="#"> Subordinates Leave History</a></li>
@@ -34,7 +34,7 @@
 						</div > 
 						<div>
 						<li class="nav-item dropdown">
-							<a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown" type="button" th:if="${#authorization.expression('hasAuthority(''employee'')')}"> Employee </a>
+							<a class="nav-link  dropdown-toggle" href="#" data-bs-toggle="dropdown" type="button" th:if="${#authorization.expression('hasAuthority(''employee'')')}"> Employee </a>
 							<ul class="dropdown-menu">
 								<li><a class="dropdown-item" href="#"> Update OT Hours</a></li>
 							</ul>
