@@ -1,5 +1,6 @@
 package sg.edu.iss.team8.leaveApp.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -36,7 +37,7 @@ public class Leave {
 	private String addtnlReason;
 	private String workDissemination;
 	private String contact;
-	@Column(name = "status", columnDefinition = "ENUM('APPLIED', 'APPROVED', 'REJECTED', 'DELETED', 'CANCELLED', 'ARCHIVED')")
+	@Column(name = "status", columnDefinition = "ENUM('APPLIED', 'APPROVED', 'REJECTED', 'DELETED', 'CANCELLED', 'ARCHIVED', 'UPDATED')")
 	@Enumerated(EnumType.STRING)
 	private StatusEnum status;
 	private String comments;

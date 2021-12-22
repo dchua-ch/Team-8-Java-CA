@@ -35,8 +35,9 @@ public class LeaveTest {
 
 	@Autowired
 	private LeaveRepo lrepo;
-	
-	@Autowired LeaveService lservice;
+  
+  @Autowired
+	private LeaveService lservice;
 	
 	@Test
 	@Order(1)
@@ -52,7 +53,6 @@ public class LeaveTest {
 		lrepo.saveAndFlush(leave1);
 		lrepo.saveAndFlush(leave2);
 		lrepo.saveAndFlush(leave3);
-		
 		List<Leave> leaves = lrepo.findAll();
 		assertEquals(leaves.size(), 3);
 	}
@@ -114,4 +114,38 @@ public class LeaveTest {
 		assertEquals(result, 0);	//should be 0 because MEDICAL Leave
 
 	}
+	
+	//@Test
+	public void testUpdateLeave()
+	{
+		
+		System.out.println("Executing testUpdateLeave()");
+		Integer leaveId = 1;
+		Leave currentLeave = lservice.findLeaveById(leaveId);
+		String reason = "daniel";
+		currentLeave.setAddtnlReason(reason);
+		System.out.println(currentLeave.getStatus());
+		System.out.println(currentLeave.getAddtnlReason());
+
+		lservice.updateLeave(currentLeave);
+		System.out.println("Leave updated");
+		currentLeave = lservice.findLeaveById(leaveId);
+		assertEquals(currentLeave.getAddtnlReason(),reason);
+		
+		
+		
+	}
+	
+	@Test
+    public void testGetAllLeaves()
+    {
+		List<Leave> leaves = lrepo.findAll();
+		
+		for(Leave leave : leaves)
+		{
+			System.out.println(leave.getLeaveId());
+		}
+		assertEquals(leaves.size(),5);
+    }
+	
 }
