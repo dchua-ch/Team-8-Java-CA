@@ -24,11 +24,6 @@ public class LeaveValidator implements Validator {
 		ValidationUtils.rejectIfEmpty(e, "leaveType", "error.leave.leaveType.empty", "Leave Type required");
 		ValidationUtils.rejectIfEmpty(e, "addtnlReason", "error.leave.addtnlReason.empty", "Reason required");
 		
-		System.out.println(leave.getStartDate());
-		System.out.println(leave.getEndDate());
-		System.out.println(leave.getLeaveType());
-		System.out.println(leave.getAddtnlReason());
-		System.out.println(leave.getWorkDissemination());
 		if(leave.getStartDate() != null && leave.getEndDate() != null)
 		{
 			if ((leave.getStartDate().after(leave.getEndDate()))) 

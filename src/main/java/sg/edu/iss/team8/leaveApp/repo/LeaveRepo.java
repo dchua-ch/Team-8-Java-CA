@@ -15,6 +15,5 @@ public interface LeaveRepo extends JpaRepository<Leave, Integer>{
 	
 	@Query("Select l from Leaves l where l.employee.userId = :userId")
 	public List<Leave> findLeaveByUserId(@Param("userId") Integer userId);
-	
-	
+
 }
