@@ -1,8 +1,8 @@
 package sg.edu.iss.team8.leaveApp.model;
 
 import java.time.LocalDate;
-
-
+import java.util.Date;
+import java.util.Calendar;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -28,8 +28,8 @@ public class Leave {
 	@Id
 	@GeneratedValue (strategy = GenerationType.AUTO)
 	private Integer leaveId;
-	private LocalDate startDate;
-	private LocalDate endDate;
+	private Date startDate;
+	private Date endDate;
 	@Column(name = "leaveType", columnDefinition = "ENUM('ANNUAL', 'MEDICAL', 'COMPENSATION')")
 	@Enumerated(EnumType.STRING)
 	private LeaveEnum leaveType;
@@ -41,12 +41,13 @@ public class Leave {
 	private StatusEnum status;
 	@NotEmpty
 	private String comments;
+	private Calendar year;
 	
 	@ManyToOne
 	@JoinColumn(name = "userid")
 	private Employee employee;
 	
-	public Leave(LocalDate startDate, LocalDate endDate, LeaveEnum leaveType, String addtnlReason,
+	public Leave(Date startDate, Date endDate, LeaveEnum leaveType, String addtnlReason,
 			String workDissemination, String contact, StatusEnum status, String comments) {
 		super();
 		this.startDate = startDate;
@@ -59,7 +60,7 @@ public class Leave {
 		this.comments = comments;
 	}
 	
-	public Leave(LocalDate startDate, LocalDate endDate, LeaveEnum leaveType, String addtnlReason,
+	public Leave(Date startDate, Date endDate, LeaveEnum leaveType, String addtnlReason,
 			String workDissemination, String contact, StatusEnum status, String comments, Employee employee) {
 		super();
 		this.startDate = startDate;

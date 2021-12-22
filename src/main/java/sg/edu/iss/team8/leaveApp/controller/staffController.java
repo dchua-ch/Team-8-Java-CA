@@ -2,6 +2,7 @@ package sg.edu.iss.team8.leaveApp.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -64,11 +65,15 @@ public class staffController {
 	public ModelAndView leaveHistory(HttpSession session) {
 		UserSession usession = (UserSession) session.getAttribute("usession");
 		Calendar date = Calendar.getInstance();
+		Calendar datesample = Calendar.getInstance();
 		ArrayList<Leave> all = new ArrayList<Leave>();
 		List<Leave> leaves = lService.findLeaveByUID(usession.getUser().userId);
 		
+		
 		for(Leave l : leaves) {
-			if(l.getStartDate().getYear() == date.get(Calendar.YEAR)) {
+			Date date1 =l.getStartDate();
+			datesample.setTime(date1);
+			if(datesample.get(Calendar.YEAR) == date.get(Calendar.YEAR)) {
 				all.add(l);
 			}
 		}

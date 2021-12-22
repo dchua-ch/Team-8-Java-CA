@@ -3,6 +3,7 @@ package sg.edu.iss.team8.leaveApp.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -61,20 +62,21 @@ public class LeaveServiceImpl implements LeaveService {
 		lrepo.saveAndFlush(leave);
 	}
 
+
 	@Override
-	public List<Leave> findLeaveWithinDateRange(List<Leave> lList, LocalDate start, LocalDate end) {
+	public List<Leave> findLeaveWithinDateRange(List<Leave> lList, Date start, Date end) {
 		List<Leave> withinRange = new ArrayList<Leave>();
 
 		for (Leave l : lList) {
 			if (l.getStatus() == StatusEnum.APPLIED || l.getStatus() == StatusEnum.APPROVED) {
-				if (l.getStartDate().isBefore(start) && l.getEndDate().isBefore(end) && l.getEndDate().isAfter(start)) {
+				if (l.getStartDate().before(start) && l.getEndDate().before(end) && l.getEndDate().after(start)) {
 					withinRange.add(l);
-				} else if (l.getStartDate().isAfter(start) && l.getStartDate().isBefore(end)
-						&& l.getEndDate().isAfter(end)) {
+				} else if (l.getStartDate().after(start) && l.getStartDate().before(end)
+						&& l.getEndDate().after(end)) {
 					withinRange.add(l);
-				} else if (l.getStartDate().isAfter(start) && l.getEndDate().isBefore(end)) {
+				} else if (l.getStartDate().after(start) && l.getEndDate().before(end)) {
 					withinRange.add(l);
-				} else if (l.getStartDate().isEqual(start) && l.getEndDate().isEqual(end)) {
+				} else if (l.getStartDate().equals(start) && l.getEndDate().equals(end)) {
 					withinRange.add(l);
 				}
 			}
