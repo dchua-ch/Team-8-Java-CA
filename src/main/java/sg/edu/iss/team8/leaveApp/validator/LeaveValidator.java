@@ -31,7 +31,7 @@ public class LeaveValidator implements Validator {
 		System.out.println(leave.getWorkDissemination());
 		if(leave.getStartDate() != null && leave.getEndDate() != null)
 		{
-			if ((leave.getStartDate().isAfter(leave.getEndDate()))) 
+			if ((leave.getStartDate().after(leave.getEndDate()))) 
 			{
 				e.reject("startDate", "Start Date should be before the or equal with End Date");
 				e.rejectValue("startDate", "error.leave.startDate-endDate.chronological", "startDate must be <= endDate");

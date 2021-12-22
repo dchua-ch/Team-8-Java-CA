@@ -70,13 +70,25 @@ public class LeaveController {
 		return "submitted-leave";
 	}
 	
+	@GetMapping("/select")
+	public String selectLeavePage(Model model)
+	{
+	
+		return "select-leave";
+	}
+	
 	//get the Leave object to display on the update page
 	@GetMapping("/update/{leaveId}")
 	public String updateLeavePage(@PathVariable("leaveId") Integer leaveId,
 									Model model) {
 		Leave currentLeave = lservice.findLeaveById(leaveId);
+		System.out.println(currentLeave.getStartDate());
+		System.out.println(currentLeave.getEndDate());
+		System.out.println(currentLeave.getLeaveType());
+		System.out.println(currentLeave.getAddtnlReason());
+		System.out.println(currentLeave.getWorkDissemination());
 		model.addAttribute("leave", currentLeave);
-		return "some";
+		return "update-leave";
 	}
 	
 	//update the Leave with the new values from the page
@@ -84,13 +96,13 @@ public class LeaveController {
 	public String updateLeave(@ModelAttribute("leave") @Valid Leave leave,
 								BindingResult result) {
 		if (result.hasErrors()) {
-			return "some";
+			return "leave-update-error";
 		}
 		
 		lservice.updateLeave(leave);
 		String msg = "Leave was successfully updated.";
 		System.out.println(msg);
-		return "some";
+		return "update-successful";
 	}
 	
 	//"delete" the Leave object

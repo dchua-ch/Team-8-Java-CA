@@ -1,6 +1,7 @@
 package sg.edu.iss.team8.leaveApp.model;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,16 +28,16 @@ public class Leave {
 	@GeneratedValue (strategy = GenerationType.AUTO)
 	private Integer leaveId;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate startDate;
+	private Date startDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate endDate;
+	private Date endDate;
 	@Column(name = "leaveType", columnDefinition = "ENUM('ANNUAL', 'MEDICAL', 'COMPENSATION')")
 	@Enumerated(EnumType.STRING)
 	private LeaveEnum leaveType;
 	private String addtnlReason;
 	private String workDissemination;
 	private String contact;
-	@Column(name = "status", columnDefinition = "ENUM('APPLIED', 'APPROVED', 'REJECTED', 'DELETED', 'CANCELLED', 'ARCHIVED')")
+	@Column(name = "status", columnDefinition = "ENUM('APPLIED', 'APPROVED', 'REJECTED', 'DELETED', 'CANCELLED', 'ARCHIVED', 'UPDATED')")
 	@Enumerated(EnumType.STRING)
 	private StatusEnum status;
 	private String comments;
@@ -45,7 +46,7 @@ public class Leave {
 	@JoinColumn(name = "userid")
 	private Employee employee;
 	
-	public Leave(LocalDate startDate, LocalDate endDate, LeaveEnum leaveType, String addtnlReason,
+	public Leave(Date startDate, Date endDate, LeaveEnum leaveType, String addtnlReason,
 			String workDissemination, String contact, StatusEnum status, String comments) {
 		super();
 		this.startDate = startDate;

@@ -21,6 +21,7 @@ import sg.edu.iss.team8.leaveApp.helpers.LeaveEnum;
 import sg.edu.iss.team8.leaveApp.helpers.StatusEnum;
 import sg.edu.iss.team8.leaveApp.model.Leave;
 import sg.edu.iss.team8.leaveApp.repo.LeaveRepo;
+import sg.edu.iss.team8.leaveApp.service.LeaveService;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Team8LeaveApplication.class)
 @TestMethodOrder(OrderAnnotation.class)
@@ -32,23 +33,47 @@ public class LeaveTest {
 	@Autowired
 	private LeaveRepo lrepo;
 	
-	@Test
-	@Order(1)
+	@Autowired
+	private LeaveService lservice;
+	
+	//@Test
+	//@Order(1)
 	public void testCreateLeave() {
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		Leave leave1 = new Leave(LocalDate.parse("08/01/2020", format), LocalDate.parse("10/01/2020", format),LeaveEnum.ANNUAL , "...",
-				"...", "91111", StatusEnum.APPLIED, "..."); 
-		Leave leave2 = new Leave(LocalDate.parse("08/01/2020", format), LocalDate.parse("10/01/2020", format),LeaveEnum.COMPENSATION , "...",
-				"...", "91111", StatusEnum.DELETED, "..."); 
-		Leave leave3 = new Leave(LocalDate.parse("08/01/2020", format), LocalDate.parse("10/01/2020", format),LeaveEnum.MEDICAL , "...",
-				"...", "91111", StatusEnum.APPROVED, "...");
-		lrepo.deleteAll();
-		lrepo.saveAndFlush(leave1);
-		lrepo.saveAndFlush(leave2);
-		lrepo.saveAndFlush(leave3);
+//		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//		Leave leave1 = new Leave(LocalDate.parse("08/01/2020", format), LocalDate.parse("10/01/2020", format),LeaveEnum.ANNUAL , "...",
+//				"...", "91111", StatusEnum.APPLIED, "..."); 
+//		Leave leave2 = new Leave(LocalDate.parse("08/01/2020", format), LocalDate.parse("10/01/2020", format),LeaveEnum.COMPENSATION , "...",
+//				"...", "91111", StatusEnum.DELETED, "..."); 
+//		Leave leave3 = new Leave(LocalDate.parse("08/01/2020", format), LocalDate.parse("10/01/2020", format),LeaveEnum.MEDICAL , "...",
+//				"...", "91111", StatusEnum.APPROVED, "...");
+//		lrepo.deleteAll();
+//		lrepo.saveAndFlush(leave1);
+//		lrepo.saveAndFlush(leave2);
+//		lrepo.saveAndFlush(leave3);
 		
 		List<Leave> leaves = lrepo.findAll();
 		assertEquals(leaves.size(), 3);
+		
+	}
+	
+	@Test
+	public void testUpdateLeave()
+	{
+		
+		System.out.println("Executing testUpdateLeave()");
+		Integer leaveId = 1;
+		Leave currentLeave = lservice.findLeaveById(leaveId);
+		String reason = "daniel";
+		currentLeave.setAddtnlReason(reason);
+		System.out.println(currentLeave.getStatus());
+		System.out.println(currentLeave.getAddtnlReason());
+
+		lservice.updateLeave(currentLeave);
+		System.out.println("Leave updated");
+		currentLeave = lservice.findLeaveById(leaveId);
+		assertEquals(currentLeave.getAddtnlReason(),reason);
+		
+		
 		
 	}
 }
