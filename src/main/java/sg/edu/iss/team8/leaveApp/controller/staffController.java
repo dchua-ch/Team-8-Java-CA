@@ -186,11 +186,13 @@ public class staffController {
 	@RequestMapping(value = "/history/details/{id}" ,method = RequestMethod.GET)
 	public ModelAndView leaveDetails(@PathVariable Integer id) {
 		ModelAndView mav = new ModelAndView("ldetails");
-		Leave leave = lrepo.getById(id);
-		mav.addObject("leave", leave);
+		
+		LeaveInput leaveInput = lService.findLeaveById1(id);
+//		Leave leave = lrepo.getById(id);
+//		mav.addObject("leave", leave);
+		mav.addObject("leave", leaveInput);
 		return mav;	
 	}
-	
 	
 
 }

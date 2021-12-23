@@ -17,6 +17,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import sg.edu.iss.team8.leaveApp.helpers.LeaveEnum;
+import sg.edu.iss.team8.leaveApp.helpers.LeaveInput;
 import sg.edu.iss.team8.leaveApp.helpers.StatusEnum;
 import sg.edu.iss.team8.leaveApp.model.Leave;
 import sg.edu.iss.team8.leaveApp.repo.LeaveRepo;
@@ -102,6 +103,10 @@ public class LeaveServiceImpl implements LeaveService {
 	@Override
 	public Leave findLeaveById(Integer leaveId) {
 		return lrepo.findLeaveByID(leaveId);
+	}
+	@Override
+	public LeaveInput findLeaveById1(Integer leaveId) {
+		return lrepo.findLeaveByID1(leaveId);
 	}
 	
 	@Transactional
@@ -194,4 +199,5 @@ public class LeaveServiceImpl implements LeaveService {
 		lrepo.saveAndFlush(leave);
 		return;
 	}
+	
 }

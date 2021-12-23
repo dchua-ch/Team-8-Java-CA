@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import sg.edu.iss.team8.leaveApp.helpers.LeaveInput;
 import sg.edu.iss.team8.leaveApp.model.Leave;
 
 public interface LeaveService {
@@ -18,7 +19,9 @@ public interface LeaveService {
 	public List<Leave> findLeaveWithinDateRange(List<Leave> lList, LocalDate start, LocalDate end);
 	
 	public Leave findLeaveById(Integer leaveId);
-
+	
+	public LeaveInput findLeaveById1(Integer leaveId);
+	
 	public List<Leave> getLeaveByDates(List<Leave> lList, LocalDate start, LocalDate end);
 
 	public List<Leave> findPendingLeaveByUserId(Integer userId);
