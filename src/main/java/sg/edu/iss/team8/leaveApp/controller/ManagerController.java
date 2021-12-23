@@ -98,10 +98,8 @@ public class ManagerController {
 	// pending approvals page
 	@RequestMapping(value = "/leave/edit/{uid}/{lid}", method = RequestMethod.POST)
 	public String approveOrRejectLeave(@PathVariable("uid") Integer userId, @PathVariable("lid") Integer leaveId,
-			@ModelAttribute("outcome") @Valid Outcome outcome, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			return "manager-leave-details";
-		} else {
+			@ModelAttribute("outcome") @Valid Outcome outcome) {
+		
 			Leave leave = lService.findLeaveByUIDAndLID(userId, leaveId);
 			if (outcome.getDecision().trim().equalsIgnoreCase(StatusEnum.APPROVED.toString())) {
 				leave.setStatus(StatusEnum.APPROVED);
@@ -110,13 +108,12 @@ public class ManagerController {
 			}
 			leave.setComments(outcome.getComments());
 
-			lService.updateLeave(leave);
+			lService.updateLeave1(leave);
 
 			Employee employee = eService.findByUserId(userId);
 			Integer managerId = employee.getReportsTo();
 
 			return "forward:/manager/pending/";
-		}
 	}
 
 	// Routes to view which displays the leave history for subordinates (i.e.

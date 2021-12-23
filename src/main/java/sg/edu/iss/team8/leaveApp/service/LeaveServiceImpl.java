@@ -135,6 +135,11 @@ public class LeaveServiceImpl implements LeaveService {
 		lrepo.saveAndFlush(leave);
 		return;
 	}
+	
+	@Transactional
+	public void updateLeave1(Leave leave) {
+		lrepo.saveAndFlush(leave);
+	}
 
 
 
