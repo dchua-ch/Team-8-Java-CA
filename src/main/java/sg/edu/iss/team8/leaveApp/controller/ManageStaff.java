@@ -134,7 +134,7 @@ public class ManageStaff {
             updateEmployee.setReportsTo(staff.getReportsTo());
             updateEmployee.setName(staff.getName());
             updateEmployee.setUsername(staff.getUsername());
-            updateEmployee.setPassword(encoderPasswod);
+//            updateEmployee.setPassword(encoderPasswod);
 
             emrepo.saveAndFlush(updateEmployee);
 
@@ -147,7 +147,7 @@ public class ManageStaff {
             updateManager.setReportsTo(staff.getReportsTo());
             updateManager.setName(staff.getName());
             updateManager.setUsername(staff.getUsername());
-            updateManager.setPassword(encoderPasswod);
+//            updateManager.setPassword(encoderPasswod);
             marepo.saveAndFlush(updateManager);
 
         }else if(staff.getUser_type().equals("admin")){
@@ -155,7 +155,7 @@ public class ManageStaff {
             Admin updateAdmin = adrepo.findById(Integer.valueOf(id)).get();
             updateAdmin.setName(staff.getName());
             updateAdmin.setUsername(staff.getUsername());
-            updateAdmin.setPassword(encoderPasswod);
+//            updateAdmin.setPassword(encoderPasswod);
             adrepo.saveAndFlush(updateAdmin);
         }
 
