@@ -50,16 +50,28 @@
 					<th><span th:text="#{fieldLabel.status}"></span></th>
 					<td th:text="${leave.status}">status</td> 
 				</tr>
+				
+			
 				</tbody>
-		</table >
+				</table >
+				<table style = "border-collapse: separate; border-spacing: 20px 10px;" cellpadding="15" align="right">
+				<a><input id = "return" name = "Submit" type="button" value="Return"  onclick="javascript:history.back(-1);" /></a>	
+				<td style="border: solid; border-radius:25px;" align="right">
+	    		<a style = " font-weight :bold" th:if = "${leave.status.name() == 'APPLIED' || leave.status.name() == 'UPDATED'  }"th:href = "@{'/leave/update/' + ${leave.leaveId}}">Update</a>
+	    		<span style = " font-weight :bold" th:unless = "${leave.status.name() == 'APPLIED' || leave.status.name() == 'UPDATED'  }">Update</span >
+	    	</td  >
+	    	<td style="border: solid; border-radius:25px;" align="right">
+	    		<a style = " font-weight :bold" th:if = "${leave.status.name() == 'APPROVED'}"th:href = "@{'/leave/cancel/' + ${leave.leaveId}}">Cancel</a >
+	    		<span style = " font-weight :bold" th:unless = "${leave.status.name() == 'APPROVED'}">Cancel</span >
+	    	</td  >
+	    	<td style="border: solid; border-radius:25px;" align="right">
+	    		<a style = " font-weight :bold" th:if = "${leave.status.name() == 'APPLIED' || leave.status.name() == 'UPDATED'  }" th:href = "@{'/leave/delete/' + ${leave.leaveId}}">Delete</a >
+	    		<span style = " font-weight :bold" th:unless = "${leave.status.name() == 'APPLIED' || leave.status.name() == 'UPDATED'  }">Delete</span >
+	    	</td  >
+				</table  >
 	</div >
-		<div class="row">
-		<div style = "text-align:right" class="col-xs-4" >		
-		<a><input id = "return" name = "Submit" type="button" value="Return"  onclick="javascript:history.back(-1);" /></a>		
-		<a th:href="@{/leave/update/}+${leave.leaveId}"><input type="button" value="Edit"  /></a>			
-		<a th:href="@{/leave/delete/}+${leave.leaveId}"><input type="button" value="Delete" /></a>
-		</div >
-		</div >			
+		
+</div >			
 </div>
 </body>
 </html>
