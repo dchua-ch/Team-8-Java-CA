@@ -52,7 +52,7 @@ public class ManagerController {
 		return "manager-pending";
 
 	}
-	
+
 	// Routes to view which displays leave details for selected employee
 	@RequestMapping(value = "/leave/display/{uid}/{lid}", method = RequestMethod.GET)
 	public ModelAndView displayLeaveDetails(@PathVariable("uid") Integer userId, @PathVariable("lid") Integer leaveId) {
@@ -71,7 +71,7 @@ public class ManagerController {
 				}
 			}
 		}
-		
+
 		ModelAndView mav = new ModelAndView("manager-leave-details", "leave", leave);
 		mav.addObject("outcome", new Outcome()); 
 		mav.addObject("employee", employee); 
@@ -125,8 +125,7 @@ public class ManagerController {
 		model.addAttribute("leavehistory", hm);
 		return "manager-history";
 	}
-	
-	
+  
 	@RequestMapping(value="/leave-history/display/{uid}/{lid}", method= RequestMethod.GET)
 	public String displayPastLeaveDetails(@PathVariable("uid") Integer userId, @PathVariable("lid") Integer leaveId, Model model) {
 		Leave leave = lService.findLeaveById(leaveId);

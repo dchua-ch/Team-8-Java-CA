@@ -15,8 +15,10 @@ public class Outcome {
 	private String decision;
 	@NotEmpty
 	private String comments;
+
 	private Integer id;
 	private String start; 
 	private String end; 
 	private Boolean comp;
 }
+

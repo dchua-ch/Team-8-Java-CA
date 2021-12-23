@@ -16,6 +16,7 @@ import javax.validation.constraints.NotEmpty;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import sg.edu.iss.team8.leaveApp.helpers.LeaveEnum;
 import sg.edu.iss.team8.leaveApp.helpers.StatusEnum;
 
@@ -70,6 +71,4 @@ public class Leave {
 		this.comments = comments;
 		this.employee = employee;
 	}
-	
-	
 }

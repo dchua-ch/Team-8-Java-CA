@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: html_head">
+
+</head>
+<body>
+	<div th:replace="fragments/layout.html::menu"/>
+	<div class="container">
+	<h1>Leave Details</h1>
+	<div action="#" th:action="@{/staff/history/details/}+${leave.leaveId}"
+		th:object="${leave}" method="post">
+		<table class="table table-striped">
+			<tbody>
+				<tr>
+					<th><span th:text="#{fieldLabel.leaveid}"></span></th>
+					<td th:text="${leave.leaveId}">Id</td>
+				</tr>
+				
+				<tr>
+					<th><span th:text="#{fieldLabel.leavetype}"></span></h>
+					<td th:text="${leave.leaveType}">leaveType</td>
+				</tr>
+				
+				<tr>
+					<th><span th:text="#{fieldLabel.startDate}"></span></th>
+					<td th:text="${leave.startDate}">From</td>
+				</tr>
+				
+				<tr>
+					<th><span th:text="#{fieldLabel.endDate}"></span></th>
+					<td th:text="${leave.endDate}">To</td>
+				</tr>
+				
+				<tr>
+					<th><span th:text="#{fieldLabel.addtnlReason}"></span></th>
+					<td th:text="${leave.addtnlReason}">addtnlReason</td>
+				</tr>
+				
+				<tr>
+					<th><span th:text="#{fieldLabel.contact}"></span></th>
+					<td th:text="${leave.contact}">contact number</td>
+				</tr>
+				
+				<tr>
+					<th><span th:text="#{fieldLabel.workDissemination}"></span></th>
+					<td th:text="${leave.workDissemination}">workDissemination</td>
+				</tr>
+				
+				<tr>
+					<th><span th:text="#{fieldLabel.status}"></span></th>
+					<td th:text="${leave.status}">status</td> 
+				</tr>
+				</tbody>
+		</table >
+	</div >
+		<div class="row">
+		<div style = "text-align:right" class="col-xs-4" >		
+		<a><input id = "return" name = "Submit" type="button" value="Return"  onclick="javascript:history.back(-1);" /></a>		
+		<a th:href="@{/staff/edit/}+${leave.leaveId}"><input type="button" value="Edit"  /></a>			
+		<a th:href="@{/staff/withdraw/}+${leave.leaveId}"><input type="button" value="Delete" /></a>
+		</div >
+		</div >			
+</div>
+</body>
+</html>

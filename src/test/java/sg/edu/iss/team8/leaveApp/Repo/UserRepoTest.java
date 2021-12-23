@@ -109,7 +109,7 @@ public class UserRepoTest {
 		Leave leave = lrepo.findLeaveByID(8); 
 		assertEquals(leave.getStatus(), StatusEnum.DELETED); 
 	}
-	
+  
 	@Test
 	@Order(7)
 	public void TestGetEmpTypeByUID() {
@@ -117,4 +117,5 @@ public class UserRepoTest {
 		String empType = urepo.getEmpTypeByUID(1); 
 		assertEquals(empType, "manager"); 
 	}
+
 }
