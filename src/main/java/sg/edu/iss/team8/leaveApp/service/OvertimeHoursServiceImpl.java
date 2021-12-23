@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sg.edu.iss.team8.leaveApp.helpers.OTEnum;
 import sg.edu.iss.team8.leaveApp.model.OvertimeHours;
 import sg.edu.iss.team8.leaveApp.repo.OvertimeHoursRepo;
 
@@ -56,6 +57,7 @@ public class OvertimeHoursServiceImpl implements OvertimeHoursService{
 			return false;
 	}
 
+	@Override
 	public ArrayList<OvertimeHours> findOTHoursByMYUserIdStatus(Integer month, Integer year, Integer userId, OTEnum status) {
 		return orepo.findOTHoursByMYUserIdStatus(month, year, userId, status);
 	}

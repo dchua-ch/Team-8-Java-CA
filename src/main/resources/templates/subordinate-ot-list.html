@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<title>Subordinates OT</title>
+	<head th:replace="fragments/layout.html :: html_head"/>
+
+<body>
+	<div th:replace="fragments/layout.html::menu"/>
+	<h1>OT Hours Pending Approval</h1>
+	<div th:if="${not #lists.isEmpty(OTHistory)}">
+		<table class="table">
+			<tr th:each="entry, stat : ${OTHistory}">
+				<td>
+					<div th:if="${not #lists.isEmpty(entry.value)}">
+						<span><b>Employee Name: </b></span><span th:text="${entry.key.name}">Name</span><br />
+						<table border="1 pt" class="table">
+							<thead class="thead-dark">
+								<tr>
+									<th>OT Reference ID</th>
+									<th>Date</th>
+									<th>Hours</th>
+									<th>Reason</th>
+									<th>Status</th>
+									<th>Approve</th>
+									<th>Reject</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="ot : ${entry.value}">
+									<td th:text="${ot.overtimeId}">OT Reference ID</td>
+									<td th:text="${#temporals.format(ot.date, 'dd/MMM/yyyy')}">Date</td>
+									<td th:text="${ot.hours}">Hours</td>
+									<td th:text="${ot.reason}">Reason</td>
+									<td colspan = "3" th:if="${#strings.equals(ot.status, 'LEAVEGIVEN')} or ${totalgiven.get(entry.key) != 0 and !#strings.equals(ot.status, 'LEAVEGIVEN')}" th:text="${ot.status}">Status</td>
+									
+									<div th:if="${!#strings.equals(ot.status, 'LEAVEGIVEN') and totalgiven.get(entry.key) == 0}">
+										<td th:text="${ot.status}">Status</td>
+										<td ><a th:href = "@{/manager/approveot1/}+${ot.employee.userId}+'/'+${#temporals.month(ot.date)}+'/'+${#temporals.year(ot.date)} + '/' + ${ot.overtimeId}"><button type="button"> Approve</button></a></td>
+										<td ><a th:href = "@{/manager/rejectot1/}+${ot.employee.userId}+'/'+${#temporals.month(ot.date)}+'/'+${#temporals.year(ot.date)} + '/' + ${ot.overtimeId}"><button type="button"> Reject</button></a></td>
+									</div>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr><td colspan="7">Total Applied OT Hours: <span STYLE="font-weight:bold" th:text=${total.get(entry.key)}></span></td ></tr>
+								<tr><td colspan="7">Approving of <span STYLE="font-weight:bold" th:text=${totalapprove.get(entry.key)}></span> OT Hours</td ></tr>
+								<tr><td colspan="7">Total Leave Given: <span STYLE="font-weight:bold" th:text=${totalleavegiven.get(entry.key)}></span></td ></tr>
+								<tr th:if="${totalgiven.get(entry.key) == 0}">
+									<td colspan="7"><a th:href = "@{/manager/approveall/}+${entry.key.userId}+'/'+${monthyear[0]}+'/'+${monthyear[1]}"><button type="button">Approve all</button></a></td >
+								</tr >
+								<tr th:if="${totalapplied.get(entry.key) == 0 and totalgiven.get(entry.key) == 0} and ${totalgiven.get(entry.key) != total.get(entry.key)}">
+									<td colspan="7"><a th:href = "@{/manager/calc/}+${entry.key.userId}+'/'+${monthyear[0]}+'/'+${monthyear[1]}"><button type="button"> Grant leave for approved OT</button></a></td >
+								</tr >
+							</tfoot>
+						</table>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</body>
+
+</html>
