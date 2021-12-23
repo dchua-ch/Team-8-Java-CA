@@ -21,6 +21,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -46,7 +49,7 @@ public class User {
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="role", discriminatorType = DiscriminatorType.STRING)
-public class User {
+public class User{
 	@Id
 	@GeneratedValue (strategy = GenerationType.AUTO)
 	public Integer userId;
@@ -65,5 +68,6 @@ public class User {
 		this.username = username;
 		this.password = password;
 	}
+
 	
 }
