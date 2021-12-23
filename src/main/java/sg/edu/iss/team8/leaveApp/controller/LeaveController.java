@@ -1,5 +1,6 @@
 package sg.edu.iss.team8.leaveApp.controller;
 
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
@@ -48,13 +49,13 @@ public class LeaveController {
 	
 	@Autowired
 	private UserService uService;
-	
+  
 	@Autowired 
 	private EmployeeService eService;
 	
 	@Autowired
 	private UserRepo urepo;
-	
+  
 	@Autowired
 	public void setLeaveService(LeaveServiceImpl lserviceImpl) {
 		this.lService = lserviceImpl;
@@ -90,7 +91,7 @@ public class LeaveController {
 	//submit the Leave to persist
 	@PostMapping("/submit")
 	public String submitLeave(@ModelAttribute("leave") @Valid LeaveInput leaveInput,
-								BindingResult result, HttpSession session) {
+								BindingResult result, Principal principal) {
 		if (result.hasErrors()) {
 			return "submit-leave-error";
 		}
@@ -305,9 +306,8 @@ public class LeaveController {
 	//get user leave history
 	//might have overlap with RZ's code, but included for good measure.
 	@GetMapping("/leavehistory")
-	public String getLeaveHistory(Model model, HttpSession session) {
-		UserSession usession = (UserSession) session.getAttribute("usession");
-		Integer userId = usession.getUser().getUserId();
+	public String getLeaveHistory(Model model, Principal principal) {
+		Integer userId = uService.findUserByUsername(principal.getName()).userId;
 		List<Leave> leaveHistory = lService.findLeaveByUserId(userId);
 		model.addAttribute("leaveHistory", leaveHistory);
 		return "some";
@@ -315,9 +315,8 @@ public class LeaveController {
 	
 	//get user pending leaves
 	@GetMapping("pendingleaves")
-	public String getPendingLeaves(Model model, HttpSession session) {
-		UserSession usession = (UserSession) session.getAttribute("usession");
-		Integer userId = usession.getUser().getUserId();
+	public String getPendingLeaves(Model model, Principal principal) {
+		Integer userId = uService.findUserByUsername(principal.getName()).userId;
 		List<Leave> pendingLeaves = lService.findPendingLeaveByUserId(userId);
 		model.addAttribute("pendingLeaves", pendingLeaves);
 		return "some";

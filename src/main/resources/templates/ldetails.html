@@ -55,6 +55,7 @@
 				</tbody>
 				</table >
 				<table style = "border-collapse: separate; border-spacing: 20px 10px;" cellpadding="15" align="right">
+				<a><input id = "return" name = "Submit" type="button" value="Return"  onclick="javascript:history.back(-1);" /></a>	
 				<td style="border: solid; border-radius:25px;" align="right">
 	    		<a style = " font-weight :bold" th:if = "${leave.status.name() == 'APPLIED' || leave.status.name() == 'UPDATED'  }"th:href = "@{'/leave/update/' + ${leave.leaveId}}">Update</a>
 	    		<span style = " font-weight :bold" th:unless = "${leave.status.name() == 'APPLIED' || leave.status.name() == 'UPDATED'  }">Update</span >

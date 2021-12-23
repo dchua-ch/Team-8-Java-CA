@@ -16,6 +16,7 @@ public class Staff {
     private Integer medicalLeaveN;
     private Integer compLeaveN;
     private Integer reportsTo;
+    private Boolean enabled;
     private String  user_type = "employee";
 
     public Staff(Integer userId, String name, String username, String password, Integer annualLeaveN, Integer medicalLeaveN, Integer compLeaveN, Integer reportsTo, String user_type) {
@@ -29,4 +30,20 @@ public class Staff {
         this.reportsTo = reportsTo;
         this.user_type = user_type;
     }
+
+	public Staff(Integer userId, String name, String username, String password, Integer annualLeaveN,
+			Integer medicalLeaveN, Integer compLeaveN, Integer reportsTo, Boolean enabled, String user_type) {
+		super();
+		this.userId = userId;
+		this.name = name;
+		this.username = username;
+		this.password = password;
+		this.annualLeaveN = annualLeaveN;
+		this.medicalLeaveN = medicalLeaveN;
+		this.compLeaveN = compLeaveN;
+		this.reportsTo = reportsTo;
+		this.enabled = enabled;
+		this.user_type = user_type;
+	}
+    
 }

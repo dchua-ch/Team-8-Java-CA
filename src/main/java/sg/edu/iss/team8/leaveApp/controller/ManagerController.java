@@ -1,5 +1,6 @@
 package sg.edu.iss.team8.leaveApp.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -24,6 +25,7 @@ import sg.edu.iss.team8.leaveApp.helpers.MonthYear;
 import sg.edu.iss.team8.leaveApp.helpers.OTEnum;
 import sg.edu.iss.team8.leaveApp.helpers.Outcome;
 import sg.edu.iss.team8.leaveApp.helpers.StatusEnum;
+import sg.edu.iss.team8.leaveApp.login.SessionInfo;
 import sg.edu.iss.team8.leaveApp.model.Employee;
 import sg.edu.iss.team8.leaveApp.model.Leave;
 import sg.edu.iss.team8.leaveApp.model.OvertimeHours;
@@ -47,22 +49,24 @@ public class ManagerController {
 
 	@Autowired
 	LeaveService lService;
-
+	
+	@Autowired
+	UserService uService;
+	
 	// Routes to view which displays list of subordinates leaves which are under
-	// "APPLIED" status
-	@RequestMapping(value = "/pending")
-	public String pendingApprovals(Model model, HttpSession session ) {
-		UserSession usession = (UserSession) session.getAttribute("usession");
-		HashMap<Employee, List<Leave>> hm = new HashMap<Employee, List<Leave>>();
-		for (Employee employee : eService.findSubordinates(usession.getUser().userId)) {
-			List<Leave> llist = lService.findPendingLeaveByUID(employee.getUserId());
-			hm.put(employee, llist);
+		// "APPLIED" status
+		@RequestMapping(value = "/pending")
+		public String pendingApprovals(Model model, Principal principal) {
+			HashMap<Employee, List<Leave>> hm = new HashMap<Employee, List<Leave>>();
+			for (Employee employee : eService.findSubordinates(uService.findUserByUsername(principal.getName()).userId)) {
+				List<Leave> llist = lService.findPendingLeaveByUID(employee.getUserId());
+				hm.put(employee, llist);
+			}
+
+			model.addAttribute("pendinghistory", hm);
+			return "manager-pending";
+
 		}
-
-		model.addAttribute("pendinghistory", hm);
-		return "manager-pending";
-
-	}
 
 	// Routes to view which displays leave details for selected employee
 	@RequestMapping(value = "/leave/display/{uid}/{lid}", method = RequestMethod.GET)
@@ -118,9 +122,8 @@ public class ManagerController {
 	// Routes to view which displays the leave history for subordinates (i.e.
 	// APPROVED or REJECTED or ARCHIVED leaves)
 	@RequestMapping(value = "/leave-history", method = RequestMethod.GET)
-	public String subLeaveHistory(HttpSession session, Model model) {
-		UserSession usession = (UserSession) session.getAttribute("usession");
-		List<Employee> subordinates = eService.findSubordinates(usession.getUser().userId);
+	public String subLeaveHistory(Principal principal, Model model) {
+		List<Employee> subordinates = eService.findSubordinates(uService.findUserByUsername(principal.getName()).userId);
 		HashMap<Employee, List<Leave>> hm = new HashMap<Employee, List<Leave>>();
 		for (Employee employee : subordinates) {
 			List<Leave> lList = lService.findLeaveByUID(employee.getUserId());
@@ -175,9 +178,9 @@ public class ManagerController {
 	}
 	
 	@RequestMapping(value = "/toapproveot")
-	public String findMonthOT(HttpSession session, Model model) {
-		UserSession usession = (UserSession) session.getAttribute("usession");
-		if (usession != null) {
+	public String findMonthOT(Principal principal, Model model) {
+		User user = uService.findUserByUsername(principal.getName());
+		if (user != null) {
 			model.addAttribute("OTMonth", new MonthYear());
 			return "find-month-ot";
 		}
@@ -185,11 +188,10 @@ public class ManagerController {
 	}
 	
 	@RequestMapping(value = "/subordinatelistot" , method = RequestMethod.GET)
-	public String employeeListOT(@ModelAttribute ("OTMonth") @Valid MonthYear OTMonth, BindingResult bindingResult, HttpSession session, Model model) {
-		UserSession usession = (UserSession) session.getAttribute("usession");
-		if (usession != null) { //if not logged in
-			User u = usession.getUser();
-			if (u.getClass().getSimpleName().equalsIgnoreCase("manager")) { 
+	public String employeeListOT(@ModelAttribute ("OTMonth") @Valid MonthYear OTMonth, BindingResult bindingResult, Principal principal, Model model) {
+		User user = uService.findUserByUsername(principal.getName());
+		if (user != null) { //if not logged in
+			if (user.getClass().getSimpleName().equalsIgnoreCase("manager")) { 
 				if (bindingResult.hasErrors()) {
 					return "find-month-ot";
 				}
@@ -203,7 +205,7 @@ public class ManagerController {
 				LinkedHashMap<Employee, Double> totalgivenmap = new LinkedHashMap<Employee, Double>();
 				LinkedHashMap<Employee, Double> totalrejmap = new LinkedHashMap<Employee, Double>();
 				LinkedHashMap<Employee, Integer> totalleavegivenmap = new LinkedHashMap<Employee, Integer>();
-				for (Employee subordinate : urepo.findSubordinates(u.getUserId())) {
+				for (Employee subordinate : urepo.findSubordinates(user.getUserId())) {
 					submap.put(subordinate, oservice.findOTHoursByMYUserId(month, year, subordinate.getUserId()));
 					totalmap.put(subordinate, oservice.findTotalOTHoursByMYUserId(month, year, subordinate.getUserId()));
 					totalapprmap.put(subordinate, oservice.findTotalOTHoursByMYUserIdStatus(month, year, subordinate.getUserId(), OTEnum.APPROVED));
@@ -229,9 +231,9 @@ public class ManagerController {
 	}
 	
 	@RequestMapping(value = "/approveall/{id}/{month}/{year}", method = RequestMethod.GET)
-	public String subordinateotdetails(HttpSession session, @PathVariable Integer id, @PathVariable Integer month, @PathVariable Integer year) {
-		UserSession usession = (UserSession) session.getAttribute("usession");
-		User u = usession.getUser();
+	public String subordinateotdetails(Principal principal, @PathVariable Integer id, @PathVariable Integer month, @PathVariable Integer year) {
+		User u = uService.findUserByUsername(principal.getName());
+		System.out.println("test1");
 		if (u.getClass().getSimpleName().equalsIgnoreCase("manager")) { 
 			Employee employee = (Employee) uservice.findUser(id);
 			ArrayList<OvertimeHours> oth = oservice.findOTHoursByMYUserId(month, year, id);
@@ -248,9 +250,8 @@ public class ManagerController {
 	}
 	
 	@RequestMapping(value = "/approveot1/{id}/{month}/{year}/{otid}", method = RequestMethod.GET)
-	public String approveot1(HttpSession session, @PathVariable Integer id, @PathVariable Integer month, @PathVariable Integer year, @PathVariable Integer otid) {
-		UserSession usession = (UserSession) session.getAttribute("usession");
-		User u = usession.getUser();
+	public String approveot1(Principal principal, @PathVariable Integer id, @PathVariable Integer month, @PathVariable Integer year, @PathVariable Integer otid) {
+		User u = uService.findUserByUsername(principal.getName());
 		if (u.getClass().getSimpleName().equalsIgnoreCase("manager")) { 
 			OvertimeHours ot = orepo.findById(otid).orElse(null);
 			ot.setStatus(OTEnum.APPROVED);
@@ -261,9 +262,8 @@ public class ManagerController {
 	}
 	
 	@RequestMapping(value = "/rejectot1/{id}/{month}/{year}/{otid}", method = RequestMethod.GET)
-	public String rejectot1(HttpSession session, @PathVariable Integer id, @PathVariable Integer month, @PathVariable Integer year, @PathVariable Integer otid) {
-		UserSession usession = (UserSession) session.getAttribute("usession");
-		User u = usession.getUser();
+	public String rejectot1(Principal principal, @PathVariable Integer id, @PathVariable Integer month, @PathVariable Integer year, @PathVariable Integer otid) {
+		User u = uService.findUserByUsername(principal.getName());
 		if (u.getClass().getSimpleName().equalsIgnoreCase("manager")) { 
 			OvertimeHours ot = orepo.findById(otid).orElse(null);
 			ot.setStatus(OTEnum.REJECTED);
@@ -274,9 +274,8 @@ public class ManagerController {
 	}
 	
 	@RequestMapping(value = "/calc/{id}/{month}/{year}", method = RequestMethod.GET)
-	public String calc(HttpSession session, @PathVariable Integer id, @PathVariable Integer month, @PathVariable Integer year) {
-		UserSession usession = (UserSession) session.getAttribute("usession");
-		User u = usession.getUser();
+	public String calc(Principal principal, @PathVariable Integer id, @PathVariable Integer month, @PathVariable Integer year) {
+		User u = uService.findUserByUsername(principal.getName());
 		if (u.getClass().getSimpleName().equalsIgnoreCase("manager")) { 
 			Employee employee = (Employee) urepo.findById(id).orElse(null);
 			Double add = oservice.findTotalOTHoursByMYUserIdStatus(month, year, id, OTEnum.APPROVED) / 4;
