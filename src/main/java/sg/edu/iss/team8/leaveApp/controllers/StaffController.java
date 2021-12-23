@@ -1,6 +1,7 @@
 package sg.edu.iss.team8.leaveApp.controllers;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,12 +18,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.iss.team8.leaveApp.helpers.OTEnum;
+import sg.edu.iss.team8.leaveApp.helpers.OvertimeHoursInput;
 import sg.edu.iss.team8.leaveApp.model.Employee;
-import sg.edu.iss.team8.leaveApp.model.Manager;
 import sg.edu.iss.team8.leaveApp.model.OvertimeHours;
 import sg.edu.iss.team8.leaveApp.model.User;
 import sg.edu.iss.team8.leaveApp.repo.OvertimeHoursRepo;
@@ -63,14 +63,14 @@ public class StaffController {
 	public String addOTForm(HttpSession session, Model model) {
 		UserSession usession = (UserSession) session.getAttribute("usession");
 		if (usession != null) {
-			model.addAttribute("OTHours", new OvertimeHours());
+			model.addAttribute("OTHours", new OvertimeHoursInput());
 			return "ot-form";
 		}
 		return "forward:/home/login";
 	}
 	
 	@RequestMapping(value = "/saveot")
-	public String saveOTHours(@ModelAttribute("OTHours") @Valid OvertimeHours OTHours, BindingResult bindingResult, Model model,
+	public String saveOTHours(@ModelAttribute("OTHours") @Valid OvertimeHoursInput OTHours, BindingResult bindingResult, Model model,
 			HttpSession session){
 		UserSession usession = (UserSession) session.getAttribute("usession");
 		if (bindingResult.hasErrors()) {
@@ -83,9 +83,10 @@ public class StaffController {
 				return "adminerror";
 			}
 			else {
-				OTHours.setEmployee((Employee) u);
-				OTHours.setStatus(OTEnum.APPLIED);
-				oservice.saveOTHours(OTHours);
+				OvertimeHours ot = new OvertimeHours(OTHours);
+				ot.setEmployee((Employee) u);
+				ot.setStatus(OTEnum.APPLIED);
+				oservice.saveOTHours(ot);
 				return "redirect:/staff/listot";
 			}
 		}

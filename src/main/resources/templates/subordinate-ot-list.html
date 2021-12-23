@@ -27,15 +27,15 @@
 							<tbody>
 								<tr th:each="ot : ${entry.value}">
 									<td th:text="${ot.overtimeId}">OT Reference ID</td>
-									<td th:text="${#dates.format(ot.date, 'dd/MMM/yyyy')}">Date</td>
+									<td th:text="${#temporals.format(ot.date, 'dd/MMM/yyyy')}">Date</td>
 									<td th:text="${ot.hours}">Hours</td>
 									<td th:text="${ot.reason}">Reason</td>
 									<td colspan = "3" th:if="${#strings.equals(ot.status, 'LEAVEGIVEN')} or ${totalgiven.get(entry.key) != 0 and !#strings.equals(ot.status, 'LEAVEGIVEN')}" th:text="${ot.status}">Status</td>
 									
 									<div th:if="${!#strings.equals(ot.status, 'LEAVEGIVEN') and totalgiven.get(entry.key) == 0}">
 										<td th:text="${ot.status}">Status</td>
-										<td ><a th:href = "@{/manager/approveot1/}+${ot.employee.userId}+'/'+${#dates.month(ot.date)}+'/'+${#dates.year(ot.date)} + '/' + ${ot.overtimeId}"><button type="button"> Approve</button></a></td>
-										<td ><a th:href = "@{/manager/rejectot1/}+${ot.employee.userId}+'/'+${#dates.month(ot.date)}+'/'+${#dates.year(ot.date)} + '/' + ${ot.overtimeId}"><button type="button"> Reject</button></a></td>
+										<td ><a th:href = "@{/manager/approveot1/}+${ot.employee.userId}+'/'+${#temporals.month(ot.date)}+'/'+${#temporals.year(ot.date)} + '/' + ${ot.overtimeId}"><button type="button"> Approve</button></a></td>
+										<td ><a th:href = "@{/manager/rejectot1/}+${ot.employee.userId}+'/'+${#temporals.month(ot.date)}+'/'+${#temporals.year(ot.date)} + '/' + ${ot.overtimeId}"><button type="button"> Reject</button></a></td>
 									</div>
 								</tr>
 							</tbody>

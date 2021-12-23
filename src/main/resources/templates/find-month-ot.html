@@ -11,7 +11,7 @@
 	<form action = "#" th:object = "${OTMonth}" th:action = "@{/manager/subordinatelistot}" method="GET">
 		<label for="OTMonth">Month: </label>
 		<input type="month" name = "OTMonth" th:field = "*{date}">
-		<br><p th:if="${#fields.hasErrors('${OTMonth.date}')}">Month is required </p> 
+		<br><p th:if="${#fields.hasErrors('${OTMonth.date}')}"> Month is required </p> 
 		<br><input type="submit" value="Search"/>
 <!--		<table>
 			<tbody>

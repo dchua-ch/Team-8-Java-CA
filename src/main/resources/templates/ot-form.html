@@ -18,7 +18,7 @@
 					<label for="OTDate">OT Date: </label>
                 	<input type="date" name = "date" th:field = "*{date}">
 					</td>
-					<td th:if="${#fields.hasErrors('${OTHours.date}')}">Date is required </td>
+					<td th:if="${#fields.hasErrors('${OTHours.date}')}" th:errors="${OTHours.date}"></td>
 				</tr>
 				<tr>
 					<td><span th:text="#{fieldLabel.Hours}"></span></td>
