@@ -111,11 +111,7 @@ public class LeaveController {
 		//LocalDate end = leave.getEndDate();
 		//LocalDate startDate = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		//LocalDate endDate = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		
-		LocalDate startDate = leave.getStartDate();
-		LocalDate endDate = leave.getEndDate();
-		Period period = Period.between(startDate, endDate);
-		int periodDays = Math.abs(period.getDays());
+		int periodDays = lService.calculatePeriodDays(leave);
 		int daysToExclude = lService.calculateDaysToExclude(leave);
 		int totalLeavesToDeduct = periodDays - daysToExclude;
 		System.out.println("Leaves to deduct: "+ totalLeavesToDeduct);
