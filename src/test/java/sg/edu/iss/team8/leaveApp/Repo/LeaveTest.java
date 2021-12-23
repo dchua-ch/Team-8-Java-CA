@@ -2,6 +2,8 @@ package sg.edu.iss.team8.leaveApp.Repo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -41,13 +43,14 @@ public class LeaveTest {
 	
 	@Test
 	@Order(1)
-	public void testCreateLeave() {
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		Leave leave1 = new Leave(Date.parse("08/01/2020", format), Date.parse("10/01/2020", format),LeaveEnum.ANNUAL , "...",
+	public void testCreateLeave() throws ParseException {
+		//DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Leave leave1 = new Leave(formatter.parse("2020-01-08"), formatter.parse("2020-01-10"), LeaveEnum.ANNUAL , "...",
 				"...", "91111", StatusEnum.APPLIED, "..."); 
-		Leave leave2 = new Leave(Date.parse("08/01/2020", format), Date.parse("10/01/2020", format),LeaveEnum.COMPENSATION , "...",
+		Leave leave2 = new Leave(formatter.parse("2020-01-08"), formatter.parse("2020-01-10"), LeaveEnum.COMPENSATION , "...",
 				"...", "91111", StatusEnum.DELETED, "..."); 
-		Leave leave3 = new Leave(Date.parse("08/01/2020", format), Date.parse("10/01/2020", format),LeaveEnum.MEDICAL , "...",
+		Leave leave3 = new Leave(formatter.parse("2020-01-08"), formatter.parse("2020-01-10") ,LeaveEnum.MEDICAL , "...",
 				"...", "91111", StatusEnum.APPROVED, "...");
 		lrepo.deleteAll();
 		lrepo.saveAndFlush(leave1);
@@ -84,9 +87,10 @@ public class LeaveTest {
 	
 	@Test
 	@Order(4)
-	public void tesLeaveExclusionCalculation() {
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		Leave leave = new Leave(Date.parse("15/12/2021"), Date.parse("22/12/2021"),LeaveEnum.ANNUAL , "...",
+	public void tesLeaveExclusionCalculation() throws ParseException {
+		//DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Leave leave = new Leave(formatter.parse("2021-12-15"), formatter.parse("2021-12-22"), LeaveEnum.ANNUAL , "...",
 				"...", "91111", StatusEnum.APPLIED, "...");
 		int result = lservice.calculateDaysToExclude(leave);
 		assertEquals(result, 2);
@@ -95,9 +99,10 @@ public class LeaveTest {
 	
 	@Test
 	@Order(5)
-	public void testLeaveExclusionCalculation2() {
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		Leave leave = new Leave(Date.parse("15/12/2021"), Date.parse("30/12/2021"),LeaveEnum.ANNUAL , "...",
+	public void testLeaveExclusionCalculation2() throws ParseException {
+		//DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Leave leave = new Leave(formatter.parse("2021-12-15"), formatter.parse("2021-12-30"), LeaveEnum.ANNUAL , "...",
 				"...", "91111", StatusEnum.APPLIED, "...");
 		int result = lservice.calculateDaysToExclude(leave);
 		assertEquals(result, 0);	//should be 0 because > 14 days
@@ -106,16 +111,18 @@ public class LeaveTest {
 	
 	@Test
 	@Order(6)
-	public void tesLeaveExclusionCalculation3() {
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		Leave leave = new Leave(Date.parse("15/12/2021", format), Date.parse("22/12/2021"),LeaveEnum.MEDICAL , "...",
+	public void tesLeaveExclusionCalculation3() throws ParseException {
+		//DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Leave leave = new Leave(formatter.parse("2021-12-15"), formatter.parse("2021-12-22"), LeaveEnum.MEDICAL , "...",
 				"...", "91111", StatusEnum.APPLIED, "...");
 		int result = lservice.calculateDaysToExclude(leave);
 		assertEquals(result, 0);	//should be 0 because MEDICAL Leave
 
 	}
 	
-	//@Test
+	/*
+	@Test
 	public void testUpdateLeave()
 	{
 		
@@ -147,5 +154,6 @@ public class LeaveTest {
 		}
 		assertEquals(leaves.size(),5);
     }
+    */
 	
 }

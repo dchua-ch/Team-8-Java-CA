@@ -95,12 +95,7 @@ public class LeaveController {
 		
 		//needs logic for checking if annual leave period <= 14 days.
 		//if period <= 14, weekends should not be included in the leave count
-		Date start = leave.getStartDate();
-		Date end = leave.getEndDate();
-		LocalDate startDate = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		LocalDate endDate = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		Period period = Period.between(startDate, endDate);
-		int periodDays = Math.abs(period.getDays());
+		int periodDays = lService.calculatePeriodDays(leave);
 		int daysToExclude = lService.calculateDaysToExclude(leave);
 		int totalLeavesToDeduct = periodDays - daysToExclude;
 		if (leaveType == LeaveEnum.ANNUAL) {
