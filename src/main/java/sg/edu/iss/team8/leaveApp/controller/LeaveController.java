@@ -77,11 +77,11 @@ public class LeaveController {
 			return "submit-leave-error";
 		}
 		
-		UserSession usession = (UserSession) session.getAttribute("usession");
-		Integer userId = usession.getUser().getUserId();
-		leave.getEmployee().setUserId(userId);
-		
-		LeaveEnum leaveType = leave.getLeaveType();
+//		UserSession usession = (UserSession) session.getAttribute("usession");
+//		Integer userId = usession.getUser().getUserId();
+//		leave.getEmployee().setUserId(userId);
+//		
+//		LeaveEnum leaveType = leave.getLeaveType();
 		//Employee employee = eService.findByUserId(userId);
 		//if (leaveType == LeaveEnum.ANNUAL && employee.getAnnualLeaveN() <= 0) {
 		//	return "some-error-page";
@@ -95,16 +95,21 @@ public class LeaveController {
 		
 		//needs logic for checking if annual leave period <= 14 days.
 		//if period <= 14, weekends should not be included in the leave count
-		int periodDays = lService.calculatePeriodDays(leave);
+		Date start = leave.getStartDate();
+		Date end = leave.getEndDate();
+		LocalDate startDate = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate endDate = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		Period period = Period.between(startDate, endDate);
+		int periodDays = Math.abs(period.getDays());
 		int daysToExclude = lService.calculateDaysToExclude(leave);
 		int totalLeavesToDeduct = periodDays - daysToExclude;
-		if (leaveType == LeaveEnum.ANNUAL) {
+		//if (leaveType == LeaveEnum.ANNUAL) {
 			//employee.setAnnualLeaveN(employee.getAnnualLeaveN() - totalLeavesToDeduct);
-		} else if (leaveType == LeaveEnum.MEDICAL) {
+		//} else if (leaveType == LeaveEnum.MEDICAL) {
 			//employee.setMedicalLeaveN(employee.getMedicalLeaveN() - totalLeavesToDeduct);
-		} else if (leaveType == LeaveEnum.COMPENSATION) {
+		//} else if (leaveType == LeaveEnum.COMPENSATION) {
 			//employee.setCompLeaveN(employee.getCompLeaveN() - totalLeavesToDeduct);
-		}
+		//}
 		//eService.saveAndFlush(employee);
 		
 		lService.submitLeave(leave);
