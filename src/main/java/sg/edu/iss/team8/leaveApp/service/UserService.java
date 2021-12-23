@@ -10,4 +10,6 @@ public interface UserService {
 	User authenticate(String uname, String pwd);
 	
 	String getEmpTypeByUID(Integer userId);
+
+	void removeUser(User user);
 }

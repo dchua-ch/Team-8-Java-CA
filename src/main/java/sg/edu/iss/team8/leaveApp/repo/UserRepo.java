@@ -39,6 +39,17 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 	public User findUserByNamePwd(@Param("un") String uname, @Param("pwd") String pwd);
 	
 	@Query(value = "SELECT user_type FROM user WHERE user_id = :uid ", nativeQuery = true)
-	public String getEmpTypeByUID(@Param("uid") Integer userId); 
+	public String getEmpTypeByUID(@Param("uid") Integer userId);
+
+	@Transactional
+	@Modifying
+	@Query(value = "update user set user_type = :usertype where user_id = :userId",nativeQuery=true)
+	public void updateUserTypeById(@Param("usertype") String usertype, @Param("userId") Integer userId);
+
+	@Query("select U from User U")
+	public List<User> getAllUsers();
+
+	@Query("select U from User U where TYPE(U) = :type and U.userId = :id")
+	public User getOneUser(String type, String id);
 	
 }

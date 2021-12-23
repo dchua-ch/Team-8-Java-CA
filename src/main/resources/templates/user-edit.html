@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: html_head">
+<body>
+<div th:replace="fragments/layout.html::menu"/>
+<h3>Edit User page</h3>
+<form action="#" th:action="@{/admin/user/edit/}+${staff.userId}"
+      th:object="${staff}" method="post">
+    <table>
+        <tbody>
+
+        <tr>
+            <td><label>user_type</label></td>
+            <td><select th:field="*{user_type}">
+                <option th:each="selectOption : ${eidlist}" th:value="${selectOption}"
+                        th:text="${selectOption}">
+                    selectOption</option>
+            </select></td>
+            <td th:if="${#fields.hasErrors('user_type')}" th:errors="*{user_type}"></td>
+        </tr>
+
+        <!--        <tr>-->
+        <!--            <td><span th:text="userId"></span></td>-->
+        <!--            <td><input type="text" th:field="*{userId}" /></td>-->
+        <!--            <td th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"></td>-->
+        <!--        </tr>-->
+        <tr>
+            <td><span th:text="name"></span></td>
+            <td><input type="text" th:field="*{name}" /></td>
+            <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></td>
+        </tr>
+        <tr>
+            <td><span th:text="password"></span></td>
+            <td><input type="text" th:field="*{password}" /></td>
+            <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></td>
+        </tr>
+        <tr>
+            <td><span th:text="username"></span></td>
+            <td><input type="text" th:field="*{username}" /></td>
+            <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></td>
+        </tr>
+
+        <tr>
+            <td><span th:text="annual_leaven"></span></td>
+            <td><input type="text" th:field="*{annualLeaveN}" /></td>
+            <td th:if="${#fields.hasErrors('annualLeaveN')}" th:errors="*{annualLeaveN}"></td>
+        </tr>
+
+        <tr>
+            <td><span th:text="comp_leaven"></span></td>
+            <td><input type="text" th:field="*{compLeaveN}" /></td>
+            <td th:if="${#fields.hasErrors('compLeaveN')}" th:errors="*{compLeaveN}"></td>
+        </tr>
+
+        <tr>
+            <td><span th:text="medical_leaven"></span></td>
+            <td><input type="text" th:field="*{medicalLeaveN}" /></td>
+            <td th:if="${#fields.hasErrors('medicalLeaveN')}" th:errors="*{medicalLeaveN}"></td>
+        </tr>
+
+<!--        <tr>-->
+<!--            <td><span th:text="reports_to"></span></td>-->
+<!--            <td><input type="text" th:field="*{reportsTo}" /></td>-->
+<!--            <td th:if="${#fields.hasErrors('reportsTo')}" th:errors="*{reportsTo}"></td>-->
+<!--        </tr>-->
+
+        <tr>
+            <td><label>reports_to</label></td>
+            <td><select th:field="*{reportsTo}">
+                <option th:each="repoSelectOption : ${reportlist}" th:value="${repoSelectOption}"
+                        th:text="${repoSelectOption}">
+                    selectOption</option>
+            </select></td>
+            <td th:if="${#fields.hasErrors('reportsTo')}" th:errors="*{reportsTo}"></td>
+        </tr>
+
+        <tr>
+            <td><input type="submit" value="Update" /></td>
+            <td></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+</body>
+</html>
