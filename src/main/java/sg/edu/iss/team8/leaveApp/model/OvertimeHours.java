@@ -26,7 +26,7 @@ import sg.edu.iss.team8.leaveApp.helpers.OvertimeHoursInput;
 @NoArgsConstructor
 public class OvertimeHours {
 	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Integer overtimeId;
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private LocalDate date;
