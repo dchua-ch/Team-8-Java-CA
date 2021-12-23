@@ -2,13 +2,10 @@ package sg.edu.iss.team8.leaveApp.Repo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -24,8 +21,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import sg.edu.iss.team8.leaveApp.Team8LeaveApplication;
 import sg.edu.iss.team8.leaveApp.helpers.LeaveEnum;
 import sg.edu.iss.team8.leaveApp.helpers.StatusEnum;
+import sg.edu.iss.team8.leaveApp.model.Employee;
 import sg.edu.iss.team8.leaveApp.model.Leave;
+import sg.edu.iss.team8.leaveApp.repo.EmployeeRepo;
 import sg.edu.iss.team8.leaveApp.repo.LeaveRepo;
+import sg.edu.iss.team8.leaveApp.service.EmployeeService;
 import sg.edu.iss.team8.leaveApp.service.LeaveService;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Team8LeaveApplication.class)
@@ -38,13 +38,19 @@ public class LeaveTest {
 	@Autowired
 	private LeaveRepo lrepo;
   
-  @Autowired
+	@Autowired
 	private LeaveService lservice;
 	
-  	
+	@Autowired
+	private EmployeeRepo erepo;
+	
+	@Autowired 
+	private EmployeeService eservice;
+	
+  	/*
 	@Test
 	@Order(1)
-	public void testCreateLeave() throws ParseException {
+	public void testCreateLeave() {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Leave leave1 = new Leave(LocalDate.parse("2020-01-08", format), LocalDate.parse("2020-01-10", format), LeaveEnum.ANNUAL , "...",
@@ -60,10 +66,10 @@ public class LeaveTest {
 		List<Leave> leaves = lrepo.findAll();
 		assertEquals(leaves.size(), 3);
 	}
-
+	*/
 	
 	@Test
-	@Order(2)
+	@Order(1)
 	public void testFindLeaveByLeaveId() {
 		List<Leave> leaves = lrepo.findAll();
 		Integer id1 = leaves.get(0).getLeaveId();
@@ -77,7 +83,7 @@ public class LeaveTest {
 	}
 	
 	@Test
-	@Order(3)
+	@Order(2)
 	public void testDateDifference() {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate date1 = LocalDate.parse("2021-12-10", format);
@@ -89,7 +95,7 @@ public class LeaveTest {
 	
 
 	@Test
-	@Order(4)
+	@Order(3)
 	public void tesLeaveExclusionCalculation() {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -97,11 +103,10 @@ public class LeaveTest {
 				"...", "91111", StatusEnum.APPLIED, "...");
 		int result = lservice.calculateDaysToExclude(leave);
 		assertEquals(result, 2);
-
 	}
 	
 	@Test
-	@Order(5)
+	@Order(4)
 	public void testLeaveExclusionCalculation2() {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -109,11 +114,10 @@ public class LeaveTest {
 				"...", "91111", StatusEnum.APPLIED, "...");
 		int result = lservice.calculateDaysToExclude(leave);
 		assertEquals(result, 0);	//should be 0 because > 14 days
-
 	}
 	
 	@Test
-	@Order(6)
+	@Order(5)
 	public void testLeaveExclusionCalculation3() {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -121,11 +125,10 @@ public class LeaveTest {
 				"...", "91111", StatusEnum.APPLIED, "...");
 		int result = lservice.calculateDaysToExclude(leave);
 		assertEquals(result, 0);	//should be 0 because MEDICAL Leave
-
 	}
 
 	@Test
-	@Order(7)
+	@Order(6)
 	public void testLeaveExclusionCalculation4() {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -136,7 +139,7 @@ public class LeaveTest {
 	}
 	
 	@Test
-	@Order(8)
+	@Order(7)
 	public void testUpdateLeave() {
 		List<Leave> leaves = lrepo.findAll();
 		Integer id1 = leaves.get(0).getLeaveId();
@@ -145,8 +148,131 @@ public class LeaveTest {
 		Leave sampleLeaveUpdated = lrepo.findLeaveById(id1);
 		StatusEnum result = sampleLeaveUpdated.getStatus();
 		assertEquals(result, StatusEnum.UPDATED);
-		
 	}
+	
+	@Test
+	@Order(8)
+	public void testDeleteLeave() {
+		List<Leave> leaves = lrepo.findAll();
+		Integer id1 = leaves.get(10).getLeaveId();
+		Leave sampleLeave1 = lrepo.findLeaveById(id1);
+		lservice.deleteLeave(sampleLeave1);;
+		Leave sampleLeaveUpdated = lrepo.findLeaveById(id1);
+		StatusEnum result = sampleLeaveUpdated.getStatus();
+		assertEquals(result, StatusEnum.DELETED);
+	}
+	
+	@Test
+	@Order(9)
+	public void testCancelLeave() {
+		List<Leave> leaves = lrepo.findAll();
+		Integer id1 = leaves.get(9).getLeaveId();
+		Leave sampleLeave1 = lrepo.findLeaveById(id1);
+		lservice.cancelLeave(sampleLeave1);
+		Leave sampleLeaveUpdated = lrepo.findLeaveById(id1);
+		StatusEnum result = sampleLeaveUpdated.getStatus();
+		assertEquals(result, StatusEnum.CANCELLED);
+	}
+	
+	@Test
+	@Order(10)
+	public void testAnnualLeaveDeduction1() {
+		List<Leave> leaves = lrepo.findAll();
+		Integer leaveid = leaves.get(0).getLeaveId();
+		System.out.println("Leave ID: " + leaveid);
+		Leave leave = lrepo.findLeaveById(leaveid);
+		LeaveEnum leaveType = leave.getLeaveType();
+		System.out.println("Leave Type: " + leaveType);
+		Integer employeeid = leave.getEmployee().getUserId();
+		System.out.println("Employee ID: " + employeeid);
+		Employee employee = eservice.findByUserId(employeeid);
+		int periodDays = lservice.calculatePeriodDays(leave);
+		System.out.println("Period Days: " + periodDays);
+		int daysToExclude = lservice.calculateDaysToExclude(leave);
+		System.out.println("Days to exclude: " + daysToExclude);
+		int totalLeavesToDeduct = periodDays - daysToExclude;
+		System.out.println("Total leaves to deduct: " + totalLeavesToDeduct);
+		
+		if (leaveType == LeaveEnum.ANNUAL) {
+			employee.setAnnualLeaveN(employee.getAnnualLeaveN() - totalLeavesToDeduct);
+		} else if (leaveType == LeaveEnum.MEDICAL) {
+			employee.setMedicalLeaveN(employee.getMedicalLeaveN() - totalLeavesToDeduct);
+		} else if (leaveType == LeaveEnum.COMPENSATION) {
+			employee.setCompLeaveN(employee.getCompLeaveN() - totalLeavesToDeduct);
+		}
+		erepo.saveAndFlush(employee);
+		
+		Employee employeeNew = eservice.findByUserId(employeeid);
+		int result = employeeNew.getAnnualLeaveN();
+		assertEquals(result, 17);
+	}
+	
+	@Test
+	@Order(11)
+	public void testAnnualLeaveDeduction2() {
+		List<Leave> leaves = lrepo.findAll();
+		Integer leaveid = leaves.get(9).getLeaveId();
+		System.out.println("Leave ID: " + leaveid);
+		Leave leave = lrepo.findLeaveById(leaveid);
+		LeaveEnum leaveType = leave.getLeaveType();
+		System.out.println("Leave Type: " + leaveType);
+		Integer employeeid = leave.getEmployee().getUserId();
+		System.out.println("Employee ID: " + employeeid);
+		Employee employee = eservice.findByUserId(employeeid);
+		int periodDays = lservice.calculatePeriodDays(leave);
+		System.out.println("Period Days: " + periodDays);
+		int daysToExclude = lservice.calculateDaysToExclude(leave);
+		System.out.println("Days to exclude: " + daysToExclude);
+		int totalLeavesToDeduct = periodDays - daysToExclude;
+		System.out.println("Total leaves to deduct: " + totalLeavesToDeduct);
+		
+		if (leaveType == LeaveEnum.ANNUAL) {
+			employee.setAnnualLeaveN(employee.getAnnualLeaveN() - totalLeavesToDeduct);
+		} else if (leaveType == LeaveEnum.MEDICAL) {
+			employee.setMedicalLeaveN(employee.getMedicalLeaveN() - totalLeavesToDeduct);
+		} else if (leaveType == LeaveEnum.COMPENSATION) {
+			employee.setCompLeaveN(employee.getCompLeaveN() - totalLeavesToDeduct);
+		}
+		erepo.saveAndFlush(employee);
+		
+		Employee employeeNew = eservice.findByUserId(employeeid);
+		int result = employeeNew.getAnnualLeaveN();
+		assertEquals(result, 13);
+	}
+	
+	@Test
+	@Order(11)
+	public void testAnnualLeaveDeduction3() {
+		List<Leave> leaves = lrepo.findAll();
+		Integer leaveid = leaves.get(2).getLeaveId();
+		System.out.println("Leave ID: " + leaveid);
+		Leave leave = lrepo.findLeaveById(leaveid);
+		LeaveEnum leaveType = leave.getLeaveType();
+		System.out.println("Leave Type: " + leaveType);
+		Integer employeeid = leave.getEmployee().getUserId();
+		System.out.println("Employee ID: " + employeeid);
+		Employee employee = eservice.findByUserId(employeeid);
+		int periodDays = lservice.calculatePeriodDays(leave);
+		System.out.println("Period Days: " + periodDays);
+		int daysToExclude = lservice.calculateDaysToExclude(leave);
+		System.out.println("Days to exclude: " + daysToExclude);
+		int totalLeavesToDeduct = periodDays - daysToExclude;
+		System.out.println("Total leaves to deduct: " + totalLeavesToDeduct);
+		
+		if (leaveType == LeaveEnum.ANNUAL) {
+			employee.setAnnualLeaveN(employee.getAnnualLeaveN() - totalLeavesToDeduct);
+		} else if (leaveType == LeaveEnum.MEDICAL) {
+			employee.setMedicalLeaveN(employee.getMedicalLeaveN() - totalLeavesToDeduct);
+		} else if (leaveType == LeaveEnum.COMPENSATION) {
+			employee.setCompLeaveN(employee.getCompLeaveN() - totalLeavesToDeduct);
+		}
+		erepo.saveAndFlush(employee);
+		
+		Employee employeeNew = eservice.findByUserId(employeeid);
+		int result = employeeNew.getMedicalLeaveN();
+		assertEquals(result, 57);
+	}
+	
 	
 	/*
 	@Test

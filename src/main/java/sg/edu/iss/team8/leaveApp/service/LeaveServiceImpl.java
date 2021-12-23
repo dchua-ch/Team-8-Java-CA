@@ -78,7 +78,7 @@ public class LeaveServiceImpl implements LeaveService {
 		//LocalDate startDate = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		//LocalDate endDate = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		Period period = Period.between(startDate, endDate);
-		int periodDays = Math.abs(period.getDays());
+		int periodDays = Math.abs(period.getDays()) + 1;
 		return periodDays;
 	}
 	
