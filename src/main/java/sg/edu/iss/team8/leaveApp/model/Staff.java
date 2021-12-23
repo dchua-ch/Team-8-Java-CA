@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Staff {
 
-    public Integer userId;
+    public Integer userid;
     private String name;
     private String username;
     private String password;
@@ -19,7 +19,7 @@ public class Staff {
     private String  user_type = "employee";
 
     public Staff(Integer userId, String name, String username, String password, Integer annualLeaveN, Integer medicalLeaveN, Integer compLeaveN, Integer reportsTo, String user_type) {
-        this.userId = userId;
+        this.userid = userId;
         this.name = name;
         this.username = username;
         this.password = password;

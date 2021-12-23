@@ -29,9 +29,9 @@
             <td th:text="${user.password}">Password</td>
 <!--            <td th:text="${user.user_type}">Employee</td>-->
 
-            <td><a th:href="@{/admin/user/edit/}+${user.userId}"
+            <td><a th:href="@{/admin/user/edit/}+${user.userid}"
                    class="btn btn-default"><span th:text="edit"></span></a></td>
-            <td><a th:href="@{/admin/user/delete/}+${user.userId}"
+            <td><a th:href="@{/admin/user/delete/}+${user.userid}"
                    class="btn btn-default"><span th:text="delete"></span></a></td>
         </tr>
         </tbody>

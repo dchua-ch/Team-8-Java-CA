@@ -40,13 +40,13 @@ public class LeaveServiceImpl implements LeaveService {
 	}
 	
 	@Transactional
-	public List<Leave> findLeaveByUserId(Integer userId) {
-		return lrepo.findLeaveByUserId(userId);
+	public List<Leave> findLeaveByUserid(Integer userId) {
+		return lrepo.findLeaveByUserid(userId);
 	}
 	
 	@Transactional
-	public List<Leave> findPendingLeaveByUserId(Integer userId) {
-		List<Leave> userLeaves = lrepo.findLeaveByUserId(userId);
+	public List<Leave> findPendingLeaveByUserid(Integer userId) {
+		List<Leave> userLeaves = lrepo.findLeaveByUserid(userId);
 		List<Leave> pendingLeaves = new ArrayList<>();
 		for (Leave leave : userLeaves) {
 			if (leave.getStatus() == StatusEnum.APPLIED || 
@@ -58,8 +58,8 @@ public class LeaveServiceImpl implements LeaveService {
 	}
 	
 	@Transactional
-	public List<Leave> findApplicableLeaveByUserId(Integer userId) {
-		List<Leave> userLeaves = lrepo.findLeaveByUserId(userId);
+	public List<Leave> findApplicableLeaveByUserid(Integer userId) {
+		List<Leave> userLeaves = lrepo.findLeaveByUserid(userId);
 		List<Leave> applicableLeaves = new ArrayList<>();
 		for (Leave leave : userLeaves) {
 			if (leave.getStatus() == StatusEnum.APPLIED ||

@@ -9,7 +9,7 @@
 		<h1>Leave Details for Approval</h1>
 		<div class="row">
 			<div class="col-7">
-				<form action="#" th:action="@{/manager/leave/edit/} + ${employee.userId} + @{/} + ${leave.leaveId}"
+				<form action="#" th:action="@{/manager/leave/edit/} + ${employee.userid} + @{/} + ${leave.leaveId}"
 					th:object="${outcome}" method="POST">
 					<div class="form-group row">
 						<label for="name" class="col-sm-3 col-form-label">Employee Name:</label>

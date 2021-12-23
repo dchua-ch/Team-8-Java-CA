@@ -54,8 +54,8 @@ public class ManagerController {
 	public String pendingApprovals(Model model, HttpSession session ) {
 		UserSession usession = (UserSession) session.getAttribute("usession");
 		HashMap<Employee, List<Leave>> hm = new HashMap<Employee, List<Leave>>();
-		for (Employee employee : eService.findSubordinates(usession.getUser().userId)) {
-			List<Leave> llist = lService.findPendingLeaveByUID(employee.getUserId());
+		for (Employee employee : eService.findSubordinates(usession.getUser().userid)) {
+			List<Leave> llist = lService.findPendingLeaveByUID(employee.getUserid());
 			hm.put(employee, llist);
 		}
 
@@ -67,12 +67,12 @@ public class ManagerController {
 	// Routes to view which displays leave details for selected employee
 	@RequestMapping(value = "/leave/display/{uid}/{lid}", method = RequestMethod.GET)
 	public ModelAndView displayLeaveDetails(@PathVariable("uid") Integer userId, @PathVariable("lid") Integer leaveId) {
-		Employee employee = eService.findByUserId(userId);
+		Employee employee = eService.findByUserid(userId);
 		Leave leave = lService.findLeaveByUIDAndLID(userId, leaveId);
 
 		HashMap<Employee, Leave> otherSubordinatesLeaves = new HashMap<Employee, Leave>();
 		for (Employee e : eService.findSubordinates(employee.getReportsTo())) {
-			List<Leave> llist = lService.findLeaveByUID(e.getUserId());
+			List<Leave> llist = lService.findLeaveByUID(e.getUserid());
 			List<Leave> withinRange = lService.findLeaveWithinDateRange(llist, leave.getStartDate(),
 					leave.getEndDate());
 
@@ -108,7 +108,7 @@ public class ManagerController {
 
 			lService.updateLeave(leave);
 
-			Employee employee = eService.findByUserId(userId);
+			Employee employee = eService.findByUserid(userId);
 			Integer managerId = employee.getReportsTo();
 
 			return "forward:/manager/pending/";
@@ -120,10 +120,10 @@ public class ManagerController {
 	@RequestMapping(value = "/leave-history", method = RequestMethod.GET)
 	public String subLeaveHistory(HttpSession session, Model model) {
 		UserSession usession = (UserSession) session.getAttribute("usession");
-		List<Employee> subordinates = eService.findSubordinates(usession.getUser().userId);
+		List<Employee> subordinates = eService.findSubordinates(usession.getUser().userid);
 		HashMap<Employee, List<Leave>> hm = new HashMap<Employee, List<Leave>>();
 		for (Employee employee : subordinates) {
-			List<Leave> lList = lService.findLeaveByUID(employee.getUserId());
+			List<Leave> lList = lService.findLeaveByUID(employee.getUserid());
 			List<Leave> lRecord = new ArrayList<Leave>();
 			for (Leave leave : lList) {
 				if (leave.getStatus() == StatusEnum.APPROVED || leave.getStatus() == StatusEnum.REJECTED) {
@@ -140,7 +140,7 @@ public class ManagerController {
 	@RequestMapping(value="/leave-history/display/{uid}/{lid}", method= RequestMethod.GET)
 	public String displayPastLeaveDetails(@PathVariable("uid") Integer userId, @PathVariable("lid") Integer leaveId, Model model) {
 		Leave leave = lService.findLeaveById(leaveId);
-		Employee employee = eService.findByUserId(userId); 
+		Employee employee = eService.findByUserid(userId); 
 		
 		model.addAttribute("employee", employee);
 		model.addAttribute("leave", leave);
@@ -203,14 +203,14 @@ public class ManagerController {
 				LinkedHashMap<Employee, Double> totalgivenmap = new LinkedHashMap<Employee, Double>();
 				LinkedHashMap<Employee, Double> totalrejmap = new LinkedHashMap<Employee, Double>();
 				LinkedHashMap<Employee, Integer> totalleavegivenmap = new LinkedHashMap<Employee, Integer>();
-				for (Employee subordinate : urepo.findSubordinates(u.getUserId())) {
-					submap.put(subordinate, oservice.findOTHoursByMYUserId(month, year, subordinate.getUserId()));
-					totalmap.put(subordinate, oservice.findTotalOTHoursByMYUserId(month, year, subordinate.getUserId()));
-					totalapprmap.put(subordinate, oservice.findTotalOTHoursByMYUserIdStatus(month, year, subordinate.getUserId(), OTEnum.APPROVED));
-					totalapplmap.put(subordinate, oservice.findTotalOTHoursByMYUserIdStatus(month, year, subordinate.getUserId(), OTEnum.APPLIED));
-					totalrejmap.put(subordinate, oservice.findTotalOTHoursByMYUserIdStatus(month, year, subordinate.getUserId(), OTEnum.REJECTED));
-					totalgivenmap.put(subordinate, oservice.findTotalOTHoursByMYUserIdStatus(month, year, subordinate.getUserId(), OTEnum.LEAVEGIVEN));
-					Double add = oservice.findTotalOTHoursByMYUserIdStatus(month, year, subordinate.getUserId(), OTEnum.LEAVEGIVEN) / 4;
+				for (Employee subordinate : urepo.findSubordinates(u.getUserid())) {
+					submap.put(subordinate, oservice.findOTHoursByMYUserid(month, year, subordinate.getUserid()));
+					totalmap.put(subordinate, oservice.findTotalOTHoursByMYUserid(month, year, subordinate.getUserid()));
+					totalapprmap.put(subordinate, oservice.findTotalOTHoursByMYUseridStatus(month, year, subordinate.getUserid(), OTEnum.APPROVED));
+					totalapplmap.put(subordinate, oservice.findTotalOTHoursByMYUseridStatus(month, year, subordinate.getUserid(), OTEnum.APPLIED));
+					totalrejmap.put(subordinate, oservice.findTotalOTHoursByMYUseridStatus(month, year, subordinate.getUserid(), OTEnum.REJECTED));
+					totalgivenmap.put(subordinate, oservice.findTotalOTHoursByMYUseridStatus(month, year, subordinate.getUserid(), OTEnum.LEAVEGIVEN));
+					Double add = oservice.findTotalOTHoursByMYUseridStatus(month, year, subordinate.getUserid(), OTEnum.LEAVEGIVEN) / 4;
 					totalleavegivenmap.put(subordinate, add.intValue());
 				}
 				model.addAttribute("OTHistory", submap);
@@ -234,7 +234,7 @@ public class ManagerController {
 		User u = usession.getUser();
 		if (u.getClass().getSimpleName().equalsIgnoreCase("manager")) { 
 			Employee employee = (Employee) uservice.findUser(id);
-			ArrayList<OvertimeHours> oth = oservice.findOTHoursByMYUserId(month, year, id);
+			ArrayList<OvertimeHours> oth = oservice.findOTHoursByMYUserid(month, year, id);
 			for (OvertimeHours o : oth) {
 				if (o.getStatus() == OTEnum.APPLIED || o.getStatus() == OTEnum.REJECTED) {
 					o.setStatus(OTEnum.APPROVED);
@@ -279,8 +279,8 @@ public class ManagerController {
 		User u = usession.getUser();
 		if (u.getClass().getSimpleName().equalsIgnoreCase("manager")) { 
 			Employee employee = (Employee) urepo.findById(id).orElse(null);
-			Double add = oservice.findTotalOTHoursByMYUserIdStatus(month, year, id, OTEnum.APPROVED) / 4;
-			ArrayList<OvertimeHours> oth = oservice.findOTHoursByMYUserIdStatus(month, year, id, OTEnum.APPROVED);
+			Double add = oservice.findTotalOTHoursByMYUseridStatus(month, year, id, OTEnum.APPROVED) / 4;
+			ArrayList<OvertimeHours> oth = oservice.findOTHoursByMYUseridStatus(month, year, id, OTEnum.APPROVED);
 			for (OvertimeHours o : oth) {
 				o.setStatus(OTEnum.LEAVEGIVEN);
 				oservice.updateOTHours(o);

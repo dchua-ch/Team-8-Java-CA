@@ -14,7 +14,7 @@
 						<label for="employee">Choose Employee:</label>
 						<select class="form-control selectpicker" th:field="${outcome.id}" id="employee">
 							<option value="">Select</option>
-							<option th:each="employee : ${sub}" th:value="${employee.userId}"
+							<option th:each="employee : ${sub}" th:value="${employee.userid}"
 								th:text="${employee.name}">Name
 							</option>
 						</select>

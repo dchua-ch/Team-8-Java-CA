@@ -77,7 +77,7 @@ public class staffController {
 		UserSession usession = (UserSession) session.getAttribute("usession");
 		Calendar date = Calendar.getInstance();
 		ArrayList<Leave> all = new ArrayList<Leave>();
-		List<Leave> leaves = lService.findLeaveByUID(usession.getUser().userId);
+		List<Leave> leaves = lService.findLeaveByUID(usession.getUser().userid);
 		
 		for(Leave l : leaves) {
 			if(l.getStartDate().getYear() == date.get(Calendar.YEAR)) {
@@ -92,7 +92,7 @@ public class staffController {
 	public String personalAllHistory(Model model, HttpSession session) {
 		UserSession usession = (UserSession) session.getAttribute("usession");
 		ArrayList<Leave> all1 = new ArrayList<Leave>();
-		all1.addAll(lService.findLeaveByUID(usession.getUser().userId));
+		all1.addAll(lService.findLeaveByUID(usession.getUser().userid));
 		model.addAttribute("leaves", all1);
 		return "staff-leave-history-all";
 		}
@@ -161,7 +161,8 @@ public class staffController {
 		UserSession usession = (UserSession) session.getAttribute("usession");
 		if (usession != null) {
 			User u = usession.getUser();
-			model.addAttribute("OTHistory", oservice.findOTHoursByUserId(u.getUserId()));
+			model.addAttribute("OTHistory", oservice.findOTHoursByUserid(u.getUserid()));
+			System.out.println(u.getUserid());
 			return "ot-list";
 		}
 		return "forward:/home/login";

@@ -60,17 +60,17 @@ public class ManageStaff {
         if (simpleName.equals("Employee")){
             Employee myEmployee = emrepo.findById(Integer.valueOf(id)).get();
 
-            Staff staff = new Staff(myEmployee.getUserId(),myEmployee.getName(),myEmployee.getUsername(),myEmployee.getPassword()
+            Staff staff = new Staff(myEmployee.getUserid(),myEmployee.getName(),myEmployee.getUsername(),myEmployee.getPassword()
                     ,myEmployee.getAnnualLeaveN(),myEmployee.getMedicalLeaveN(),myEmployee.getCompLeaveN(),myEmployee.getReportsTo(),"employee");
 
-            System.out.println(myEmployee.getName() + myEmployee.userId);
+            System.out.println(myEmployee.getName() + myEmployee.userid);
             mav.addObject("staff", staff);
 
         }else if(simpleName.equals("Manager")){
 
             Manager myMamager = marepo.findById(Integer.valueOf(id)).get();
 
-            Staff staff = new Staff(myMamager.getUserId(),myMamager.getName(),myMamager.getUsername(),myMamager.getPassword()
+            Staff staff = new Staff(myMamager.getUserid(),myMamager.getName(),myMamager.getUsername(),myMamager.getPassword()
                     ,myMamager.getAnnualLeaveN(),myMamager.getMedicalLeaveN(),myMamager.getCompLeaveN(),myMamager.getReportsTo(),"manager");
 
             mav.addObject("staff", staff);
@@ -82,7 +82,7 @@ public class ManageStaff {
 
             Admin myAdmin = adrepo.findById(Integer.valueOf(id)).get();
 
-            Staff staff = new Staff(myAdmin.getUserId(),myAdmin.getName(),myAdmin.getUsername(),myAdmin.getPassword()
+            Staff staff = new Staff(myAdmin.getUserid(),myAdmin.getName(),myAdmin.getUsername(),myAdmin.getPassword()
                     ,0,0,0,0,"admin");
 //            Staff staff = new Staff(myAdmin.getUserId(),myAdmin.getName(),myAdmin.getUsername(),myAdmin.getPassword()
 //                    ,myAdmin.getAnnualLeaveN(),myAdmin.getMedicalLeaveN(),myAdmin.getCompLeaveN(),myAdmin.getReportsTo(),"admin");
@@ -96,7 +96,7 @@ public class ManageStaff {
         ArrayList<String> reportlist = new ArrayList<>();
         List<User> userList = urepo.getAllUsers();
         for (User currentUser:userList) {
-            reportlist.add(String.valueOf(currentUser.userId));
+            reportlist.add(String.valueOf(currentUser.userid));
         }
         mav.addObject("reportlist", reportlist);
         return mav;
@@ -116,7 +116,7 @@ public class ManageStaff {
 
         //get data to update
         System.out.println("get data to update");
-        System.out.println(staff.getUserId());
+        System.out.println(staff.getUserid());
         System.out.println(staff.getUser_type());
 
         urepo.updateUserTypeById(staff.getUser_type(), Integer.valueOf(id));
@@ -169,7 +169,7 @@ public class ManageStaff {
         ModelAndView mav = new ModelAndView("forward:/admin/user/list");
         User user = uService.findUser(Integer.valueOf(id));
         uService.removeUser(user);
-        String message = "The user " + user.getUserId() + " was successfully deleted.";
+        String message = "The user " + user.getUserid() + " was successfully deleted.";
         System.out.println(message);
         return mav;
     }
@@ -185,7 +185,7 @@ public class ManageStaff {
         ArrayList<String> reportlist = new ArrayList<>();
         List<User> userList = urepo.getAllUsers();
         for (User user:userList) {
-            reportlist.add(String.valueOf(user.userId));
+            reportlist.add(String.valueOf(user.userid));
         }
         mav.addObject("reportlist", reportlist);
 

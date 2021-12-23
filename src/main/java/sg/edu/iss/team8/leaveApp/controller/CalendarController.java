@@ -54,7 +54,7 @@ public class CalendarController {
 	
 	@GetMapping("/getApplicableLeavesForUser/{userId}")
 	public List<Leave> getApplicableLeavesForUser(@PathVariable("userId") Integer userId) {
-		return lservice.findApplicableLeaveByUserId(userId);
+		return lservice.findApplicableLeaveByUserid(userId);
 	}
 	
 	//When a user selects the dates on the calendar, calendar UI appends each

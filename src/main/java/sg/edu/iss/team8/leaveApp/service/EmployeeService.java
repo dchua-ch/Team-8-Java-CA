@@ -8,5 +8,5 @@ public interface EmployeeService {
 
 	List<Employee> findSubordinates(Integer userId); 
 	
-	Employee findByUserId(Integer userId); 
+	Employee findByUserid(Integer userId); 
 }

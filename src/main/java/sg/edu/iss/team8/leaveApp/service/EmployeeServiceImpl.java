@@ -21,7 +21,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	}
 	
 	@Override
-	public Employee findByUserId(Integer userId) {
-		return urepo.findByUserId(userId); 
+	public Employee findByUserid(Integer userId) {
+		return urepo.findByUserid(userId); 
 	}
 } 

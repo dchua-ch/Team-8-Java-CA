@@ -24,8 +24,8 @@ public class OvertimeHoursServiceImpl implements OvertimeHoursService{
 			return false;
 	}
 
-	public ArrayList<OvertimeHours> findOTHoursByUserId(Integer userId){
-		ArrayList<OvertimeHours> OTHours = orepo.findOTHoursByUserId(userId);
+	public ArrayList<OvertimeHours> findOTHoursByUserid(Integer userId){
+		ArrayList<OvertimeHours> OTHours = orepo.findOTHoursByUserid(userId);
 		return OTHours;
 	}
 	
@@ -34,13 +34,13 @@ public class OvertimeHoursServiceImpl implements OvertimeHoursService{
 		return OTHours;
 	}
 	
-	public ArrayList<OvertimeHours> findOTHoursByMYUserId(Integer month, Integer year, Integer userId){
-		ArrayList<OvertimeHours> OTHours = orepo.findOTHoursByMYUserId(month, year, userId);
+	public ArrayList<OvertimeHours> findOTHoursByMYUserid(Integer month, Integer year, Integer userId){
+		ArrayList<OvertimeHours> OTHours = orepo.findOTHoursByMYUserid(month, year, userId);
 		return OTHours;
 	}
 
-	public Double findTotalOTHoursByMYUserId(Integer month, Integer year, Integer userId) {
-		ArrayList<OvertimeHours> OTHours = findOTHoursByMYUserId(month, year, userId);
+	public Double findTotalOTHoursByMYUserid(Integer month, Integer year, Integer userId) {
+		ArrayList<OvertimeHours> OTHours = findOTHoursByMYUserid(month, year, userId);
 		Double totalhours = 0.0;
 		for (OvertimeHours otday : OTHours) {
 			totalhours += otday.getHours();
@@ -58,13 +58,13 @@ public class OvertimeHoursServiceImpl implements OvertimeHoursService{
 	}
 
 	@Override
-	public ArrayList<OvertimeHours> findOTHoursByMYUserIdStatus(Integer month, Integer year, Integer userId, OTEnum status) {
-		return orepo.findOTHoursByMYUserIdStatus(month, year, userId, status);
+	public ArrayList<OvertimeHours> findOTHoursByMYUseridStatus(Integer month, Integer year, Integer userId, OTEnum status) {
+		return orepo.findOTHoursByMYUseridStatus(month, year, userId, status);
 	}
 
 	@Override
-	public Double findTotalOTHoursByMYUserIdStatus(Integer month, Integer year, Integer userId, OTEnum status) {
-		ArrayList<OvertimeHours> OTHours = findOTHoursByMYUserIdStatus(month, year, userId, status);
+	public Double findTotalOTHoursByMYUseridStatus(Integer month, Integer year, Integer userId, OTEnum status) {
+		ArrayList<OvertimeHours> OTHours = findOTHoursByMYUseridStatus(month, year, userId, status);
 		Double totalhours = 0.0;
 		for (OvertimeHours otday : OTHours) {
 			totalhours += otday.getHours();

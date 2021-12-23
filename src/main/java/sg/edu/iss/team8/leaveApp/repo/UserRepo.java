@@ -27,30 +27,30 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 	@Query("select U from User U where TYPE(U) = 'manager'")
 	public List<Manager> getAllManagers();
 
-	@Query("SELECT DISTINCT u2 FROM User u1, User u2 WHERE u1.userId = u2.reportsTo AND u1.userId = :userId")
+	@Query("SELECT DISTINCT u2 FROM User u1, User u2 WHERE u1.userid = u2.reportsTo AND u1.userid = :userId")
 	public List<Employee> findSubordinates(@Param("userId") Integer userId);
 	
-	@Query("SELECT U.leaves FROM User U WHERE U.userId = :userId")
+	@Query("SELECT U.leaves FROM User U WHERE U.userid = :userId")
 	public List<Leave> findLeaveByUID(@Param("userId")Integer userId); 
 	
-	public Employee findByUserId(Integer userId); 
+	public Employee findByUserid(Integer userId); 
 	
 	@Query("SELECT u FROM User u WHERE u.username=:un AND u.password=:pwd")
 	public User findUserByNamePwd(@Param("un") String uname, @Param("pwd") String pwd);
 	
-	@Query(value = "SELECT user_type FROM user WHERE user_id = :uid ", nativeQuery = true)
+	@Query(value = "SELECT user_type FROM user WHERE userid = :uid ", nativeQuery = true)
 	public String getEmpTypeByUID(@Param("uid") Integer userId);
 
 
 	@Transactional
 	@Modifying
-	@Query(value = "update user set user_type = :usertype where user_id = :userId",nativeQuery=true)
+	@Query(value = "update user set user_type = :usertype where userid = :userId",nativeQuery=true)
 	public void updateUserTypeById(@Param("usertype") String usertype, @Param("userId") Integer userId);
 
 	@Query("select U from User U")
 	public List<User> getAllUsers();
 
-	@Query("select U from User U where TYPE(U) = :type and U.userId = :id")
+	@Query("select U from User U where TYPE(U) = :type and U.userid = :id")
 	public User getOneUser(String type, String id);
 }
 

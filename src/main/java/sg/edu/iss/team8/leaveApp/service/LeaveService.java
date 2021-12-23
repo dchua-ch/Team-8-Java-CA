@@ -11,11 +11,11 @@ public interface LeaveService {
 	
 	public Leave findLeaveById(Integer leaveId);
 	
-	public List<Leave> findLeaveByUserId(Integer userId);
+	public List<Leave> findLeaveByUserid(Integer userId);
 	
-	public List<Leave> findPendingLeaveByUserId(Integer userId);
+	public List<Leave> findPendingLeaveByUserid(Integer userId);
 	
-	public List<Leave> findApplicableLeaveByUserId(Integer userId);
+	public List<Leave> findApplicableLeaveByUserid(Integer userId);
 	
 	public int calculatePeriodDays(Leave leave);
 	

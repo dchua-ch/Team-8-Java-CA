@@ -35,8 +35,8 @@
 									
 									<div th:if="${!#strings.equals(ot.status, 'LEAVEGIVEN') and totalgiven.get(entry.key) == 0}">
 										<td th:text="${ot.status}">Status</td>
-										<td ><a th:href = "@{/manager/approveot1/}+${ot.employee.userId}+'/'+${#temporals.month(ot.date)}+'/'+${#temporals.year(ot.date)} + '/' + ${ot.overtimeId}"><button type="button"> Approve</button></a></td>
-										<td ><a th:href = "@{/manager/rejectot1/}+${ot.employee.userId}+'/'+${#temporals.month(ot.date)}+'/'+${#temporals.year(ot.date)} + '/' + ${ot.overtimeId}"><button type="button"> Reject</button></a></td>
+										<td ><a th:href = "@{/manager/approveot1/}+${ot.employee.userid}+'/'+${#temporals.month(ot.date)}+'/'+${#temporals.year(ot.date)} + '/' + ${ot.overtimeId}"><button type="button"> Approve</button></a></td>
+										<td ><a th:href = "@{/manager/rejectot1/}+${ot.employee.userid}+'/'+${#temporals.month(ot.date)}+'/'+${#temporals.year(ot.date)} + '/' + ${ot.overtimeId}"><button type="button"> Reject</button></a></td>
 									</div>
 								</tr>
 							</tbody>
@@ -45,10 +45,10 @@
 								<tr><td colspan="7">Approving of <span STYLE="font-weight:bold" th:text=${totalapprove.get(entry.key)}></span> OT Hours</td ></tr>
 								<tr><td colspan="7">Total Leave Given: <span STYLE="font-weight:bold" th:text=${totalleavegiven.get(entry.key)}></span></td ></tr>
 								<tr th:if="${totalgiven.get(entry.key) == 0}">
-									<td colspan="7"><a th:href = "@{/manager/approveall/}+${entry.key.userId}+'/'+${monthyear[0]}+'/'+${monthyear[1]}"><button type="button">Approve all</button></a></td >
+									<td colspan="7"><a th:href = "@{/manager/approveall/}+${entry.key.userid}+'/'+${monthyear[0]}+'/'+${monthyear[1]}"><button type="button">Approve all</button></a></td >
 								</tr >
 								<tr th:if="${totalapplied.get(entry.key) == 0 and totalgiven.get(entry.key) == 0} and ${totalgiven.get(entry.key) != total.get(entry.key)}">
-									<td colspan="7"><a th:href = "@{/manager/calc/}+${entry.key.userId}+'/'+${monthyear[0]}+'/'+${monthyear[1]}"><button type="button"> Grant leave for approved OT</button></a></td >
+									<td colspan="7"><a th:href = "@{/manager/calc/}+${entry.key.userid}+'/'+${monthyear[0]}+'/'+${monthyear[1]}"><button type="button"> Grant leave for approved OT</button></a></td >
 								</tr >
 							</tfoot>
 						</table>

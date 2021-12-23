@@ -39,7 +39,7 @@ public class CommonController {
 			if (u == null) {
 				return "login";
 			}
-			String empType = uService.getEmpTypeByUID(u.getUserId());
+			String empType = uService.getEmpTypeByUID(u.getUserid());
 			usession.setUser(u);
 			usession.setEmpType(empType);
 			session.setAttribute("usession", usession);

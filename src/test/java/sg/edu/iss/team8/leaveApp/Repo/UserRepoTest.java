@@ -101,7 +101,7 @@ public class UserRepoTest {
 	@Order(5)
 	public void TestFindByUserId() {
 		System.out.println("Executing TestFindByUserId()");
-		Employee employee = urepo.findByUserId(2); 
+		Employee employee = urepo.findByUserid(2); 
 		assertEquals(employee.getName(), "Jane"); 
 	}
 	

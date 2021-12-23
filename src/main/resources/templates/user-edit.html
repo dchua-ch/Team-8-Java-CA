@@ -4,7 +4,7 @@
 <body>
 <div th:replace="fragments/layout.html::menu"/>
 <h3>Edit User page</h3>
-<form action="#" th:action="@{/admin/user/edit/}+${staff.userId}"
+<form action="#" th:action="@{/admin/user/edit/}+${staff.userid}"
       th:object="${staff}" method="post">
     <table>
         <tbody>

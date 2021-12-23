@@ -201,8 +201,8 @@ public class LeaveController {
 	@GetMapping("/leavehistory")
 	public String getLeaveHistory(Model model, HttpSession session) {
 		UserSession usession = (UserSession) session.getAttribute("usession");
-		Integer userId = usession.getUser().getUserId();
-		List<Leave> leaveHistory = lService.findLeaveByUserId(userId);
+		Integer userId = usession.getUser().getUserid();
+		List<Leave> leaveHistory = lService.findLeaveByUserid(userId);
 		model.addAttribute("leaveHistory", leaveHistory);
 		return "some";
 	}
@@ -211,8 +211,8 @@ public class LeaveController {
 	@GetMapping("pendingleaves")
 	public String getPendingLeaves(Model model, HttpSession session) {
 		UserSession usession = (UserSession) session.getAttribute("usession");
-		Integer userId = usession.getUser().getUserId();
-		List<Leave> pendingLeaves = lService.findPendingLeaveByUserId(userId);
+		Integer userId = usession.getUser().getUserid();
+		List<Leave> pendingLeaves = lService.findPendingLeaveByUserid(userId);
 		model.addAttribute("pendingLeaves", pendingLeaves);
 		return "some";
 	}

@@ -44,7 +44,7 @@ public class ReportController {
 	@RequestMapping(value="/search", method=RequestMethod.GET)
 	public ModelAndView loadReport(HttpSession session) {
 		UserSession usession = (UserSession) session.getAttribute("usession"); 
-		List<Employee> subordinates = eService.findSubordinates(usession.getUser().userId);
+		List<Employee> subordinates = eService.findSubordinates(usession.getUser().userid);
 		
 		ModelAndView mav = new ModelAndView("manager-report", "sub", subordinates);
 		mav.addObject("outcome", new Outcome()); 
@@ -53,7 +53,7 @@ public class ReportController {
 	
 	@RequestMapping(value = "/date", method=RequestMethod.GET)
 	public List<LeaveSummary> getLeaveByDate1(@RequestParam("id") Integer id, @RequestParam("start") String start, @RequestParam("end") String end, @RequestParam("comp") Boolean compOnly)  {
-		Employee emp = eService.findByUserId(id); 
+		Employee emp = eService.findByUserid(id); 
 		List<Leave> allLeave = lService.findLeaveByUID(id); 
 		List<Leave> approved = new ArrayList<Leave>(); 
 		for (Leave l : allLeave) {

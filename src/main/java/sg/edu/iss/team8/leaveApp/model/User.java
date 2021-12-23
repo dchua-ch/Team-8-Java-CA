@@ -25,8 +25,8 @@ import lombok.NoArgsConstructor;
 @DiscriminatorColumn(name="user_type", discriminatorType = DiscriminatorType.STRING)
 public class User {
 	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
-	public Integer userId;
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	public Integer userid;
 	private String name;
 	private String username;
 	private String password;
