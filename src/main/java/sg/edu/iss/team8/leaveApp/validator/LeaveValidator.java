@@ -5,6 +5,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import sg.edu.iss.team8.leaveApp.helpers.LeaveInput;
 import sg.edu.iss.team8.leaveApp.model.Leave;
 
 @Component
@@ -12,12 +13,13 @@ public class LeaveValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> c) {
-		return Leave.class.isAssignableFrom(c);
+		return LeaveInput.class.isAssignableFrom(c);
 	}
 	
 	@Override
 	public void validate(Object obj, Errors e) {
-		Leave leave = (Leave) obj;
+		//Leave leave = (Leave) obj;
+		LeaveInput leave = (LeaveInput) obj;
 		//ValidationUtils.rejectIfEmpty(e, "leaveId", "error.leave.leaveId.empty");
 		//ValidationUtils.rejectIfEmpty(e, "startDate", "error.leave.startDate.empty", "Start Date required");
 		//ValidationUtils.rejectIfEmpty(e, "endDate", "error.leave.endDate.empty", "End Date required");
