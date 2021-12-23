@@ -24,4 +24,5 @@ public class UserServiceImpl implements UserService{
 	public String getEmpTypeByUID(Integer userId) {
 		return urepo.getEmpTypeByUID(userId);
 	}
+
 }

@@ -1,0 +1,58 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/select-leave.css">
+    
+</head>
+<body>
+    <h1>Leave Application History</h1>
+    <table border = "0">
+	    <tr>
+	    	<th>Leave ID</th>
+	    	<th>Reason</th>
+	 		<th>Start date</th>
+	    	<th>End date</th>
+	    	<th>Leave Type</th>
+	    	<th>Status</th>
+	    	<th>Update</th>
+	    	<th>Cancel</th>
+	    	<th>Delete</th>
+	    </tr>
+	    <tr th:each ="leave: ${leaves}">
+	    	<td th:text = "${leave.leaveId}"></td >
+	    	<td th:text = "${leave.addtnlReason}"></td >
+	    	<td th:text = "${leave.startDate}"></td >
+	    	<td th:text = "${leave.endDate}"></td >
+	    	<td th:text = "${leave.leaveType}"></td >
+	    	<td th:text = "${leave.status}"></td>
+	    	<!--"@{'/leave/update/' + ${leave.leaveId}}"-->
+	    	<td>
+	    		<a th:if = "${leave.status.name() == 'APPLIED' || leave.status.name() == 'UPDATED'  }"th:href = "@{'/leave/update/' + ${leave.leaveId}}">Update</a >
+	    		<span th:unless = "${leave.status.name() == 'APPLIED' || leave.status.name() == 'UPDATED'  }">Update</span>
+	    	</td >
+	    	<td>
+	    		<a th:if = "${leave.status.name() == 'APPROVED'}"th:href = "@{'/leave/cancel/' + ${leave.leaveId}}">Cancel</a >
+	    		<span th:unless = "${leave.status.name() == 'APPROVED'}">Cancel</span>
+	    	</td >
+	    	<td>
+	    		<a th:if = "${leave.status.name() == 'APPLIED' || leave.status.name() == 'UPDATED'  }" th:href = "@{'/leave/delete/' + ${leave.leaveId}}">Delete</a >
+	    		<span th:unless = "${leave.status.name() == 'APPLIED' || leave.status.name() == 'UPDATED'  }">Delete</span>
+	    	</td >
+	    	
+	    	
+	    
+	    
+	    </tr >
+	    
+	    <a th:href = "@{'/leave/add/'}">Apply for leave</a >
+    	
+    
+    </table >
+
+
+    
+</body>
+</html>

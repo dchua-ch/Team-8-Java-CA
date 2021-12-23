@@ -1,0 +1,20 @@
+.questions
+{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center; 
+    border: 1px solid black;
+    margin:1em;
+}
+.questions > div
+{
+    margin: 1em;
+    text-align: left;
+}
+
+
+
+.question-box > div{
+	margin:1em;
+}

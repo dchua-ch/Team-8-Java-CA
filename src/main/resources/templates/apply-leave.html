@@ -1,0 +1,56 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/apply-leave.css">
+    
+</head>
+<body>
+    <h1>Leave Application form</h1>
+
+    <form th:action = "@{/leave/submit}" th:object="${leave}" method = "POST"> 
+        <div class = 'questions'>
+        	<div class = 'question-box'>
+	            <div>
+	                <label for="start-date">Start Date: </label>
+	                <input type="date" name = "start-date" th:field = "*{startDate}">
+	            </div>
+	            <div>
+	                <label for="end-date">End Date: </label>
+	                <input type="date" name = "end-date"  th:field = "*{endDate}" >
+	            </div>
+            </div >
+            <div>
+                <label for="leave-type">Leave type: </label>
+                <div><input type="radio" name="leave-type" value = "ANNUAL" th:field = "*{leaveType}" id="">Annual Leave</div>
+                <div><input type="radio" name="leave-type" value = "MEDICAL" th:field = "*{leaveType}"  id="">Medical Leave</div>
+                <div><input type="radio" name="leave-type" value = "COMPENSATION" th:field = "*{leaveType}"  id="">Compensation Leave</div>
+            </div>
+	            <div>
+	                <label for="reason">Reason: </label>
+	                <div><textarea name="reason" id="" cols="30" rows="5"  th:field = "*{addtnlReason}"></textarea></div>
+	            </div>
+	       <div class = 'question-box'>
+	            <div>
+	                <label for='work-dissemination'>Work dissemination: </label>
+	                <div><input type="text" name = "work-dissemination"  th:field = "*{workDissemination}"></div>
+	            </div>
+	            <div>
+	                <label for="contact-details">Contact Details: </label>
+	                <div>
+	                    <label for="contact-details"></label>
+	                    <input name = "contact-details" type="text"  th:field = "*{contact}">
+	                </div>
+	            </div>
+            </div >
+        </div>
+        <input type = "submit">
+        <input type = "reset">
+        
+
+    </form >
+    <a th:href = "@{'/leave/select/'}">Leave History</a >
+</body>
+</html>

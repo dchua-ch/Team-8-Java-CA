@@ -1,7 +1,6 @@
 package sg.edu.iss.team8.leaveApp.controller;
 
 import javax.servlet.http.HttpSession;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,4 +53,5 @@ public class CommonController {
 		model.addAttribute("user", new User());
 		return "login";
 	}
+
 }
