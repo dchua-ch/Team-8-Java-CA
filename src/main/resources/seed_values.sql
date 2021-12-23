@@ -47,34 +47,34 @@ CREATE TABLE leaveapp.overtime_hours (
 		ON UPDATE NO ACTION);
 
 INSERT INTO leaveapp.user
-(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to)
+(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to, enabled)
 VALUES
-('manager', 1, 'Peter', 'pwd', 'peter', 18, 0, 60, null);
+('manager', 1, 'Peter', '$2a$12$wuywrgwcmm3ceYoYz1z9q.74U0MdSiukjz4uF1WyYqILJPtusTrVS', 'peter', 18, 0, 60, null, true);
 
 INSERT INTO leaveapp.user
-(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to)
+(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to, enabled)
 VALUES
-('manager', 2, 'Jane', 'pwd', 'jane', 18, 0, 60, 1);
+('manager', 2, 'Jane', '$2a$12$wuywrgwcmm3ceYoYz1z9q.74U0MdSiukjz4uF1WyYqILJPtusTrVS', 'jane', 18, 0, 60, 1, true);
 
 INSERT INTO leaveapp.user
-(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to)
+(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to, enabled)
 VALUES
-('employee', 3, 'Jack', 'pwd', 'jack', 18, 0, 60, 1);
+('employee', 3, 'Jack', '$2a$12$wuywrgwcmm3ceYoYz1z9q.74U0MdSiukjz4uF1WyYqILJPtusTrVS', 'jack', 18, 0, 60, 1, true);
 
 INSERT INTO leaveapp.user
-(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to)
+(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to, enabled)
 VALUES
-('employee', 4, 'Jill', 'pwd', 'jill', 18, 0, 60, 1);
+('employee', 4, 'Jill', '$2a$12$wuywrgwcmm3ceYoYz1z9q.74U0MdSiukjz4uF1WyYqILJPtusTrVS', 'jill', 18, 0, 60, 1, true);
 
 INSERT INTO leaveapp.user
-(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to)
+(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to, enabled)
 VALUES
-('employee', 5, 'Jake', 'pwd', 'jake', 18, 0, 60, 2);
+('employee', 5, 'Jake', '$2a$12$wuywrgwcmm3ceYoYz1z9q.74U0MdSiukjz4uF1WyYqILJPtusTrVS', 'jake', 18, 0, 60, 2, true);
 
 INSERT INTO leaveapp.user
-(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to)
+(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to, enabled)
 VALUES
-('admin', 6, 'Adam', 'pwd', 'adam', null, null, null, null);
+('admin', 6, 'Adam', '$2a$12$wuywrgwcmm3ceYoYz1z9q.74U0MdSiukjz4uF1WyYqILJPtusTrVS', 'adam', null, null, null, null, true);
 
 
 

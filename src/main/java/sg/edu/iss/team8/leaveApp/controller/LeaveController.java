@@ -96,8 +96,7 @@ public class LeaveController {
 			return "submit-leave-error";
 		}
 		
-		UserSession usession = (UserSession) session.getAttribute("usession");
-		Integer userId = usession.getUser().getUserId();
+		Integer userId = uService.findUserByUsername(principal.getName()).userId;
 		Employee employee = eService.findByUserId(userId);
 		leaveInput.setEmployee(employee);
 		System.out.println(leaveInput.getEmployee().getUserId());

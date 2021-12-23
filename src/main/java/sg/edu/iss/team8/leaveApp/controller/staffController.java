@@ -153,12 +153,13 @@ public class staffController {
 				return "adminerror";
 			}
 			else {
-				OvertimeHours ot = new OvertimeHours(OTHours);
-				ot.setEmployee((Employee) u);
-				ot.setStatus(OTEnum.APPLIED);
-				oservice.saveOTHours(ot);
-				return "redirect:/staff/listot";
+					OvertimeHours ot = new OvertimeHours(OTHours);
+					ot.setEmployee((Employee) u);
+					ot.setStatus(OTEnum.APPLIED);
+					oservice.saveOTHours(ot);
+					return "redirect:/staff/listot";
 			}
+		}
 		return "forward:/home/login";
 	}
 	
