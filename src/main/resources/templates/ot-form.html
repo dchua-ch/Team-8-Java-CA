@@ -13,15 +13,22 @@
 			<tbody>
 				<tr>
 					<td><span th:text="#{fieldLabel.OTDate}"></span></td>
-					<td><input type="text" th:field="*{date}" size="40" placeholder="dd/MM/yyyy"/></td>
+					<!--<td><input type="text" th:field="*{date}" size="40" placeholder="dd/MM/yyyy"/></td>-->
+					<td>
+					<label for="OTDate">OT Date: </label>
+                	<input type="date" name = "date" th:field = "*{date}">
+					</td>
+					<td th:if="${#fields.hasErrors('${OTHours.date}')}">Date is required </td>
 				</tr>
 				<tr>
 					<td><span th:text="#{fieldLabel.Hours}"></span></td>
 					<td><input type="text" th:field="*{hours}" size="40"/></td>
+					<td th:if="${#fields.hasErrors('${OTHours.hours}')}" th:errors="${OTHours.hours}"> </td>
 				</tr>
 				<tr>
 					<td><span th:text="#{fieldLabel.Reason}"></span></td>
 					<td><input type="text" th:field="*{reason}" size="40"/></td>
+					<td th:if="${#fields.hasErrors('${OTHours.reason}')}" th:errors="${OTHours.reason}"></td >
 				</tr>
 				<tr>
 					<td><input type="submit" value="Save"/></td>

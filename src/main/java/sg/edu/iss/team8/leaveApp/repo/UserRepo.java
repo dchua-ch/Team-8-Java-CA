@@ -43,7 +43,7 @@ public interface UserRepo extends JpaRepository<User, Integer>{
 	@Query("SELECT u FROM User u WHERE u.username=:un AND u.password=:pwd")
 	public User findUserByNamePwd(@Param("un") String uname, @Param("pwd") String pwd);
 	
-	@Query("SELECT DISTINCT u2 FROM User u1, User u2 WHERE u1.userId = u2.reportsTo AND u1.userId = :eid")
+	@Query("SELECT DISTINCT u2 FROM User u1, User u2 WHERE u1.userId = u2.reportsTo AND u1.userId = :eid order by u2.userId")
 	public ArrayList<Employee> findSubordinates(@Param("eid") Integer eid);
 	
 //	@Query(value = "select u.user_type from user u where u.user_Id = :userId", nativeQuery = true)

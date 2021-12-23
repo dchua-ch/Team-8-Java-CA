@@ -8,8 +8,12 @@
 	<div></div>
 	
 	<h1>Search OT Hours By Month</h1>
-	<form action = "#" th:object = "${OTMonth}" th:action = "@{/manager/filtersubordinatelistot1summary/}" method="GET">
-		<table>
+	<form action = "#" th:object = "${OTMonth}" th:action = "@{/manager/subordinatelistot}" method="GET">
+		<label for="OTMonth">Month: </label>
+		<input type="month" name = "OTMonth" th:field = "*{date}">
+		<br><p th:if="${#fields.hasErrors('${OTMonth.date}')}">Month is required </p> 
+		<br><input type="submit" value="Search"/>
+<!--		<table>
 			<tbody>
 				<tr>
 					<td><span th:text="#{fieldLabel.Month}"></span></td>
@@ -23,8 +27,7 @@
 					<td><input type="submit" value="Search"/></td>
 					<td><input type="reset" value="Reset"/></td>
 				</tr>
-			</tbody>
-		</table>
+			</tbody>-->
 	</form>
 </body>
 </html>

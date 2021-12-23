@@ -1,6 +1,7 @@
 package sg.edu.iss.team8.leaveApp.model;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +17,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import sg.edu.iss.team8.leaveApp.helpers.LeaveEnum;
 import sg.edu.iss.team8.leaveApp.helpers.OTEnum;
 
 @Entity
@@ -27,7 +27,7 @@ public class OvertimeHours {
 	@GeneratedValue (strategy = GenerationType.AUTO)
 	private Integer overtimeId;
 	@DateTimeFormat(pattern="dd/MM/yyyy")
-	private LocalDate date;
+	private Date date;
 	private Double hours;
 	private String reason;
 	@Column(name = "status", columnDefinition = "ENUM('APPLIED', 'APPROVED', 'REJECTED', 'LEAVEGIVEN')")

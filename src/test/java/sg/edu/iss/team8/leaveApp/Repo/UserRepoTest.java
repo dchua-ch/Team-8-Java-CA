@@ -3,7 +3,7 @@ package sg.edu.iss.team8.leaveApp.Repo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -118,14 +118,24 @@ public class UserRepoTest {
 		urepo.saveAndFlush(employee);
 	}
 	
-//	@Test
-//	@Order(6)
-//	public void TestAddOTHours() {
-//		Employee employee = urepo.getAllEmployees().get(0);
-//		OvertimeHours ot1 = new OvertimeHours();
-//		ot1.setEmployee(employee);
-//		employee.addOTHours(ot1);
-//
-//		urepo.saveAndFlush(employee);
-//	}
+	@Test
+	@Order(6)
+	public void TestAddOTHours() {
+		Employee employee = urepo.getAllEmployees().get(0);
+		OvertimeHours ot1 = new OvertimeHours();
+		ot1.setEmployee(employee);
+		employee.addOTHours(ot1);
+
+		urepo.saveAndFlush(employee);
+	}
+	
+	@Test
+	@Order(7)
+	public void TestGetSubordinates() {
+		ArrayList<Employee> sub = urepo.findSubordinates(1);
+		for (Employee empl : sub) {
+			System.out.println(empl.getUserId());
+		}
+		assertTrue(sub.size() > 0);
+	}
 }

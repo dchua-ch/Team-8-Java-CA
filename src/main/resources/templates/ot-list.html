@@ -17,7 +17,7 @@
 			</tr>
 			<tr th:each="OTDay : ${OTHistory}" class="listRecord">
 				<td align="left" th:text="${OTDay.overtimeId}">Id</td>
-				<td align="left" th:text="${#temporals.format(OTDay.date, 'dd/MMM/yyyy')}">Date</td>
+				<td align="left" th:text="${#dates.format(OTDay.date, 'dd/MMM/yyyy')}">Date</td>
 				<td align="left" th:text="${OTDay.hours}">Hours</td>
 				<td align="left" th:text="${OTDay.reason}">Reason</td>
 				<td align="left" th:text="${OTDay.status}">Status</td>

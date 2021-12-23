@@ -1,15 +1,23 @@
 package sg.edu.iss.team8.leaveApp.controllers;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +33,8 @@ import sg.edu.iss.team8.leaveApp.repo.UserRepo;
 import sg.edu.iss.team8.leaveApp.services.OvertimeHoursService;
 import sg.edu.iss.team8.leaveApp.services.OvertimeHoursServiceImpl;
 import sg.edu.iss.team8.leaveApp.services.UserService;
+import sg.edu.iss.team8.leaveApp.validators.MonthYearValidator;
+import sg.edu.iss.team8.leaveApp.validators.OvertimeHoursValidator;
 
 @Controller
 @RequestMapping("/manager")
@@ -46,21 +56,15 @@ public class ManagerController {
 		this.oservice = oserviceImpl;
 	}
 	
-	@RequestMapping(value = "/subordinatelistot")
-	public String employeeListOT(HttpSession session, Model model) {
-		UserSession usession = (UserSession) session.getAttribute("usession");
-		if (usession != null) { //if not logged in
-			User u = usession.getUser();
-			if (u.getClass().getSimpleName().equalsIgnoreCase("manager")) { 
-				HashMap<Employee, ArrayList<OvertimeHours>> submap = new HashMap<Employee, ArrayList<OvertimeHours>>();
-				for (Employee subordinate : urepo.findSubordinates(u.getUserId())) {
-					submap.put(subordinate, oservice.findOTHoursByUserId(subordinate.getUserId()));
-				}
-				model.addAttribute("OTHistory", submap);
-				return "subordinate-ot-list";
-			}
-		}
-		return "forward:/home/login";
+	@Autowired
+	private MonthYearValidator myValidator;
+	
+	@InitBinder("OTMonth")
+	private void initLeaveBinder(WebDataBinder binder) {
+		//SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
+		//dateFormat.setLenient(false);
+		//binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+		binder.addValidators(myValidator);
 	}
 	
 	@RequestMapping(value = "/subordinatelistot1")
@@ -73,20 +77,49 @@ public class ManagerController {
 		return "forward:/home/login";
 	}
 	
-	@RequestMapping(value = "/filtersubordinatelistot1summary/", method = RequestMethod.GET)
-	public String employeeListOT1summary(@ModelAttribute ("total") @Valid MonthYear OTMonth, @ModelAttribute ("OTMonth") @Valid MonthYear OTMonth2, HttpSession session, Model model) {
+	@RequestMapping(value = "/subordinatelistot" , method = RequestMethod.GET)
+	public String employeeListOT(@ModelAttribute ("OTMonth") @Valid MonthYear OTMonth, BindingResult bindingResult, HttpSession session, Model model) {
 		UserSession usession = (UserSession) session.getAttribute("usession");
-		User u = usession.getUser();
-		if (u.getClass().getSimpleName().equalsIgnoreCase("manager")) { 
-			HashMap<Employee, Double> hrsmap = new HashMap<Employee, Double>();
-			for (Employee subordinate : urepo.findSubordinates(u.getUserId())) {
-				hrsmap.put(subordinate, oservice.findTotalOTHoursByMYUserId(OTMonth.getMonth(), OTMonth.getYear(), subordinate.getUserId()));
+		if (usession != null) { //if not logged in
+			User u = usession.getUser();
+			if (u.getClass().getSimpleName().equalsIgnoreCase("manager")) { 
+//				if (OTMonth.getDate() == "") {
+//					return "redirect:/manager/subordinatelistot1";
+//				}
+				if (bindingResult.hasErrors()) {
+					return "find-month-ot";
+				}
+				
+				Integer month = Integer.parseInt(OTMonth.getDate().substring(5));
+				Integer year = Integer.parseInt(OTMonth.getDate().substring(0,4));
+				LinkedHashMap<Employee, ArrayList<OvertimeHours>> submap = new LinkedHashMap<Employee, ArrayList<OvertimeHours>>();
+				LinkedHashMap<Employee, Double> totalmap = new LinkedHashMap<Employee, Double>();
+				LinkedHashMap<Employee, Double> totalapprmap = new LinkedHashMap<Employee, Double>();
+				LinkedHashMap<Employee, Double> totalapplmap = new LinkedHashMap<Employee, Double>();
+				LinkedHashMap<Employee, Double> totalgivenmap = new LinkedHashMap<Employee, Double>();
+				LinkedHashMap<Employee, Double> totalrejmap = new LinkedHashMap<Employee, Double>();
+				LinkedHashMap<Employee, Integer> totalleavegivenmap = new LinkedHashMap<Employee, Integer>();
+				for (Employee subordinate : urepo.findSubordinates(u.getUserId())) {
+					submap.put(subordinate, oservice.findOTHoursByUserId(subordinate.getUserId()));
+					totalmap.put(subordinate, oservice.findTotalOTHoursByMYUserId(month, year, subordinate.getUserId()));
+					totalapprmap.put(subordinate, oservice.findTotalOTHoursByMYUserIdStatus(month, year, subordinate.getUserId(), OTEnum.APPROVED));
+					totalapplmap.put(subordinate, oservice.findTotalOTHoursByMYUserIdStatus(month, year, subordinate.getUserId(), OTEnum.APPLIED));
+					totalrejmap.put(subordinate, oservice.findTotalOTHoursByMYUserIdStatus(month, year, subordinate.getUserId(), OTEnum.REJECTED));
+					totalgivenmap.put(subordinate, oservice.findTotalOTHoursByMYUserIdStatus(month, year, subordinate.getUserId(), OTEnum.LEAVEGIVEN));
+					Double add = oservice.findTotalOTHoursByMYUserIdStatus(month, year, subordinate.getUserId(), OTEnum.LEAVEGIVEN) / 4;
+					totalleavegivenmap.put(subordinate, add.intValue());
+				}
+				model.addAttribute("OTHistory", submap);
+				Integer[] my = {month, year};
+				model.addAttribute("monthyear", my);
+				model.addAttribute("total", totalmap);
+				model.addAttribute("totalapprove", totalapprmap);
+				model.addAttribute("totalapplied", totalapplmap);
+				model.addAttribute("totalrejected", totalrejmap);
+				model.addAttribute("totalgiven", totalgivenmap);
+				model.addAttribute("totalleavegiven", totalleavegivenmap);
+				return "subordinate-ot-list";
 			}
-			model.addAttribute("total", hrsmap);
-			OTMonth2.setMonth(OTMonth.getMonth());
-			OTMonth2.setYear(OTMonth.getYear());
-			model.addAttribute("OTMonth", OTMonth2);
-			return "subordinate-ot-summary";
 		}
 		return "forward:/home/login";
 	}
@@ -111,7 +144,7 @@ public class ManagerController {
 			employee.setCompLeaveN(newCompLeave);
 			urepo.saveAndFlush(employee);
 			
-			return "subordinate-ot-summary";
+			return "redirect:/manager/subordinatelistot?date=" + year + "-" + month;
 		}
 		return "forward:/home/login";
 	}
@@ -124,7 +157,7 @@ public class ManagerController {
 			OvertimeHours ot = orepo.findById(otid).orElse(null);
 			ot.setStatus(OTEnum.APPROVED);
 			oservice.updateOTHours(ot);
-			return "redirect:/manager/otdetails/" + id + "/" + month + "/" + year;
+			return "redirect:/manager/subordinatelistot?date=" + year + "-" + month;
 		}
 		return "forward:/home/login";
 	}
@@ -137,7 +170,7 @@ public class ManagerController {
 			OvertimeHours ot = orepo.findById(otid).orElse(null);
 			ot.setStatus(OTEnum.REJECTED);
 			oservice.updateOTHours(ot);
-			return "redirect:/manager/otdetails/" + id + "/" + month + "/" + year;
+			return "redirect:/manager/subordinatelistot?date=" + year + "-" + month;
 		}
 		return "forward:/home/login";
 	}
@@ -157,25 +190,9 @@ public class ManagerController {
 			Integer newCompLeave = employee.getCompLeaveN() + add.intValue();
 			employee.setCompLeaveN(newCompLeave);
 			urepo.saveAndFlush(employee);
-			
-			return "redirect:/manager/otdetails/" + id + "/" + month + "/" + year;
+			return "redirect:/manager/subordinatelistot?date=" + year + "-" + month;
 		}
 		return "forward:/home/login";
 	}
-	
-	@RequestMapping(value = "/otdetails/{id}/{month}/{year}", method = RequestMethod.GET)
-	public String otdetails(HttpSession session, Model model, @PathVariable Integer id, @PathVariable Integer month, @PathVariable Integer year) {
-		UserSession usession = (UserSession) session.getAttribute("usession");
-		User u = usession.getUser();
-		if (u.getClass().getSimpleName().equalsIgnoreCase("manager")) { 
-			model.addAttribute("OTHistory", oservice.findOTHoursByMYUserId(month, year, id));
-			Integer[] obj = {id, month, year};
-			model.addAttribute("identity", obj);
-			model.addAttribute("total", oservice.findTotalOTHoursByMYUserId(month, year, id));
-			model.addAttribute("totalapprove", oservice.findTotalOTHoursByMYUserIdStatus(month, year, id, OTEnum.APPROVED));
-			model.addAttribute("totalapplied", oservice.findTotalOTHoursByMYUserIdStatus(month, year, id, OTEnum.APPLIED));
-			return "test";
-		}
-		return "forward:/home/login";
-	}
+
 }
