@@ -1,3 +1,4 @@
+
 package sg.edu.iss.team8.leaveApp.model;
 
 import javax.persistence.DiscriminatorValue;
