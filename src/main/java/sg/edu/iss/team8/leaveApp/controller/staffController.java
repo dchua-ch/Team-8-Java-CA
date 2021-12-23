@@ -107,6 +107,7 @@ public class staffController {
 		return mav;	
 	}
 	
+	//Overtime
 	@Autowired
 	private OvertimeHoursService oservice;
 	
@@ -166,7 +167,7 @@ public class staffController {
 		UserSession usession = (UserSession) session.getAttribute("usession");
 		if (usession != null) { //if not logged in
 			User u = usession.getUser();
-			if (u.getClass().getSimpleName().equalsIgnoreCase("admin")) { //if user is admin
+			if (u.getClass().getSimpleName().equalsIgnoreCase("admin")) {
 				return "adminerror";
 			}
 			model.addAttribute("OTHistory", oservice.findOTHoursByUserId(u.getUserId()));

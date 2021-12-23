@@ -12,21 +12,6 @@
 		<input type="month" name = "OTMonth" th:field = "*{date}">
 		<br><p th:if="${#fields.hasErrors('${OTMonth.date}')}"> Month is required </p> 
 		<br><input type="submit" value="Search"/>
-<!--		<table>
-			<tbody>
-				<tr>
-					<td><span th:text="#{fieldLabel.Month}"></span></td>
-					<td><input type="text" th:field="*{month}" size="40"/></td>
-				</tr>
-				<tr>
-					<td><span th:text="#{fieldLabel.Year}"></span></td>
-					<td><input type="text" th:field="*{year}" size="40"/></td>
-				</tr>
-				<tr>
-					<td><input type="submit" value="Search"/></td>
-					<td><input type="reset" value="Reset"/></td>
-				</tr>
-			</tbody>-->
 	</form>
 </body>
 </html>

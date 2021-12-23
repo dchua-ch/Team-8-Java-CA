@@ -148,7 +148,7 @@ public class ManagerController {
 		return "manager-leave-history-details";
 	}
 	
-	//Wenyi
+	//Overtime
 	@Autowired
 	private OvertimeHoursService oservice;
 	
@@ -171,9 +171,6 @@ public class ManagerController {
 	
 	@InitBinder("OTMonth")
 	private void initLeaveBinder(WebDataBinder binder) {
-		//SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
-		//dateFormat.setLenient(false);
-		//binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
 		binder.addValidators(myValidator);
 	}
 	
@@ -193,9 +190,6 @@ public class ManagerController {
 		if (usession != null) { //if not logged in
 			User u = usession.getUser();
 			if (u.getClass().getSimpleName().equalsIgnoreCase("manager")) { 
-//				if (OTMonth.getDate() == "") {
-//					return "redirect:/manager/subordinatelistot1";
-//				}
 				if (bindingResult.hasErrors()) {
 					return "find-month-ot";
 				}
@@ -243,8 +237,6 @@ public class ManagerController {
 		System.out.println("test1");
 		if (u.getClass().getSimpleName().equalsIgnoreCase("manager")) { 
 			Employee employee = (Employee) uservice.findUser(id);
-//			Double add = oservice.findTotalOTHoursByMYUserIdStatus(month, year, id, OTEnum.APPLIED) + oservice.findTotalOTHoursByMYUserIdStatus(month, year, id, OTEnum.APPROVED);
-//			add = add / 4; 
 			ArrayList<OvertimeHours> oth = oservice.findOTHoursByMYUserId(month, year, id);
 			for (OvertimeHours o : oth) {
 				if (o.getStatus() == OTEnum.APPLIED || o.getStatus() == OTEnum.REJECTED) {
@@ -252,9 +244,6 @@ public class ManagerController {
 					oservice.updateOTHours(o);
 				}
 			}
-//			Integer newCompLeave = employee.getCompLeaveN() + add.intValue();
-//			employee.setCompLeaveN(newCompLeave);
-//			urepo.saveAndFlush(employee);
 			
 			return "redirect:/manager/subordinatelistot?date=" + year + "-" + month;
 		}
