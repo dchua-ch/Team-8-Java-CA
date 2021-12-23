@@ -1,6 +1,7 @@
 package sg.edu.iss.team8.leaveApp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -122,6 +123,8 @@ public class ManageStaff {
         //change user type, can't success
 //        urepo.updateUserType(staff.getUser_type(), staff.getUserId());
 
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encoderPasswod = encoder.encode(staff.getPassword());
 
         if (staff.getUser_type().equals("employee")){
             Employee updateEmployee = emrepo.findById(Integer.valueOf(id)).get();
@@ -131,7 +134,7 @@ public class ManageStaff {
             updateEmployee.setReportsTo(staff.getReportsTo());
             updateEmployee.setName(staff.getName());
             updateEmployee.setUsername(staff.getUsername());
-            updateEmployee.setPassword(staff.getPassword());
+            updateEmployee.setPassword(encoderPasswod);
 
             emrepo.saveAndFlush(updateEmployee);
 
@@ -144,7 +147,7 @@ public class ManageStaff {
             updateManager.setReportsTo(staff.getReportsTo());
             updateManager.setName(staff.getName());
             updateManager.setUsername(staff.getUsername());
-            updateManager.setPassword(staff.getPassword());
+            updateManager.setPassword(encoderPasswod);
             marepo.saveAndFlush(updateManager);
 
         }else if(staff.getUser_type().equals("admin")){
@@ -152,7 +155,7 @@ public class ManageStaff {
             Admin updateAdmin = adrepo.findById(Integer.valueOf(id)).get();
             updateAdmin.setName(staff.getName());
             updateAdmin.setUsername(staff.getUsername());
-            updateAdmin.setPassword(staff.getPassword());
+            updateAdmin.setPassword(encoderPasswod);
             adrepo.saveAndFlush(updateAdmin);
         }
 
@@ -200,24 +203,35 @@ public class ManageStaff {
 
         System.out.println(staff.toString());
 
+        //before encode
+        System.out.println("before encode");
+
+        System.out.println(staff.getPassword());
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encoderPasswod = encoder.encode(staff.getPassword());
+
+        //after encode
+        System.out.println("after encode");
+        System.out.println(encoderPasswod);
 
         System.out.println(staff.getUser_type());
         if (staff.getUser_type().equals("employee")){
 
-            Employee myEmployee = new Employee(staff.getName(),staff.getUsername(),staff.getPassword(),staff.getAnnualLeaveN(),
+            Employee myEmployee = new Employee(staff.getName(),staff.getUsername(),encoderPasswod,staff.getAnnualLeaveN(),
                     staff.getMedicalLeaveN(),staff.getCompLeaveN(),staff.getReportsTo());
 //            Employee myEmployee = new Employee(staff.getName());
             urepo.saveAndFlush(myEmployee);
 
         }else if(staff.getUser_type().equals("manager")){
 
-            Manager myManager = new Manager(staff.getName(),staff.getUsername(),staff.getPassword(),staff.getAnnualLeaveN(),
+            Manager myManager = new Manager(staff.getName(),staff.getUsername(),encoderPasswod,staff.getAnnualLeaveN(),
                     staff.getMedicalLeaveN(),staff.getCompLeaveN(),staff.getReportsTo());
             urepo.saveAndFlush(myManager);
 
         }else if(staff.getUser_type().equals("admin")){
             // admin
-            Admin myAdmin = new Admin(staff.getName(),staff.getUsername(),staff.getPassword());
+            Admin myAdmin = new Admin(staff.getName(),staff.getUsername(),encoderPasswod);
             urepo.saveAndFlush(myAdmin);
         }
         mav.setViewName("forward:/admin/user/list");
