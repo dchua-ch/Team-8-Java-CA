@@ -214,24 +214,26 @@ public class ManageStaff {
         //after encode
         System.out.println("after encode");
         System.out.println(encoderPasswod);
+        
+        staff.setEnabled(true);
 
         System.out.println(staff.getUser_type());
         if (staff.getUser_type().equals("employee")){
 
-            Employee myEmployee = new Employee(staff.getName(),staff.getUsername(),encoderPasswod,staff.getAnnualLeaveN(),
+            Employee myEmployee = new Employee(staff.getName(),staff.getUsername(),encoderPasswod, staff.getEnabled(), staff.getAnnualLeaveN(),
                     staff.getMedicalLeaveN(),staff.getCompLeaveN(),staff.getReportsTo());
 //            Employee myEmployee = new Employee(staff.getName());
             urepo.saveAndFlush(myEmployee);
 
         }else if(staff.getUser_type().equals("manager")){
 
-            Manager myManager = new Manager(staff.getName(),staff.getUsername(),encoderPasswod,staff.getAnnualLeaveN(),
+            Manager myManager = new Manager(staff.getName(),staff.getUsername(),encoderPasswod, staff.getEnabled(), staff.getAnnualLeaveN(),
                     staff.getMedicalLeaveN(),staff.getCompLeaveN(),staff.getReportsTo());
             urepo.saveAndFlush(myManager);
 
         }else if(staff.getUser_type().equals("admin")){
             // admin
-            Admin myAdmin = new Admin(staff.getName(),staff.getUsername(),encoderPasswod);
+            Admin myAdmin = new Admin(staff.getName(),staff.getUsername(),encoderPasswod, staff.getEnabled());
             urepo.saveAndFlush(myAdmin);
         }
         mav.setViewName("forward:/admin/user/list");

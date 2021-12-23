@@ -24,23 +24,6 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/*@Entity
-@Data
-@NoArgsConstructor
-@Table(name="user")
-public class User {
-	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
-	public Integer userId;
-	private String name;
-	private String username;
-	private String password;
-	private String role;
-	private boolean enabled;
-	
-
-}*/
-
 @Entity
 @Data
 @NoArgsConstructor
@@ -48,7 +31,7 @@ public class User {
 @DiscriminatorColumn(name="user_type", discriminatorType = DiscriminatorType.STRING)
 public class User {
 	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	public Integer userId;
 	private String name;
 	private String username;
@@ -65,5 +48,15 @@ public class User {
 		this.username = username;
 		this.password = password;
 	}
+
+	public User(String name, String username, String password, boolean enabled) {
+		super();
+		this.name = name;
+		this.username = username;
+		this.password = password;
+		this.enabled = enabled;
+	}
+	
+	
 }
 
