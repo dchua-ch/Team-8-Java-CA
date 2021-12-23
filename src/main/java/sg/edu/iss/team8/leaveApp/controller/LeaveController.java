@@ -285,6 +285,60 @@ public class LeaveController {
 				}
 			}
 		}
+		else
+		{
+			if (leaveType == LeaveEnum.ANNUAL) 
+			{
+				System.out.println("Annual leave balance: "+ (employee.getAnnualLeaveN() - totalLeavesToDeduct));
+				if(employee.getAnnualLeaveN() - totalLeavesToDeduct <= 0)
+				{
+					return "annual-leave-exceeded";
+				}
+				else
+				{
+					employee.setAnnualLeaveN(employee.getAnnualLeaveN() - totalLeavesToDeduct);
+				}
+			} 
+			
+			else if (leaveType == LeaveEnum.MEDICAL) 
+			{
+				System.out.println("Medical leave balance: "+ (employee.getMedicalLeaveN() - totalLeavesToDeduct));
+				if(employee.getMedicalLeaveN() - totalLeavesToDeduct <= 0)
+				{
+					return "medical-leave-exceeded";
+				}
+				else
+				{
+					employee.setMedicalLeaveN(employee.getMedicalLeaveN() - totalLeavesToDeduct);
+				}
+			} 
+			
+			else if (leaveType == LeaveEnum.COMPENSATION) 
+			{
+				System.out.println("Annual leave balance: "+ (employee.getCompLeaveN() - totalLeavesToDeduct));
+				if(employee.getCompLeaveN() - totalLeavesToDeduct <= 0)
+				{
+					return "compensation-leave-exceeded";
+				}
+				else
+				{
+					employee.setCompLeaveN(employee.getCompLeaveN() - totalLeavesToDeduct);
+				}
+			}
+			
+			if (previousLeaveType == LeaveEnum.ANNUAL)
+			{
+				employee.setAnnualLeaveN(employee.getAnnualLeaveN() + previousLeavesToDeduct);
+			}
+			else if (previousLeaveType == LeaveEnum.MEDICAL)
+			{
+				employee.setMedicalLeaveN(employee.getMedicalLeaveN() + previousLeavesToDeduct);
+			}
+			else if (leaveType == LeaveEnum.COMPENSATION)
+			{
+				employee.setCompLeaveN(employee.getCompLeaveN() + previousLeavesToDeduct);
+			}
+		}
 		urepo.saveAndFlush(employee);
 		
 		lService.updateLeave(leave);
