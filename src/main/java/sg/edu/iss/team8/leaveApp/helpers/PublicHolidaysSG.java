@@ -9,7 +9,6 @@ import java.util.List;
 
 public class PublicHolidaysSG {
 	
-	//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 	DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
 	public PublicHolidaysSG() {
