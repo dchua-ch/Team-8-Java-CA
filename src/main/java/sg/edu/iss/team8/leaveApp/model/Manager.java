@@ -17,7 +17,6 @@ public class Manager extends Employee {
 	public Manager(String name) {
 		super(name);
 	}
-
 	
 	public Manager(String name, String username, String password, 
 			Integer annualLeaveN, Integer medicalLeaveN, Integer compLeaveN, 
