@@ -19,4 +19,6 @@ public interface LeaveService {
 	
 	public Leave findLeaveById(Integer leaveId);
 
+	public List<Leave> getLeaveByDates(List<Leave> lList, LocalDate start, LocalDate end);
+
 }

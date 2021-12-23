@@ -2,7 +2,9 @@ package sg.edu.iss.team8.leaveApp.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+
 import java.util.Calendar;
+
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -27,7 +29,6 @@ public class LeaveServiceImpl implements LeaveService {
 
 	@Override
 	public List<Leave> findLeaveByUID(Integer userId) {
-		
 		return urepo.findLeaveByUID(userId);
 	}
 
@@ -81,11 +82,26 @@ public class LeaveServiceImpl implements LeaveService {
 		}
 		return withinRange;
 	}
+
+	@Override
+	public List<Leave> getLeaveByDates(List<Leave> lList, LocalDate start, LocalDate end) {
+		List<Leave> leaves = new ArrayList<Leave>(); 
+		
+		for (Leave l : lList) {
+			if (l.getStatus() == StatusEnum.APPROVED) {
+				if (l.getStartDate().isAfter(start) && l.getEndDate().isBefore(end)) {
+					leaves.add(l);
+				} else if (l.getStartDate().isEqual(start) && l.getEndDate().isEqual(end)) {
+					leaves.add(l); 
+				}
+			}
+		}
+		return leaves;
+	}
+
 	
 	@Override
 	public Leave findLeaveById(Integer leaveId) {
 		return lrepo.findLeaveByID(leaveId);
 	}
-	
-
 }

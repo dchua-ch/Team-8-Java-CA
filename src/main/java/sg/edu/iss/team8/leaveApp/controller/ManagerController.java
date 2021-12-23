@@ -39,7 +39,7 @@ public class ManagerController {
 
 	// Routes to view which displays list of subordinates leaves which are under
 	// "APPLIED" status
-	@RequestMapping(value = "/pending/")
+	@RequestMapping(value = "/pending")
 	public String pendingApprovals(Model model, HttpSession session ) {
 		UserSession usession = (UserSession) session.getAttribute("usession");
 		HashMap<Employee, List<Leave>> hm = new HashMap<Employee, List<Leave>>();
@@ -78,7 +78,6 @@ public class ManagerController {
 		mav.addObject("others", otherSubordinatesLeaves);
 		return mav;
 	}
-
 	
 	// Updates the leave status based on approval or rejection, routes back to
 	// pending approvals page
@@ -104,9 +103,10 @@ public class ManagerController {
 			return "forward:/manager/pending/";
 		}
 	}
+
 	// Routes to view which displays the leave history for subordinates (i.e.
-		// APPROVED or REJECTED or ARCHIVED leaves)
-	@RequestMapping(value = "/leave-history/", method = RequestMethod.GET)
+	// APPROVED or REJECTED or ARCHIVED leaves)
+	@RequestMapping(value = "/leave-history", method = RequestMethod.GET)
 	public String subLeaveHistory(HttpSession session, Model model) {
 		UserSession usession = (UserSession) session.getAttribute("usession");
 		List<Employee> subordinates = eService.findSubordinates(usession.getUser().userId);
@@ -115,10 +115,9 @@ public class ManagerController {
 			List<Leave> lList = lService.findLeaveByUID(employee.getUserId());
 			List<Leave> lRecord = new ArrayList<Leave>();
 			for (Leave leave : lList) {
-				lRecord.add(leave);
-//				if (leave.getStatus() == StatusEnum.APPROVED || leave.getStatus() == StatusEnum.REJECTED) {
-//					lRecord.add(leave);
-//				}
+				if (leave.getStatus() == StatusEnum.APPROVED || leave.getStatus() == StatusEnum.REJECTED) {
+					lRecord.add(leave);
+				}
 			}
 			hm.put(employee, lRecord);
 		}
@@ -126,10 +125,9 @@ public class ManagerController {
 		model.addAttribute("leavehistory", hm);
 		return "manager-history";
 	}
-		
-		
-		@RequestMapping(value="/leave-history/display/{uid}/{lid}", method= RequestMethod.GET)
-		public String displayPastLeaveDetails(@PathVariable("uid") Integer userId, @PathVariable("lid") Integer leaveId, Model model) {
+  
+	@RequestMapping(value="/leave-history/display/{uid}/{lid}", method= RequestMethod.GET)
+	public String displayPastLeaveDetails(@PathVariable("uid") Integer userId, @PathVariable("lid") Integer leaveId, Model model) {
 		Leave leave = lService.findLeaveById(leaveId);
 		Employee employee = eService.findByUserId(userId); 
 		

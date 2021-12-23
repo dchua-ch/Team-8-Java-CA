@@ -15,7 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.Data;
-
 import lombok.NoArgsConstructor;
 
 import sg.edu.iss.team8.leaveApp.helpers.LeaveEnum;
@@ -72,8 +71,4 @@ public class Leave {
 		this.comments = comments;
 		this.employee = employee;
 	}
-	
-
-	
-	
 }

@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/layout.html :: html_head">
+<head th:replace="fragments/layout.html :: html_head"/>
 
-</head>
 <body>
 	<div th:replace="fragments/layout.html::menu"/>
 	<div class="container">
 		<h1>Leave Details</h1>
 		<div class="row">
-			<form action="#" th:action="@{/manager/leave-history/} + ${employee.reportsTo}" method="GET">
+			<form action="#" th:action="@{/manager/leave-history}" method="GET">
 				<div class="form-group row">
 					<label for="name" class="col-sm-3 col-form-label">Employee Name:</label>
 					<div class="col-sm-5">
@@ -69,7 +68,7 @@
 				</div>
 				&nbsp;
 				<div>
-					<input th:type="button" th:value="Back" class="btn btn-primary" onclick="javascript:history.back(-1)"/>
+					<input th:type="submit" th:value="Back" class="btn btn-primary">
 				</div>
 			</form>
 		</div>
