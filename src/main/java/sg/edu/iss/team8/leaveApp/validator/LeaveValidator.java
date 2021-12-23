@@ -28,7 +28,7 @@ public class LeaveValidator implements Validator {
 		
 		if(leave.getStartDate() != null && leave.getEndDate() != null)
 		{
-			if ((leave.getStartDate().after(leave.getEndDate()))) 
+			if ((leave.getStartDate().isAfter(leave.getEndDate()))) 
 			{
 				e.reject("startDate", "Start Date should be before the or equal with End Date");
 				e.rejectValue("startDate", "error.leave.startDate-endDate.chronological", "startDate must be <= endDate");

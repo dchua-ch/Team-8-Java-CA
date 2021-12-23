@@ -45,13 +45,13 @@ public class LeaveTest {
 	@Test
 	@Order(1)
 	public void testCreateLeave() throws ParseException {
-		//DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Leave leave1 = new Leave(formatter.parse("2020-01-08"), formatter.parse("2020-01-10"), LeaveEnum.ANNUAL , "...",
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Leave leave1 = new Leave(LocalDate.parse("2020-01-08", format), LocalDate.parse("2020-01-10", format), LeaveEnum.ANNUAL , "...",
 				"...", "91111", StatusEnum.APPLIED, "..."); 
-		Leave leave2 = new Leave(formatter.parse("2020-01-08"), formatter.parse("2020-01-10"), LeaveEnum.COMPENSATION , "...",
+		Leave leave2 = new Leave(LocalDate.parse("2020-01-08", format), LocalDate.parse("2020-01-10", format), LeaveEnum.COMPENSATION , "...",
 				"...", "91111", StatusEnum.DELETED, "..."); 
-		Leave leave3 = new Leave(formatter.parse("2020-01-08"), formatter.parse("2020-01-10") ,LeaveEnum.MEDICAL , "...",
+		Leave leave3 = new Leave(LocalDate.parse("2020-01-08", format), LocalDate.parse("2020-01-10", format) ,LeaveEnum.MEDICAL , "...",
 				"...", "91111", StatusEnum.APPROVED, "...");
 		lrepo.deleteAll();
 		lrepo.saveAndFlush(leave1);
@@ -79,9 +79,9 @@ public class LeaveTest {
 	@Test
 	@Order(3)
 	public void testDateDifference() {
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		LocalDate date1 = LocalDate.parse("10/12/2021", format);
-		LocalDate date2 = LocalDate.parse("15/12/2021", format);
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate date1 = LocalDate.parse("2021-12-10", format);
+		LocalDate date2 = LocalDate.parse("2021-12-15", format);
 		Period period = Period.between(date1, date2);
 		int diff = Math.abs(period.getDays());
 		assertEquals(5, diff);
@@ -91,9 +91,9 @@ public class LeaveTest {
 	@Test
 	@Order(4)
 	public void tesLeaveExclusionCalculation() throws ParseException {
-		//DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Leave leave = new Leave(formatter.parse("2021-12-15"), formatter.parse("2021-12-22"), LeaveEnum.ANNUAL , "...",
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Leave leave = new Leave(LocalDate.parse("2021-12-15", format), LocalDate.parse("2021-12-22", format), LeaveEnum.ANNUAL , "...",
 				"...", "91111", StatusEnum.APPLIED, "...");
 		int result = lservice.calculateDaysToExclude(leave);
 		assertEquals(result, 2);
@@ -103,9 +103,9 @@ public class LeaveTest {
 	@Test
 	@Order(5)
 	public void testLeaveExclusionCalculation2() throws ParseException {
-		//DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Leave leave = new Leave(formatter.parse("2021-12-15"), formatter.parse("2021-12-30"), LeaveEnum.ANNUAL , "...",
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Leave leave = new Leave(LocalDate.parse("2021-12-15", format), LocalDate.parse("2021-12-30", format), LeaveEnum.ANNUAL , "...",
 				"...", "91111", StatusEnum.APPLIED, "...");
 		int result = lservice.calculateDaysToExclude(leave);
 		assertEquals(result, 0);	//should be 0 because > 14 days
@@ -114,16 +114,27 @@ public class LeaveTest {
 	
 	@Test
 	@Order(6)
-	public void tesLeaveExclusionCalculation3() throws ParseException {
-		//DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Leave leave = new Leave(formatter.parse("2021-12-15"), formatter.parse("2021-12-22"), LeaveEnum.MEDICAL , "...",
+	public void testLeaveExclusionCalculation3() throws ParseException {
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Leave leave = new Leave(LocalDate.parse("2021-12-15", format), LocalDate.parse("2021-12-22", format), LeaveEnum.MEDICAL , "...",
 				"...", "91111", StatusEnum.APPLIED, "...");
 		int result = lservice.calculateDaysToExclude(leave);
 		assertEquals(result, 0);	//should be 0 because MEDICAL Leave
 
 	}
 
+	@Test
+	@Order(7)
+	public void testLeaveExclusionCalculation4() throws ParseException {
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Leave leave = new Leave(LocalDate.parse("2021-11-03", format), LocalDate.parse("2021-11-05", format), LeaveEnum.ANNUAL , "...",
+				"...", "91111", StatusEnum.APPLIED, "...");
+		int result = lservice.calculateDaysToExclude(leave);
+		assertEquals(result, 1);	//should exclude 1 because 4 Nov is PH.
+	}
+	
 	/*
 	@Test
 	public void testUpdateLeave()

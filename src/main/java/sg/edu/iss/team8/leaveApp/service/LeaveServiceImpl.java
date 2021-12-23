@@ -1,5 +1,6 @@
 package sg.edu.iss.team8.leaveApp.service;
 
+import java.text.ParseException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Period;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import sg.edu.iss.team8.leaveApp.helpers.LeaveEnum;
+import sg.edu.iss.team8.leaveApp.helpers.PublicHolidaysSG;
 import sg.edu.iss.team8.leaveApp.helpers.StatusEnum;
 import sg.edu.iss.team8.leaveApp.model.Leave;
 import sg.edu.iss.team8.leaveApp.repo.LeaveRepo;
@@ -87,9 +89,10 @@ public class LeaveServiceImpl implements LeaveService {
 				totalDates.add(startDate);
 				startDate = startDate.plusDays(1);
 			}
+			PublicHolidaysSG ph = new PublicHolidaysSG();
 			for (LocalDate date : totalDates) {
 				DayOfWeek day = date.getDayOfWeek();
-				if (day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY) {
+				if (day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY || ph.getPublicHolidays().contains(date)) {
 					daysToExclude++;
 				}
 			}
