@@ -137,15 +137,4 @@ public class ManagerController {
 		
 		return "manager-leave-history-details";
 	}
-	
-	/*
-	 * @RequestMapping(value="/report", method=RequestMethod.GET) public
-	 * ModelAndView loadReport(HttpSession session) { UserSession usession =
-	 * (UserSession) session.getAttribute("usession"); List<Employee> subordinates =
-	 * eService.findSubordinates(usession.getUser().userId);
-	 * 
-	 * ModelAndView mav = new ModelAndView("manager-report", "sub", subordinates);
-	 * mav.addObject("outcome", new Outcome()); return mav; }
-	 */
-
 }

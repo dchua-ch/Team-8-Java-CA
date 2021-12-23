@@ -110,59 +110,74 @@ VALUES
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(7, '...', '...', 93333, str_to_date('2021-01-10', '%Y-%m-%d'), 'ANNUAL', str_to_date('2021-01-06', '%Y-%m-%d'), 'APPLIED', '...', '3');
+(7, '...', '...', 92222, str_to_date('2021-04-01', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-03-29', '%Y-%m-%d'), 'APPROVED', '...', '2');
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(8, '...', '...', 93333, str_to_date('2021-01-10', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-01-08', '%Y-%m-%d'), 'DELETED', '...', '3');
+(8, '...', '...', 93333, str_to_date('2021-01-10', '%Y-%m-%d'), 'ANNUAL', str_to_date('2021-01-06', '%Y-%m-%d'), 'APPLIED', '...', '3');
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(9, '...', '...', 93333, str_to_date('2021-01-09', '%Y-%m-%d'), 'MEDICAL', str_to_date('2021-01-01', '%Y-%m-%d'), 'APPROVED', '...', '3');
+(9, '...', '...', 93333, str_to_date('2021-01-10', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-01-08', '%Y-%m-%d'), 'DELETED', '...', '3');
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(10, '...', '...', 93333, str_to_date('2021-01-15', '%Y-%m-%d'), 'ANNUAL', str_to_date('2021-01-09', '%Y-%m-%d'), 'UPDATED', '...', '3');
+(10, '...', '...', 93333, str_to_date('2021-01-09', '%Y-%m-%d'), 'MEDICAL', str_to_date('2021-01-01', '%Y-%m-%d'), 'APPROVED', '...', '3');
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(11, '...', '...', 94444, str_to_date('2021-01-15', '%Y-%m-%d'), 'ANNUAL', str_to_date('2021-01-11', '%Y-%m-%d'), 'APPLIED', '...', '4');
+(11, '...', '...', 93333, str_to_date('2021-01-15', '%Y-%m-%d'), 'ANNUAL', str_to_date('2021-01-09', '%Y-%m-%d'), 'UPDATED', '...', '3');
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(12, '...', '...', 94444, str_to_date('2021-05-12', '%Y-%m-%d'), 'ANNUAL', str_to_date('2021-05-08', '%Y-%m-%d'), 'APPLIED', '...', '4');
+(12, '...', '...', 93333, str_to_date('2021-03-15', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-03-10', '%Y-%m-%d'), 'APPROVED', '...', '3');
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(13, '...', '...', 94444, str_to_date('2021-01-10', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-01-08', '%Y-%m-%d'), 'DELETED', '...', '4');
+(13, '...', '...', 94444, str_to_date('2021-01-15', '%Y-%m-%d'), 'ANNUAL', str_to_date('2021-01-11', '%Y-%m-%d'), 'APPLIED', '...', '4');
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(14, '...', '...', 94444, str_to_date('2021-01-10', '%Y-%m-%d'), 'MEDICAL', str_to_date('2021-01-08', '%Y-%m-%d'), 'APPROVED', '...', '4');
+(14, '...', '...', 94444, str_to_date('2021-05-12', '%Y-%m-%d'), 'ANNUAL', str_to_date('2021-05-08', '%Y-%m-%d'), 'APPLIED', '...', '4');
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(15, '...', '...', 94444, str_to_date('2021-01-09', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-01-08', '%Y-%m-%d'), 'APPLIED', '...', '4');
+(15, '...', '...', 94444, str_to_date('2021-01-10', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-01-08', '%Y-%m-%d'), 'DELETED', '...', '4');
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(16, '...', '...', 95555, str_to_date('2021-01-10', '%Y-%m-%d'), 'ANNUAL', str_to_date('2021-01-08', '%Y-%m-%d'), 'APPLIED', '...', '5');
+(16, '...', '...', 94444, str_to_date('2021-01-10', '%Y-%m-%d'), 'MEDICAL', str_to_date('2021-01-08', '%Y-%m-%d'), 'APPROVED', '...', '4');
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(17, '...', '...', 95555, str_to_date('2021-05-07', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-05-01', '%Y-%m-%d'), 'DELETED', '...', '5');
+(17, '...', '...', 94444, str_to_date('2021-01-09', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-01-08', '%Y-%m-%d'), 'APPLIED', '...', '4');
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(18, '...', '...', 95555, str_to_date('2021-01-10', '%Y-%m-%d'), 'MEDICAL', str_to_date('2021-01-08', '%Y-%m-%d'), 'APPROVED', '...', '5');
+(18, '...', '...', 94444, str_to_date('2021-07-23', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-07-20', '%Y-%m-%d'), 'APPROVED', '...', '4');
+
+INSERT INTO leaveapp.leaves
+(leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
+VALUES
+(19, '...', '...', 95555, str_to_date('2021-01-10', '%Y-%m-%d'), 'ANNUAL', str_to_date('2021-01-08', '%Y-%m-%d'), 'APPLIED', '...', '5');
+
+INSERT INTO leaveapp.leaves
+(leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
+VALUES
+(20, '...', '...', 95555, str_to_date('2021-05-07', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-05-01', '%Y-%m-%d'), 'DELETED', '...', '5');
+
+INSERT INTO leaveapp.leaves
+(leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
+VALUES
+(21, '...', '...', 95555, str_to_date('2021-01-10', '%Y-%m-%d'), 'MEDICAL', str_to_date('2021-01-08', '%Y-%m-%d'), 'APPROVED', '...', '5');
