@@ -25,4 +25,8 @@ public class UserServiceImpl implements UserService{
 		return urepo.getEmpTypeByUID(userId);
 	}
 
+	@Override
+	public void removeUser(User user) {
+		urepo.delete(user);
+	}
 }

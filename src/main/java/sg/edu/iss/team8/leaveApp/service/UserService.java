@@ -11,5 +11,7 @@ public interface UserService {
 	
 	String getEmpTypeByUID(Integer userId);
 
+	void removeUser(User user);
+
 }
 
