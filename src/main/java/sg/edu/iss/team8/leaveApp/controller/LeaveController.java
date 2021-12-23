@@ -188,10 +188,8 @@ public class LeaveController {
 									Model model) {
 		Leave currentLeave = lService.findLeaveById(leaveId);
 		
-		LocalDate startDate = currentLeave.getStartDate();
-		LocalDate endDate = currentLeave.getEndDate();
-		Period period = Period.between(startDate, endDate);
-		int periodDays = Math.abs(period.getDays());
+		
+		int periodDays = lService.calculatePeriodDays(currentLeave);
 		int daysToExclude = lService.calculateDaysToExclude(currentLeave);
 		int totalLeavesToDeduct = periodDays - daysToExclude;
 		System.out.println("Leaves deducted in: " + totalLeavesToDeduct);
@@ -207,7 +205,7 @@ public class LeaveController {
 	
 	//update the Leave with the new values from the page
 	@PostMapping("/update/{leaveId}")
-	public String updateLeave(@ModelAttribute("leave")  LeaveInput leaveInput, 
+	public String updateLeave(@ModelAttribute("leave") @Valid LeaveInput leaveInput, 
 								BindingResult result) {
 		if (result.hasErrors()) {
 			return "leave-update-error";
@@ -217,8 +215,10 @@ public class LeaveController {
 	
 		LocalDate startDate = convertToLocalDate(leaveInput.getStartDate());
 		LocalDate endDate = convertToLocalDate(leaveInput.getEndDate());
-		
-		int previousLeavesToDeduct = Math.abs(( Period.between(leave.getStartDate(), leave.getEndDate())).getDays()) - lService.calculateDaysToExclude(leave);
+		int previousPeriodDays = lService.calculatePeriodDays(leave);
+		int previousDaysToExclude = lService.calculateDaysToExclude(leave);
+		int previousLeavesToDeduct = previousPeriodDays - previousDaysToExclude;;
+		//int previousLeavesToDeduct = Math.abs(( Period.between(leave.getStartDate(), leave.getEndDate())).getDays()) - lService.calculateDaysToExclude(leave);
 		LeaveEnum previousLeaveType = leave.getLeaveType();
 		leave.setStartDate(startDate);
 		leave.setEndDate(endDate);
@@ -235,8 +235,8 @@ public class LeaveController {
 		Employee employee = leave.getEmployee();
 		LeaveEnum leaveType = leaveInput.getLeaveType();
 	
-		Period period = Period.between(startDate, endDate);
-		int periodDays = Math.abs(period.getDays());
+		
+		int periodDays = lService.calculatePeriodDays(leave);
 		int daysToExclude = lService.calculateDaysToExclude(leave);
 		int totalLeavesToDeduct = periodDays - daysToExclude;
 		System.out.println("Leaves to deduct: "+ totalLeavesToDeduct);
