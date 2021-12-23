@@ -28,9 +28,9 @@ public class Leave {
 	@GeneratedValue (strategy = GenerationType.AUTO)
 	private Integer leaveId;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date startDate;
+	private LocalDate startDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date endDate;
+	private LocalDate endDate;
 	@Column(name = "leaveType", columnDefinition = "ENUM('ANNUAL', 'MEDICAL', 'COMPENSATION')")
 	@Enumerated(EnumType.STRING)
 	private LeaveEnum leaveType;
@@ -46,7 +46,7 @@ public class Leave {
 	@JoinColumn(name = "userid")
 	private Employee employee;
 	
-	public Leave(Date startDate, Date endDate, LeaveEnum leaveType, String addtnlReason,
+	public Leave(LocalDate startDate, LocalDate endDate, LeaveEnum leaveType, String addtnlReason,
 			String workDissemination, String contact, StatusEnum status, String comments) {
 		super();
 		this.startDate = startDate;
