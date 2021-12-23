@@ -347,6 +347,30 @@ public class LeaveController {
 	@GetMapping("/delete/{leaveId}")
 	public String deleteLeave(@PathVariable("leaveId") Integer leaveId) {
 		Leave leaveToDelete = lService.findLeaveById(leaveId);
+		
+		
+		
+		
+		int periodDays = lService.calculatePeriodDays(leaveToDelete);
+		int daysToExclude = lService.calculateDaysToExclude(leaveToDelete);
+		int compensation = periodDays - daysToExclude;
+		LeaveEnum leaveType = leaveToDelete.getLeaveType();
+		Employee employee = leaveToDelete.getEmployee();
+		if (leaveType == LeaveEnum.ANNUAL)
+		{
+			employee.setAnnualLeaveN(employee.getAnnualLeaveN() + compensation);
+		}
+		else if (leaveType == LeaveEnum.MEDICAL)
+		{
+			employee.setMedicalLeaveN(employee.getMedicalLeaveN() + compensation);
+		}
+		else if (leaveType == LeaveEnum.COMPENSATION)
+		{
+			employee.setCompLeaveN(employee.getCompLeaveN() + compensation);
+		}
+		
+		
+		
 		lService.deleteLeave(leaveToDelete);
 		String msg = "Leave was successfully deleted.";
 		System.out.println(msg);
@@ -357,6 +381,25 @@ public class LeaveController {
 	@GetMapping("/cancel/{leaveId}")
 	public String cancelLeave(@PathVariable("leaveId") Integer leaveId) {
 		Leave leaveToCancel = lService.findLeaveById(leaveId);
+		int periodDays = lService.calculatePeriodDays(leaveToCancel);
+		int daysToExclude = lService.calculateDaysToExclude(leaveToCancel);
+		int compensation = periodDays - daysToExclude;
+		LeaveEnum leaveType = leaveToCancel.getLeaveType();
+		Employee employee = leaveToCancel.getEmployee();
+		if (leaveType == LeaveEnum.ANNUAL)
+		{
+			employee.setAnnualLeaveN(employee.getAnnualLeaveN() + compensation);
+		}
+		else if (leaveType == LeaveEnum.MEDICAL)
+		{
+			employee.setMedicalLeaveN(employee.getMedicalLeaveN() + compensation);
+		}
+		else if (leaveType == LeaveEnum.COMPENSATION)
+		{
+			employee.setCompLeaveN(employee.getCompLeaveN() + compensation);
+		}
+		
+		
 		lService.cancelLeave(leaveToCancel);
 		String msg = "Leave was successfully cancelled.";
 		System.out.println(msg);
