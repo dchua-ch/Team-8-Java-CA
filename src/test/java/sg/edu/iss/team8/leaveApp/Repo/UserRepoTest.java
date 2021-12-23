@@ -1,6 +1,8 @@
 package sg.edu.iss.team8.leaveApp.Repo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -119,4 +121,28 @@ public class UserRepoTest {
 		assertEquals(empType, "manager"); 
 	}
 
+	@Test
+	@Order(8)
+	public void TestCreateUser()
+	{
+		System.out.println("Executing TestCreateUser()");
+		//User myUser = new User("Billy","Hillbilly123","obvious password");
+		Manager myManager = new Manager("Hilda", "hilda", "hilda", 14, 60, 0, null);
+		Manager myManager2 = new Manager("Man2", "man2", "man2", 14, 60, 0, null);
+		Employee myEmployee = new Employee("Jane", "jane", "jane", 14, 60, 0, 1);
+		Employee myEmployee2 = new Employee("MarryManager", "marry", "marry", 14, 60, 0, 2);
+		Employee myEmployee3 = new Employee("John", "john", "john", 14, 60, 0, 1);
+		Admin myAdmin = new Admin("Adekunle", "admin", "admin");
+
+		urepo.saveAndFlush(myManager);
+		urepo.saveAndFlush(myManager2);
+		urepo.saveAndFlush(myEmployee);
+		urepo.saveAndFlush(myEmployee2);
+		urepo.saveAndFlush(myEmployee3);
+		urepo.saveAndFlush(myAdmin);
+		
+		
+		List<User> users = urepo.findAll();
+		assertTrue(users.size() > 0);
+	}
 }
