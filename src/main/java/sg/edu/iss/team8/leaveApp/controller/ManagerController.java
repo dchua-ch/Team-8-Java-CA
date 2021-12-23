@@ -198,8 +198,6 @@ public class ManagerController {
 				
 				Integer month = Integer.parseInt(OTMonth.getDate().substring(5));
 				Integer year = Integer.parseInt(OTMonth.getDate().substring(0,4));
-				System.out.println(month);
-				System.out.println(year);
 				LinkedHashMap<Employee, ArrayList<OvertimeHours>> submap = new LinkedHashMap<Employee, ArrayList<OvertimeHours>>();
 				LinkedHashMap<Employee, Double> totalmap = new LinkedHashMap<Employee, Double>();
 				LinkedHashMap<Employee, Double> totalapprmap = new LinkedHashMap<Employee, Double>();

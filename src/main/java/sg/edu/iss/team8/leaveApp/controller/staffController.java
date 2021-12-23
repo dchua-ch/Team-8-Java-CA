@@ -159,9 +159,7 @@ public class staffController {
 				oservice.saveOTHours(ot);
 				return "redirect:/staff/listot";
 			}
-		}
 		return "forward:/home/login";
-		
 	}
 	
 	@RequestMapping(value = "/listot")

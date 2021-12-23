@@ -1,9 +1,6 @@
 DROP SCHEMA IF EXISTS leaveapp;
-
 CREATE SCHEMA leaveapp;
-
 USE leaveapp;
-
 CREATE TABLE `user` (
   `user_type` varchar(31) NOT NULL,
   `user_id` int NOT NULL,
@@ -16,7 +13,6 @@ CREATE TABLE `user` (
   `reports_to` int DEFAULT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
-
 CREATE TABLE `overtime_hours` (
   `overtime_id` int NOT NULL,
   `date` date DEFAULT NULL,
@@ -26,9 +22,8 @@ CREATE TABLE `overtime_hours` (
   KEY `FK6uw8uhxt6kcjsl7f8m703o53k` (`userid`),
   CONSTRAINT `FK6uw8uhxt6kcjsl7f8m703o53k` FOREIGN KEY (`userid`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
-
 CREATE TABLE `leaves` (
-  `leave_id` int NOT NULL,
+  `leave_id` int NOT NULL AUTO_INCREMENT,
   `addtnl_reason` varchar(255) DEFAULT NULL,
   `comments` varchar(255) DEFAULT NULL,
   `contact` varchar(255) DEFAULT NULL,
@@ -42,8 +37,6 @@ CREATE TABLE `leaves` (
   KEY `FKowilv1q0wak7oi6lgkh67g2cp` (`userid`),
   CONSTRAINT `FKowilv1q0wak7oi6lgkh67g2cp` FOREIGN KEY (`userid`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
-
-
 INSERT INTO leaveapp.user
 (user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to)
 VALUES
