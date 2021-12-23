@@ -111,7 +111,7 @@ public class LeaveTest {
 	
 	@Test
 	@Order(6)
-	public void tesLeaveExclusionCalculation3() throws ParseException {
+	public void testLeaveExclusionCalculation3() throws ParseException {
 		//DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Leave leave = new Leave(formatter.parse("2021-12-15"), formatter.parse("2021-12-22"), LeaveEnum.MEDICAL , "...",
@@ -119,6 +119,17 @@ public class LeaveTest {
 		int result = lservice.calculateDaysToExclude(leave);
 		assertEquals(result, 0);	//should be 0 because MEDICAL Leave
 
+	}
+	
+	@Test
+	@Order(7)
+	public void testLeaveExclusionCalculation4() throws ParseException {
+		//DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Leave leave = new Leave(formatter.parse("2021-11-03"), formatter.parse("2021-11-05"), LeaveEnum.ANNUAL , "...",
+				"...", "91111", StatusEnum.APPLIED, "...");
+		int result = lservice.calculateDaysToExclude(leave);
+		assertEquals(result, 1);	//should exclude 1 because 4 Nov is PH.
 	}
 	
 	/*
