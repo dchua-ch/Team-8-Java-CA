@@ -8,7 +8,7 @@
     
 </head>
 <body>
-    <h1>Leave History</h1>
+    <h1>Leave Application History</h1>
     <table border = "0">
 	    <tr>
 	    	<th>Leave ID</th>
@@ -30,13 +30,16 @@
 	    	<td th:text = "${leave.status}"></td>
 	    	<!--"@{'/leave/update/' + ${leave.leaveId}}"-->
 	    	<td>
-	    		<a th:href = "@{'/leave/update/' + ${leave.leaveId}}">Update</a >
+	    		<a th:if = "${leave.status.name() == 'APPLIED' || leave.status.name() == 'UPDATED'  }"th:href = "@{'/leave/update/' + ${leave.leaveId}}">Update</a >
+	    		<span th:unless = "${leave.status.name() == 'APPLIED' || leave.status.name() == 'UPDATED'  }">Update</span>
 	    	</td >
 	    	<td>
-	    		<a th:href = "@{'/leave/cancel/' + ${leave.leaveId}}">Cancel</a >
+	    		<a th:if = "${leave.status.name() == 'APPROVED'}"th:href = "@{'/leave/cancel/' + ${leave.leaveId}}">Cancel</a >
+	    		<span th:unless = "${leave.status.name() == 'APPROVED'}">Cancel</span>
 	    	</td >
 	    	<td>
-	    		<a th:href = "@{'/leave/delete/' + ${leave.leaveId}}">Delete</a >
+	    		<a th:if = "${leave.status.name() == 'APPLIED' || leave.status.name() == 'UPDATED'  }" th:href = "@{'/leave/delete/' + ${leave.leaveId}}">Delete</a >
+	    		<span th:unless = "${leave.status.name() == 'APPLIED' || leave.status.name() == 'UPDATED'  }">Delete</span>
 	    	</td >
 	    	
 	    	
