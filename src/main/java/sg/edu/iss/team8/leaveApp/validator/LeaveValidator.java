@@ -25,9 +25,15 @@ public class LeaveValidator implements Validator {
 		ValidationUtils.rejectIfEmpty(e, "addtnlReason", "error.leave.addtnlReason.empty");
 		ValidationUtils.rejectIfEmpty(e, "comments", "error.leave.comments.empty");
 		
-		if (leave.getStartDate().after(leave.getEndDate())) {
-			e.rejectValue("startDate", "error.leave.startDate-endDate.chronological");
+		if(leave.getStartDate() != null && leave.getEndDate() != null)
+		{
+			if ((leave.getStartDate().isAfter(leave.getEndDate()))) 
+			{
+				e.reject("startDate", "Start Date should be before the or equal with End Date");
+				e.rejectValue("startDate", "error.leave.startDate-endDate.chronological", "startDate must be <= endDate");
+			}
 		}
+		System.out.println(e);
 	}
 	
 	

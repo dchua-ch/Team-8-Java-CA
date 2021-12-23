@@ -1,8 +1,9 @@
 package sg.edu.iss.team8.leaveApp.model;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
-import java.util.Calendar;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,13 +13,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.Data;
-
 import lombok.NoArgsConstructor;
 
 import sg.edu.iss.team8.leaveApp.helpers.LeaveEnum;
+import sg.edu.iss.team8.leaveApp.helpers.LeaveInput;
 import sg.edu.iss.team8.leaveApp.helpers.StatusEnum;
 
 @Entity (name = "Leaves")
@@ -28,8 +30,8 @@ public class Leave {
 	@Id
 	@GeneratedValue (strategy = GenerationType.AUTO)
 	private Integer leaveId;
-	private Date startDate;
-	private Date endDate;
+	private LocalDate startDate;
+	private LocalDate endDate;
 	@Column(name = "leaveType", columnDefinition = "ENUM('ANNUAL', 'MEDICAL', 'COMPENSATION')")
 	@Enumerated(EnumType.STRING)
 	private LeaveEnum leaveType;
@@ -41,13 +43,12 @@ public class Leave {
 	private StatusEnum status;
 	@NotEmpty
 	private String comments;
-	private Calendar year;
 	
 	@ManyToOne
 	@JoinColumn(name = "userid")
 	private Employee employee;
 	
-	public Leave(Date startDate, Date endDate, LeaveEnum leaveType, String addtnlReason,
+	public Leave(LocalDate startDate, LocalDate endDate, LeaveEnum leaveType, String addtnlReason,
 			String workDissemination, String contact, StatusEnum status, String comments) {
 		super();
 		this.startDate = startDate;
@@ -60,7 +61,7 @@ public class Leave {
 		this.comments = comments;
 	}
 	
-	public Leave(Date startDate, Date endDate, LeaveEnum leaveType, String addtnlReason,
+	public Leave(LocalDate startDate, LocalDate endDate, LeaveEnum leaveType, String addtnlReason,
 			String workDissemination, String contact, StatusEnum status, String comments, Employee employee) {
 		super();
 		this.startDate = startDate;
@@ -73,8 +74,15 @@ public class Leave {
 		this.comments = comments;
 		this.employee = employee;
 	}
-	
+	public LocalDate convertToLocalDate(Date dateToConvert) {
+	    return dateToConvert.toInstant()
+	      .atZone(ZoneId.systemDefault())
+	      .toLocalDate();
+	}
 
-	
-	
+	public Leave(@Valid LeaveInput leaveInput) {
+		// TODO Auto-generated constructor stub
+	}
+
+
 }

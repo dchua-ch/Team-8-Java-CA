@@ -6,7 +6,7 @@
 <body>
 	<div th:replace="fragments/layout.html::menu"/>
 	<h1>My leaving applications History in this year</h1 >
-	<div  >
+	<div >
 		<table class="table table-striped">
 			<tr class="listHeading">
 				<th><span th:text="#{fieldLabel.reference}"></span></th>
@@ -21,8 +21,8 @@
 			<tr th:each="leave:${leaves}" class="listRecord">
 				<td align="left" th:text="${leave.leaveId}">Id</td>
 				<td align="left" th:text="${leave.leaveType}">leaveType</td>
-				<td align="left" th:text="${#dates.format(leave.startDate, 'dd/MM/yyyy')}">From</td>
-				<td align="left" th:text="${#dates.format(leave.endDate, 'dd/MM/yyyy')}">To</td>
+				<td align="left" th:text="${leave.startDate}">From</td>
+				<td align="left" th:text="${leave.endDate}">To</td>
 				<td align="left" th:text="${leave.status}">status</td>
 				<td align="left" ><a href="ldetails.html" th:href="@{/staff/history/details/}+${leave.leaveId}" th.utext="#{leave.viewdetails}">View details</a></td>
 				

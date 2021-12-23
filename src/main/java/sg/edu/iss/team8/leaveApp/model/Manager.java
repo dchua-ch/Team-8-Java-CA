@@ -14,6 +14,9 @@ import lombok.NoArgsConstructor;
 @DiscriminatorValue("manager")
 public class Manager extends Employee {
 	
+	public Manager(String name) {
+		super(name);
+	}
 
 	
 	public Manager(String name, String username, String password, 

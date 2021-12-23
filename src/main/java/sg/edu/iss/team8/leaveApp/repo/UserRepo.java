@@ -40,5 +40,5 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 	
 	@Query(value = "SELECT user_type FROM user WHERE user_id = :uid ", nativeQuery = true)
 	public String getEmpTypeByUID(@Param("uid") Integer userId); 
-	
 }
+

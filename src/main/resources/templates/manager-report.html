@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<body>
+	<div th:replace="fragments/layout.html::menu" />
+	<div class="container">
+		<h1>View Reports</h1>
+		<div class="row">
+			<div class="col-md-4 mt-5">
+				<form>
+					<divclass="form-group">
+						<label for="employee">Choose Employee:</label>
+						<select class="form-control selectpicker" th:field="${outcome.id}" id="employee">
+							<option value="">Select</option>
+							<option th:each="employee : ${sub}" th:value="${employee.userId}"
+								th:text="${employee.name}">Name
+							</option>
+						</select>
+						&nbsp;
+						<label for="startDate">Start Date: </label>
+						<input type="text" class="form-control" id="startDate" placeholder="yyyy-MM-dd"
+							th:field="${outcome.start}">
+						&nbsp;
+						<label for="endDate">End Date: </label>
+						<input type="text" class="form-control" id="endDate" placeholder="yyyy-MM-dd"
+							th:field="${outcome.end}">
+						&nbsp;&nbsp;
+						<div>
+							<input type="checkbox" class="form-check-input" id="comp" th:field="${outcome.comp}">
+							<label class="form-check-label" for="comp">Only Include Compensation Leaves</label>
+						</div>
+						&nbsp;&nbsp;
+						<div><span><b> Please refresh for each new search</b></span></div>
+						&nbsp;
+						<div>
+							<input type="submit" th:value="Submit" class="btn btn-primary" id="btn" />
+							<input type="button" th:value="Refresh" class="btn btn-secondary" id="refresh" />
+						</div>
+						&nbsp;
+						<div>
+							<input type="button" value="Export to CSV" class="btn-block btn-link" id="export" />
+						</div>
+						</divclass>
+				</form>
+			</div>
+			<div class="col-lg mt-5">
+				<span><b>Leave Records:</b></span>
+				<table border="1 pt" class="table">
+					<thead class="thead-dark">
+						<tr>
+							<th>Leave Id</th>
+							<th>Name</th>
+							<th>Start Date</th>
+							<th>End Date</th>
+							<th>Leave Type</th>
+						</tr>
+					</thead>
+					<tbody id="myTable">
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script th:src="@{/js/report.js}"></script>
+</body>
+
+</html>

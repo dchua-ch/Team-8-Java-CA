@@ -23,12 +23,12 @@
 				
 				<tr>
 					<th><span th:text="#{fieldLabel.startDate}"></span></th>
-					<td th:text="${#dates.format(leave.startDate, 'dd/MM/yyyy')}">From</td>
+					<td th:text="${leave.startDate}">From</td>
 				</tr>
 				
 				<tr>
 					<th><span th:text="#{fieldLabel.endDate}"></span></th>
-					<td th:text="${#dates.format(leave.endDate, 'dd/MM/yyyy')}">To</td>
+					<td th:text="${leave.endDate}">To</td>
 				</tr>
 				
 				<tr>
@@ -56,8 +56,8 @@
 		<div class="row">
 		<div style = "text-align:right" class="col-xs-4" >		
 		<a><input id = "return" name = "Submit" type="button" value="Return"  onclick="javascript:history.back(-1);" /></a>		
-		<a th:href="@{/staff/edit/}+${leave.leaveId}"><input type="button" value="Edit"  /></a>			
-		<a th:href="@{/staff/withdraw/}+${leave.leaveId}"><input type="button" value="Delete" /></a>
+		<a th:href="@{/staff/update/}+${leave.leaveId}"><input type="button" value="Edit"  /></a>			
+		<a th:href="@{/staff/delete/}+${leave.leaveId}"><input type="button" value="Delete" /></a>
 		</div >
 		</div >			
 </div>

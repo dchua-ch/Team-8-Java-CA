@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/layout.html :: html_head">
+<head th:replace="fragments/layout.html :: html_head"/>
 
-</head>
 <body>
 	<div th:replace="fragments/layout.html::menu"/>
 	<div class="container">
@@ -74,6 +73,8 @@
 					<div class="form-group col-md-4">
 						<label for="comments">Comments:</label>
 						<textarea class="form-control" id="comments" rows="4" th:field="${outcome.comments}"></textarea>
+						<p th:if="${#fields.hasErrors('${outcome.comments}')}" th:errors="${outcome.comments}"></p >
+
 					</div>
 					&nbsp;&nbsp;
 					<div>

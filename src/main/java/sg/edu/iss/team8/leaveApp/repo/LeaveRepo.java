@@ -12,4 +12,7 @@ import sg.edu.iss.team8.leaveApp.model.Leave;
 public interface LeaveRepo extends JpaRepository<Leave, Integer>{
 	@Query("SELECT L FROM Leaves L WHERE L.leaveId = :lid")
 	public Leave findLeaveByID(@Param("lid") Integer leaveId);
+	
+	@Query("Select l from Leaves l where l.employee.userId = :userId")
+	public List<Leave> findLeaveByUserId(@Param("userId") Integer userId);
 }
