@@ -196,8 +196,6 @@ public class ManagerController {
 				
 				Integer month = Integer.parseInt(OTMonth.getDate().substring(5));
 				Integer year = Integer.parseInt(OTMonth.getDate().substring(0,4));
-				System.out.println(month);
-				System.out.println(year);
 				LinkedHashMap<Employee, ArrayList<OvertimeHours>> submap = new LinkedHashMap<Employee, ArrayList<OvertimeHours>>();
 				LinkedHashMap<Employee, Double> totalmap = new LinkedHashMap<Employee, Double>();
 				LinkedHashMap<Employee, Double> totalapprmap = new LinkedHashMap<Employee, Double>();
@@ -234,7 +232,6 @@ public class ManagerController {
 	public String subordinateotdetails(HttpSession session, @PathVariable Integer id, @PathVariable Integer month, @PathVariable Integer year) {
 		UserSession usession = (UserSession) session.getAttribute("usession");
 		User u = usession.getUser();
-		System.out.println("test1");
 		if (u.getClass().getSimpleName().equalsIgnoreCase("manager")) { 
 			Employee employee = (Employee) uservice.findUser(id);
 			ArrayList<OvertimeHours> oth = oservice.findOTHoursByMYUserId(month, year, id);

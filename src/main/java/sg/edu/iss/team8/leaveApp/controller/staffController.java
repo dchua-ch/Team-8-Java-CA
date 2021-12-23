@@ -131,6 +131,7 @@ public class staffController {
 	public String addOTForm(HttpSession session, Model model) {
 		UserSession usession = (UserSession) session.getAttribute("usession");
 		if (usession != null) {
+			User u = usession.getUser();
 			model.addAttribute("OTHours", new OvertimeHoursInput());
 			return "ot-form";
 		}
@@ -146,30 +147,20 @@ public class staffController {
 		}
 		if (usession != null) {
 			User u = usession.getUser();
-			
-			if (u.getClass().getSimpleName().equalsIgnoreCase("admin")) {
-				return "adminerror";
+			OvertimeHours ot = new OvertimeHours(OTHours);
+			ot.setEmployee((Employee) u);
+			ot.setStatus(OTEnum.APPLIED);
+			oservice.saveOTHours(ot);
+			return "redirect:/staff/listot";
 			}
-			else {
-				OvertimeHours ot = new OvertimeHours(OTHours);
-				ot.setEmployee((Employee) u);
-				ot.setStatus(OTEnum.APPLIED);
-				oservice.saveOTHours(ot);
-				return "redirect:/staff/listot";
-			}
-		}
 		return "forward:/home/login";
-		
 	}
 	
 	@RequestMapping(value = "/listot")
 	public String listOT(HttpSession session, Model model) {
 		UserSession usession = (UserSession) session.getAttribute("usession");
-		if (usession != null) { //if not logged in
+		if (usession != null) {
 			User u = usession.getUser();
-			if (u.getClass().getSimpleName().equalsIgnoreCase("admin")) {
-				return "adminerror";
-			}
 			model.addAttribute("OTHistory", oservice.findOTHoursByUserId(u.getUserId()));
 			return "ot-list";
 		}
