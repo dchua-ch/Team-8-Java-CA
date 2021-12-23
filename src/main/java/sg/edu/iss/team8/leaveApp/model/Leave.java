@@ -75,6 +75,7 @@ public class Leave {
 		this.contact = leaveInput.getContact();
 		this.status = leaveInput.getStatus();
 		this.comments = leaveInput.getComments();
+		this.employee = leaveInput.getEmployee();
 	}
 	
 	public LocalDate convertToLocalDate(Date dateToConvert) {
