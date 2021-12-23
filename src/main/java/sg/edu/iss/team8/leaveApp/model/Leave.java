@@ -44,7 +44,7 @@ public class Leave {
 	@Column(name = "status", columnDefinition = "ENUM('APPLIED', 'APPROVED', 'REJECTED', 'DELETED', 'CANCELLED', 'ARCHIVED', 'UPDATED')")
 	@Enumerated(EnumType.STRING)
 	private StatusEnum status;
-	@NotEmpty
+	//@NotEmpty
 	private String comments;
 	
 	@ManyToOne
@@ -81,6 +81,7 @@ public class Leave {
 	    return dateToConvert.toInstant()
 	      .atZone(ZoneId.systemDefault())
 	      .toLocalDate();
+	}
 
 	public Leave(LocalDate startDate, LocalDate endDate, LeaveEnum leaveType, String addtnlReason,
 			String workDissemination, String contact, StatusEnum status, String comments, Employee employee) {

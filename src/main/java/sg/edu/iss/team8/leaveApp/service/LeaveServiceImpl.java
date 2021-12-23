@@ -31,6 +31,9 @@ public class LeaveServiceImpl implements LeaveService {
 	@Autowired
 	LeaveRepo lrepo;
 	
+	@Autowired
+	private UserRepo urepo;
+	
 	@Transactional
 	public Leave findLeaveById(Integer leaveId) {
 		return lrepo.findLeaveById(leaveId);
@@ -133,11 +136,9 @@ public class LeaveServiceImpl implements LeaveService {
 		return;
 	}
 
-	@Resource
-	private UserRepo urepo;
 
-	@Resource
-	private LeaveRepo lrepo;
+
+
 
 	@Override
 	public List<Leave> findLeaveByUID(Integer userId) {
@@ -167,12 +168,7 @@ public class LeaveServiceImpl implements LeaveService {
 		return pendingList;
 	}
 
-	@Transactional
-	@Modifying
-	@Override
-	public void updateLeave(Leave leave) {
-		lrepo.saveAndFlush(leave);
-	}
+
 
 	@Override
 	public List<Leave> findLeaveWithinDateRange(List<Leave> lList, LocalDate start, LocalDate end) {
@@ -212,9 +208,5 @@ public class LeaveServiceImpl implements LeaveService {
 	}
 
 	
-	@Override
-	public Leave findLeaveById(Integer leaveId) {
-		return lrepo.findLeaveByID(leaveId);
-	}
-  
+
 }
