@@ -22,4 +22,6 @@ public class MonthYearValidator implements Validator {
 		MonthYear my = (MonthYear) arg0;
 		ValidationUtils.rejectIfEmptyOrWhitespace(arg1, "date", "error.MonthYear", "Month is required.");
 		}
+	
+	
 	}

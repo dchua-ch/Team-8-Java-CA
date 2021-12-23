@@ -92,6 +92,8 @@ public class ManagerController {
 				
 				Integer month = Integer.parseInt(OTMonth.getDate().substring(5));
 				Integer year = Integer.parseInt(OTMonth.getDate().substring(0,4));
+				System.out.println(month);
+				System.out.println(year);
 				LinkedHashMap<Employee, ArrayList<OvertimeHours>> submap = new LinkedHashMap<Employee, ArrayList<OvertimeHours>>();
 				LinkedHashMap<Employee, Double> totalmap = new LinkedHashMap<Employee, Double>();
 				LinkedHashMap<Employee, Double> totalapprmap = new LinkedHashMap<Employee, Double>();
@@ -100,7 +102,7 @@ public class ManagerController {
 				LinkedHashMap<Employee, Double> totalrejmap = new LinkedHashMap<Employee, Double>();
 				LinkedHashMap<Employee, Integer> totalleavegivenmap = new LinkedHashMap<Employee, Integer>();
 				for (Employee subordinate : urepo.findSubordinates(u.getUserId())) {
-					submap.put(subordinate, oservice.findOTHoursByUserId(subordinate.getUserId()));
+					submap.put(subordinate, oservice.findOTHoursByMYUserId(month, year, subordinate.getUserId()));
 					totalmap.put(subordinate, oservice.findTotalOTHoursByMYUserId(month, year, subordinate.getUserId()));
 					totalapprmap.put(subordinate, oservice.findTotalOTHoursByMYUserIdStatus(month, year, subordinate.getUserId(), OTEnum.APPROVED));
 					totalapplmap.put(subordinate, oservice.findTotalOTHoursByMYUserIdStatus(month, year, subordinate.getUserId(), OTEnum.APPLIED));
