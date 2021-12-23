@@ -12,6 +12,7 @@ CREATE TABLE leaveapp.user (
 	comp_leaven INTEGER NULL,
 	medical_leaven INTEGER NULL,
 	reports_to INTEGER NULL,
+	enabled BOOLEAN NULL,
 	PRIMARY KEY (user_id));
 
 CREATE TABLE leaveapp.leaves (
