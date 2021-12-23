@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org">
+<head>
+	<title>Approve OT</title>
+	<head th:replace="fragments/layout.html :: html_head">	
+</head>
+<body>
+	<div th:replace="fragments/layout.html::menu"/>
+	<h1>Search OT Hours By Month</h1>
+	<form action = "#" th:object = "${OTMonth}" th:action = "@{/manager/subordinatelistot}" method="GET">
+		<label for="OTMonth">Month: </label>
+		<input type="month" name = "OTMonth" th:field = "*{date}">
+		<br><p th:if="${#fields.hasErrors('${OTMonth.date}')}"> Month is required </p> 
+		<br><input type="submit" value="Search"/>
+	</form>
+</body>
+</html>

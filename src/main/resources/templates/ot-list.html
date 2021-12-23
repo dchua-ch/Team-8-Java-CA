@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Personal OT History</title>
+	<head th:replace="fragments/layout.html :: html_head">	
+</head>
+<body>
+	<div th:replace="fragments/layout.html::menu"/>
+	<h2>Personal OT History</h2>
+<!--	<div th:if="${not #lists.isEmpty(OTHistory)}">-->
+	<div>
+		<table class="table table-striped">
+			<tr class="listHeading">
+				<th><span th:text="#{fieldLabel.Reference}"></span></th>
+				<th><span th:text="#{fieldLabel.OTDate}"></span></th>
+				<th><span th:text="#{fieldLabel.Hours}"></span></th>
+				<th><span th:text="#{fieldLabel.Reason}"></span></th>
+				<th><span th:text="#{fieldLabel.Status}"></span></th>
+			</tr>
+			<tr th:each="OTDay : ${OTHistory}" class="listRecord">
+				<td align="left" th:text="${OTDay.overtimeId}">Id</td>
+				<td align="left" th:text="${#temporals.format(OTDay.date, 'dd/MMM/yyyy')}">Date</td>
+				<td align="left" th:text="${OTDay.hours}">Hours</td>
+				<td align="left" th:text="${OTDay.reason}">Reason</td>
+				<td align="left" th:text="${OTDay.status}">Status</td>
+			</tr>
+		</table>
+		<a th:href = "@{/staff/addot}"><button type="button">Add OT</button></a>
+	</div>
+</body>
+</html >

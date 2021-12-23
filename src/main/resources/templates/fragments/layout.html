@@ -23,13 +23,22 @@
 						<li class="nav-item active"> <a class="nav-link" href="#">My Calendar </a> </li>
 						<li class="nav-item"><a class="nav-link" href="/staff/history/"> My Leaves </a></li>
 						<li class="nav-item"><a class="nav-link" href="#"> My Profile </a></li>
+						<li class="nav-item dropdown">
+							<a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown" type="button"> Overtime </a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" th:href="@{/staff/addot}"> Update OT Hours</a></li>
+								<li><a class="dropdown-item" th:href="@{/staff/listot}"> My OT Hours</a></li>
+							</ul>
+						</li>
 						<div th:if="${session.usession.empType == 'manager'}">
 						<li class="nav-item dropdown">
 							<a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown" type="button"> Manager </a>
 							<ul class="dropdown-menu">
 								<li><a class="dropdown-item" th:href="@{/manager/pending}"> Leave Applications for Approval</a></li>
 								<li><a class="dropdown-item" th:href="@{/manager/leave-history}"> Subordinates Leave History</a></li>
+								<li><a class="dropdown-item" th:href="@{/manager/toapproveot}"> View/Approve Subordinates OT</a></li>
 								<li><a class="dropdown-item" th:href="@{/reportAPI/search}"> Generate Reports</a></li>
+								
 							</ul>
 						</li>
 						</div > 
@@ -37,7 +46,8 @@
 						<li class="nav-item dropdown">
 							<a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown" type="button"> Employee </a>
 							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" th:href="@{/manager/pending/}"> Update OT Hours</a></li>
+								<!--<li><a class="dropdown-item" th:href="@{/staff/addOT}"> Update OT Hours</a></li>
+								<li><a class="dropdown-item" th:href="@{/staff/listOT}"> My OT Hours</a></li>-->
 							</ul>
 						</li>
 						</div >
