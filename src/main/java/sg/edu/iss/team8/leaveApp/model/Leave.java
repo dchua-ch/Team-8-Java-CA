@@ -1,6 +1,7 @@
 package sg.edu.iss.team8.leaveApp.model;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -18,6 +19,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import sg.edu.iss.team8.leaveApp.helpers.LeaveEnum;
+import sg.edu.iss.team8.leaveApp.helpers.LeaveInput;
 import sg.edu.iss.team8.leaveApp.helpers.StatusEnum;
 
 @Entity (name = "Leaves")
@@ -57,5 +59,24 @@ public class Leave {
 		this.contact = contact;
 		this.status = status;
 		this.comments = comments;
+	}
+	
+	public Leave(LeaveInput leaveInput)
+	{
+		super();
+		this.startDate = convertToLocalDate(leaveInput.getStartDate());
+		this.endDate = convertToLocalDate(leaveInput.getEndDate());
+		this.leaveType = leaveInput.getLeaveType();
+		this.addtnlReason = leaveInput.getAddtnlReason();
+		this.workDissemination = leaveInput.getWorkDissemination();
+		this.contact = leaveInput.getContact();
+		this.status = leaveInput.getStatus();
+		this.comments = leaveInput.getComments();
+	}
+	
+	public LocalDate convertToLocalDate(Date dateToConvert) {
+	    return dateToConvert.toInstant()
+	      .atZone(ZoneId.systemDefault())
+	      .toLocalDate();
 	}
 }

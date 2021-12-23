@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.iss.team8.leaveApp.helpers.LeaveEnum;
+import sg.edu.iss.team8.leaveApp.helpers.LeaveInput;
 import sg.edu.iss.team8.leaveApp.model.Leave;
 import sg.edu.iss.team8.leaveApp.repo.LeaveRepo;
 import sg.edu.iss.team8.leaveApp.service.LeaveService;
@@ -62,8 +63,9 @@ public class LeaveController {
 	//add/initialize a Leave object
 	@RequestMapping("/add")
 	public String addLeave(Model model) {
-		Leave newLeave = new Leave();
-		model.addAttribute("leave", newLeave);
+		LeaveInput leaveInput = new LeaveInput();
+		//Leave newLeave = new Leave();
+		model.addAttribute("leave", leaveInput);
 		String msg = "New leave created";
 		System.out.println(msg);
 		return "apply-leave";
@@ -71,17 +73,17 @@ public class LeaveController {
 	
 	//submit the Leave to persist
 	@PostMapping("/submit")
-	public String submitLeave(@ModelAttribute("leave") @Valid Leave leave,
+	public String submitLeave(@ModelAttribute("leave") @Valid LeaveInput leaveInput,
 								BindingResult result, HttpSession session) {
 		if (result.hasErrors()) {
 			return "submit-leave-error";
 		}
 		
-		UserSession usession = (UserSession) session.getAttribute("usession");
-		Integer userId = usession.getUser().getUserId();
-		leave.getEmployee().setUserId(userId);
-		
-		LeaveEnum leaveType = leave.getLeaveType();
+//		UserSession usession = (UserSession) session.getAttribute("usession");
+//		Integer userId = usession.getUser().getUserId();
+//		leave.getEmployee().setUserId(userId);
+//		
+//		LeaveEnum leaveType = leave.getLeaveType();
 		//Employee employee = eService.findByUserId(userId);
 		//if (leaveType == LeaveEnum.ANNUAL && employee.getAnnualLeaveN() <= 0) {
 		//	return "some-error-page";
@@ -95,22 +97,33 @@ public class LeaveController {
 		
 		//needs logic for checking if annual leave period <= 14 days.
 		//if period <= 14, weekends should not be included in the leave count
-		int periodDays = lService.calculatePeriodDays(leave);
-		int daysToExclude = lService.calculateDaysToExclude(leave);
-		int totalLeavesToDeduct = periodDays - daysToExclude;
-		if (leaveType == LeaveEnum.ANNUAL) {
+//		LocalDate start = leave.getStartDate();
+//		LocalDate end = leave.getEndDate();
+//		LocalDate startDate = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//		LocalDate endDate = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//		Period period = Period.between(startDate, endDate);
+//		int periodDays = Math.abs(period.getDays());
+//		int daysToExclude = lService.calculateDaysToExclude(leave);
+//		int totalLeavesToDeduct = periodDays - daysToExclude;
+		//if (leaveType == LeaveEnum.ANNUAL) {
 			//employee.setAnnualLeaveN(employee.getAnnualLeaveN() - totalLeavesToDeduct);
-		} else if (leaveType == LeaveEnum.MEDICAL) {
+		//} else if (leaveType == LeaveEnum.MEDICAL) {
 			//employee.setMedicalLeaveN(employee.getMedicalLeaveN() - totalLeavesToDeduct);
-		} else if (leaveType == LeaveEnum.COMPENSATION) {
+		//} else if (leaveType == LeaveEnum.COMPENSATION) {
 			//employee.setCompLeaveN(employee.getCompLeaveN() - totalLeavesToDeduct);
-		}
+		//}
 		//eService.saveAndFlush(employee);
-		
+		Leave leave = new Leave(leaveInput);	
 		lService.submitLeave(leave);
 		String msg = "Leave was successfully submitted.";
 		System.out.println(msg);
 		return "submitted-leave";
+	}
+	
+	private LocalDate convertToLocalDate(Date dateToConvert) {
+	    return dateToConvert.toInstant()
+	      .atZone(ZoneId.systemDefault())
+	      .toLocalDate();
 	}
 	
 	@GetMapping("/select")
@@ -133,17 +146,29 @@ public class LeaveController {
 	public String updateLeavePage(@PathVariable("leaveId") Integer leaveId,
 									Model model) {
 		Leave currentLeave = lService.findLeaveById(leaveId);
-		model.addAttribute("leave", currentLeave);
+		LeaveInput leaveInput = new LeaveInput(currentLeave);
+		model.addAttribute("leave", leaveInput);
+		
 		return "update-leave";
 	}
 	
 	//update the Leave with the new values from the page
 	@PostMapping("/update/{leaveId}")
-	public String updateLeave(@ModelAttribute("leave")  Leave leave,
+	public String updateLeave(@ModelAttribute("leave")  LeaveInput leaveInput,
 								BindingResult result) {
 		if (result.hasErrors()) {
 			return "leave-update-error";
 		}
+		Leave leave = lService.findLeaveById(leaveInput.getLeaveId());
+		LocalDate startDate = convertToLocalDate(leaveInput.getStartDate());
+		LocalDate endDate = convertToLocalDate(leaveInput.getEndDate());
+		leave.setStartDate(startDate);
+		leave.setEndDate(endDate);
+		leave.setAddtnlReason(leaveInput.getAddtnlReason());
+		leave.setLeaveType(leaveInput.getLeaveType());
+		leave.setAddtnlReason(leaveInput.getAddtnlReason());
+		leave.setWorkDissemination(leaveInput.getWorkDissemination());
+		leave.setContact(leaveInput.getContact());
 		
 		lService.updateLeave(leave);
 		String msg = "Leave was successfully updated.";

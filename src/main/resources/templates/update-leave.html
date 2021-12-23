@@ -11,18 +11,20 @@
     <h1>Leave Application form</h1>
 	
     <form th:action = "@{'/leave/update/' + ${leave.leaveId}}" th:object="${leave}" method = "POST"> 
-       
+       	 <p>Update Leave ID: <span th:text = "${leave.leaveId}"></span ></p> 
         <div class = 'questions'>
-        	 <p>Update Leave ID: <span th:text = "${leave.leaveId}"></span ></p> 
-            <div>
-                <label for="start-date">Start Date: </label>
-                <input type="date" name = "start-date"  th:field = "*{startDate}">
-            </div>
-            
-            <div>
-                <label for="end-date">End Date: </label>
-                <input type="date" name = "end-date"  th:field = "*{endDate}">
-            </div>
+        
+        	 <div class = 'question-box'>
+	            <div>
+	                <label for="start-date">Start Date: </label>
+	                <input type="date" name = "start-date"  th:field = "*{startDate}">
+	            </div>
+	            
+	            <div>
+	                <label for="end-date">End Date: </label>
+	                <input type="date" name = "end-date"  th:field = "*{endDate}">
+	            </div>
+        	 </div >
           	
             <div>
                 <label for="leave-type">Leave type: </label>
@@ -32,19 +34,21 @@
             </div>
             <div>
                 <label for="reason">Reason: </label>
-                <div><textarea name="reason" id="" cols="30" rows="10"  th:field = "*{addtnlReason}" th:value = "*{addtnlReason}"></textarea></div>
+                <div><textarea name="reason" id="" cols="30" rows="5"  th:field = "*{addtnlReason}" th:value = "*{addtnlReason}"></textarea></div>
             </div>
-            <div>
-                <label for='work-dissemination'>Work dissemination: </label>
-                <div><input type="text" name = "work-dissemination"  th:field = "*{workDissemination}" th:value = "*{workDissemination}">></div>
-            </div>
-            <div>
-                <label for="contact-details">Contact Details: </label>
-                <div>
-                    <label for="contact-details"></label>
-                    <input name = "contact-details" type="text"  th:field = "*{contact}"  th:value = "*{contact}">
-                </div>
-            </div>
+            <div class = 'question-box'>
+	            <div>
+	                <label for='work-dissemination'>Work dissemination: </label>
+	                <div><input type="text" name = "work-dissemination"  th:field = "*{workDissemination}" th:value = "*{workDissemination}"></div>
+	            </div>
+	            <div>
+	                <label for="contact-details">Contact Details: </label>
+	                <div>
+	                    <label for="contact-details"></label>
+	                    <input name = "contact-details" type="text"  th:field = "*{contact}"  th:value = "*{contact}">
+	                </div>
+	            </div>
+	        </div >
         </div>
         <input type = "submit">
         <input type = "reset">

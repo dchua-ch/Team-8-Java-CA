@@ -41,6 +41,7 @@ public class LeaveTest {
   @Autowired
 	private LeaveService lservice;
 	
+  	/*
 	@Test
 	@Order(1)
 	public void testCreateLeave() throws ParseException {
@@ -59,6 +60,7 @@ public class LeaveTest {
 		List<Leave> leaves = lrepo.findAll();
 		assertEquals(leaves.size(), 3);
 	}
+
 	
 	@Test
 	@Order(2)
@@ -85,6 +87,7 @@ public class LeaveTest {
 		assertEquals(5, diff);
 	}
 	
+
 	@Test
 	@Order(4)
 	public void tesLeaveExclusionCalculation() throws ParseException {
@@ -120,7 +123,7 @@ public class LeaveTest {
 		assertEquals(result, 0);	//should be 0 because MEDICAL Leave
 
 	}
-	
+
 	@Test
 	@Order(7)
 	public void testLeaveExclusionCalculation4() throws ParseException {
