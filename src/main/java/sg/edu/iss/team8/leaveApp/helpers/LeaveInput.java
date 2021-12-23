@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
+import sg.edu.iss.team8.leaveApp.model.Employee;
 import sg.edu.iss.team8.leaveApp.model.Leave;
 
 public class LeaveInput {
@@ -23,8 +24,11 @@ public class LeaveInput {
 	private StatusEnum status;
 	private String comments;
 	
+	private Employee employee;
+	
+	
 	public LeaveInput(Integer leaveId, Date startDate, Date endDate, LeaveEnum leaveType, String addtnlReason,
-			String workDissemination, String contact, StatusEnum status, String comments) 
+			String workDissemination, String contact, StatusEnum status, String comments, Employee employee) 
 	{
 		super();
 		this.leaveId = leaveId;
@@ -36,6 +40,7 @@ public class LeaveInput {
 		this.contact = contact;
 		this.status = status;
 		this.comments = comments;
+		this.employee = employee;
 	}
 	public LeaveInput()
 	{
@@ -54,6 +59,7 @@ public class LeaveInput {
 		this.contact = leave.getContact();
 		this.status = leave.getStatus();
 		this.comments = leave.getComments();
+		this.employee = leave.getEmployee();
 	}
 	private Date convertToDate(LocalDate dateToConvert) {
 	    return java.util.Date.from(dateToConvert.atStartOfDay()
@@ -114,6 +120,12 @@ public class LeaveInput {
 	}
 	public void setComments(String comments) {
 		this.comments = comments;
+	}
+	public Employee getEmployee() {
+		return employee;
+	}
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 	
 	

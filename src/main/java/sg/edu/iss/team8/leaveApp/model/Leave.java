@@ -29,7 +29,7 @@ import sg.edu.iss.team8.leaveApp.helpers.StatusEnum;
 @NoArgsConstructor
 public class Leave {
 	@Id
-	@GeneratedValue (strategy = GenerationType.AUTO)
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Integer leaveId;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate startDate;
@@ -75,6 +75,7 @@ public class Leave {
 		this.contact = leaveInput.getContact();
 		this.status = leaveInput.getStatus();
 		this.comments = leaveInput.getComments();
+		this.employee = leaveInput.getEmployee();
 	}
 	
 	public LocalDate convertToLocalDate(Date dateToConvert) {
