@@ -56,8 +56,8 @@
 		<div class="row">
 		<div style = "text-align:right" class="col-xs-4" >		
 		<a><input id = "return" name = "Submit" type="button" value="Return"  onclick="javascript:history.back(-1);" /></a>		
-		<a th:href="@{/staff/edit/}+${leave.leaveId}"><input type="button" value="Edit"  /></a>			
-		<a th:href="@{/staff/withdraw/}+${leave.leaveId}"><input type="button" value="Delete" /></a>
+		<a th:href="@{/leave/update/}+${leave.leaveId}"><input type="button" value="Edit"  /></a>			
+		<a th:href="@{/leave/delete/}+${leave.leaveId}"><input type="button" value="Delete" /></a>
 		</div >
 		</div >			
 </div>
