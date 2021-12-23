@@ -61,6 +61,17 @@ public class LeaveServiceImpl implements LeaveService {
 	}
 	
 	@Transactional
+	public int calculatePeriodDays(Leave leave) {
+		Date start = leave.getStartDate();
+		Date end = leave.getEndDate();
+		LocalDate startDate = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate endDate = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		Period period = Period.between(startDate, endDate);
+		int periodDays = Math.abs(period.getDays());
+		return periodDays;
+	}
+	
+	@Transactional
 	public int calculateDaysToExclude(Leave leave) {
 		LeaveEnum leaveType = leave.getLeaveType();
 		Date start = leave.getStartDate();
