@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import sg.edu.iss.team8.leaveApp.model.User;
+
 
 
 
@@ -40,7 +40,7 @@ public class LoginController {
 		return "adminDashboard";
 	}
 	
-    /*@RequestMapping(value = { "/overview" }, method = RequestMethod.GET)
+    @RequestMapping(value = { "/overview" }, method = RequestMethod.GET)
     public ModelAndView overViewPage(HttpServletRequest request) {
 
         ModelAndView model = new ModelAndView();
@@ -52,12 +52,12 @@ public class LoginController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetail = (UserDetails) auth.getPrincipal();
 
-        User u = userService.getUser(userDetail.getUsername());
+        MyUserDetails u = userService.getUser(userDetail.getUsername());
         request.getSession().setAttribute("userId", u.getUserId());
 
         return model;
 
-    }*/
+    }
 
 }
 	
