@@ -25,10 +25,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.edu.iss.team8.leaveApp.helpers.LeaveEnum;
 import sg.edu.iss.team8.leaveApp.helpers.LeaveInput;
+import sg.edu.iss.team8.leaveApp.model.Employee;
 import sg.edu.iss.team8.leaveApp.model.Leave;
 import sg.edu.iss.team8.leaveApp.repo.LeaveRepo;
+import sg.edu.iss.team8.leaveApp.repo.UserRepo;
+import sg.edu.iss.team8.leaveApp.service.EmployeeService;
 import sg.edu.iss.team8.leaveApp.service.LeaveService;
 import sg.edu.iss.team8.leaveApp.service.LeaveServiceImpl;
+import sg.edu.iss.team8.leaveApp.service.UserService;
 import sg.edu.iss.team8.leaveApp.validator.LeaveValidator;
 
 @Controller
@@ -40,6 +44,15 @@ public class LeaveController {
 
 	@Autowired
 	private LeaveService lService;
+	
+	@Autowired
+	private UserService uService;
+	
+	@Autowired 
+	private EmployeeService eService;
+	
+	@Autowired
+	private UserRepo urepo;
 	
 	@Autowired
 	public void setLeaveService(LeaveServiceImpl lserviceImpl) {
@@ -79,41 +92,46 @@ public class LeaveController {
 			return "submit-leave-error";
 		}
 		
-//		UserSession usession = (UserSession) session.getAttribute("usession");
-//		Integer userId = usession.getUser().getUserId();
-//		leave.getEmployee().setUserId(userId);
-//		
-//		LeaveEnum leaveType = leave.getLeaveType();
-		//Employee employee = eService.findByUserId(userId);
-		//if (leaveType == LeaveEnum.ANNUAL && employee.getAnnualLeaveN() <= 0) {
-		//	return "some-error-page";
-		//}
-		//if (leaveType) == LeaveEnum.MEDICAL && employee.getMedicalLeaveN() <= 0) {
-		//	return "some-error-page";
-		//}
-		//if (leaveType == Leave.Enum.COMPENSATION && employee.getCompLeaveN() <= 0) {
-		//	return "some-error-page;
-		//}
+		UserSession usession = (UserSession) session.getAttribute("usession");
+		Integer userId = usession.getUser().getUserId();
+		Employee employee = eService.findByUserId(userId);
+		leaveInput.setEmployee(employee);
+		System.out.println(leaveInput.getEmployee().getUserId());
 		
+		LeaveEnum leaveType = leaveInput.getLeaveType();
+	
+		if (leaveType == LeaveEnum.ANNUAL && employee.getAnnualLeaveN() <= 0) {
+			return "annual-leave-exceeded";
+		}
+		if (leaveType) == LeaveEnum.MEDICAL && employee.getMedicalLeaveN() <= 0) {
+			return "medical-leave-exceeded";
+		}
+		if (leaveType == LeaveEnum.COMPENSATION && employee.getCompLeaveN() <= 0) {
+			return "compensation-leave-exceeded";
+		}
+		Leave leave = new Leave(leaveInput);	
 		//needs logic for checking if annual leave period <= 14 days.
 		//if period <= 14, weekends should not be included in the leave count
-//		LocalDate start = leave.getStartDate();
-//		LocalDate end = leave.getEndDate();
-//		LocalDate startDate = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//		LocalDate endDate = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//		Period period = Period.between(startDate, endDate);
-//		int periodDays = Math.abs(period.getDays());
-//		int daysToExclude = lService.calculateDaysToExclude(leave);
-//		int totalLeavesToDeduct = periodDays - daysToExclude;
-		//if (leaveType == LeaveEnum.ANNUAL) {
-			//employee.setAnnualLeaveN(employee.getAnnualLeaveN() - totalLeavesToDeduct);
-		//} else if (leaveType == LeaveEnum.MEDICAL) {
-			//employee.setMedicalLeaveN(employee.getMedicalLeaveN() - totalLeavesToDeduct);
-		//} else if (leaveType == LeaveEnum.COMPENSATION) {
-			//employee.setCompLeaveN(employee.getCompLeaveN() - totalLeavesToDeduct);
-		//}
-		//eService.saveAndFlush(employee);
-		Leave leave = new Leave(leaveInput);	
+		//LocalDate start = leave.getStartDate();
+		//LocalDate end = leave.getEndDate();
+		//LocalDate startDate = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		//LocalDate endDate = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		
+		LocalDate startDate = leave.getStartDate();
+		LocalDate endDate = leave.getEndDate();
+		Period period = Period.between(startDate, endDate);
+		int periodDays = Math.abs(period.getDays());
+		int daysToExclude = lService.calculateDaysToExclude(leave);
+		int totalLeavesToDeduct = periodDays - daysToExclude;
+		if (leaveType == LeaveEnum.ANNUAL) {
+			employee.setAnnualLeaveN(employee.getAnnualLeaveN() - totalLeavesToDeduct);
+		} else if (leaveType == LeaveEnum.MEDICAL) {
+			employee.setMedicalLeaveN(employee.getMedicalLeaveN() - totalLeavesToDeduct);
+		} else if (leaveType == LeaveEnum.COMPENSATION) {
+			employee.setCompLeaveN(employee.getCompLeaveN() - totalLeavesToDeduct);
+		}
+		urepo.saveAndFlush(employee);
+		
 		lService.submitLeave(leave);
 		String msg = "Leave was successfully submitted.";
 		System.out.println(msg);
