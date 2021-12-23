@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head"/>
+
+<body>
+	<div th:replace="fragments/layout.html::menu"/>
+	<div class="container">
+		<h1>Leave Details for Approval</h1>
+		<div class="row">
+			<div class="col-7">
+				<form action="#" th:action="@{/manager/leave/edit/} + ${employee.userId} + @{/} + ${leave.leaveId}"
+					th:object="${outcome}" method="POST">
+					<div class="form-group row">
+						<label for="name" class="col-sm-3 col-form-label">Employee Name:</label>
+						<div class="col-sm-5">
+							<input type="text" readonly class="form-control-plaintext" id="name"
+								th:value="${employee.name}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="leaveType" class="col-sm-3 col-form-label">Leave Type:</label>
+						<div class="col-sm-5">
+							<input type="text" readonly class="form-control-plaintext" id="leaveType"
+								th:value="${leave.leaveType}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="startDate" class="col-sm-3 col-form-label">Start Date:</label>
+						<div class="col-sm-5">
+							<input type="text" readonly class="form-control-plaintext" id="startDate"
+								th:value="${leave.startDate}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="endDate" class="col-sm-3 col-form-label">End Date:</label>
+						<div class="col-sm-5">
+							<input type="text" readonly class="form-control-plaintext" id="endDate"
+								th:value="${leave.endDate}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="reason" class="col-sm-3 col-form-label">Additional Reasons:</label>
+						<div class="col-sm-5">
+							<input type="text" readonly class="form-control-plaintext" id="reason"
+								th:value="${leave.addtnlReason}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="workDissemination" class="col-sm-3 col-form-label">Work
+							Dissemination:</label>
+						<div class="col-sm-5">
+							<input type="text" readonly class="form-control-plaintext" id="workDissemination"
+								th:value="${leave.workDissemination}">
+						</div>
+					</div>
+					&nbsp;&nbsp;
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="approve" id="approve"
+							th:field="${outcome.decision}" th:value="APPROVED">
+						<label class="form-check-label" for="approve">
+							Approve
+						</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="reject" id="reject"
+							th:field="${outcome.decision}" th:value="REJECTED">
+						<label class="form-check-label" for="reject">
+							Reject
+						</label>
+					</div>
+					&nbsp;&nbsp;
+					<div class="form-group col-md-4">
+						<label for="comments">Comments:</label>
+						<textarea class="form-control" id="comments" rows="4" th:field="${outcome.comments}"></textarea>
+						<p th:if="${#fields.hasErrors('${outcome.comments}')}" th:errors="${outcome.comments}"></p >
+
+					</div>
+					&nbsp;&nbsp;
+					<div>
+						<input th:type="submit" th:value="Update" class="btn btn-primary">
+					</div>
+				</form>
+			</div>
+			<div class="col-5">
+				<span><b>Leave Records For Other Subordinates Within Date Range:</b></span>
+				<table class="table-sm table-bordered">
+					<thead class="thead-light">
+						<tr>
+							<th>Employee Name</th>
+							<th>Leave Type</th>
+							<th>Start Date</th>
+							<th>End Date</th>
+							<th>Status</th>
+						</tr>
+					</thead >
+					<tbody>
+						<tr th:each="entry, stat : ${others}">
+							<td>
+								<span th:text="${entry.key.name}">Name</span>
+							</td>
+							<td>
+								<span th:text="${entry.value.leaveType}">Leave Type</span>
+							</td>
+							<td>
+								<span th:text="${entry.value.startDate}">Start Date</span>
+							</td>
+							<td>
+								<span th:text="${entry.value.endDate}">End Date</span>
+							</td>
+							<td>
+								<span th:text="${entry.value.status}">Status</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+
+	
+
+</html>

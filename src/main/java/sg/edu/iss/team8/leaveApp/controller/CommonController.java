@@ -53,4 +53,5 @@ public class CommonController {
 		model.addAttribute("user", new User());
 		return "login";
 	}
+
 }

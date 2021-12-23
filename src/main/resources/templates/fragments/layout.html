@@ -1,0 +1,62 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="html_head" id="html_head">
+	<meta charset="ISO-8859-1">
+	<title>Leave Application Processing System - LAPS</title>
+	<link th:rel="stylesheet" th:href="@{/css/bootstrap.css}">
+	<link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<script src = "js/jquery-3.6.0.min.js"></script> 
+	<script type = "text/javascript"  src = "js/bootstrap.min.js"></script> 
+</head>
+
+<body>
+	<div th:fragment="menu" id="menu">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#">LAPS</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav"
+					aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="main_nav" th:if="${session.usession.empType != 'admin'}">
+					<ul class="navbar-nav">
+						<li class="nav-item active"> <a class="nav-link" href="#">My Calendar </a> </li>
+						<li class="nav-item"><a class="nav-link" href="/staff/history/"> My Leaves </a></li>
+						<li class="nav-item"><a class="nav-link" href="#"> My Profile </a></li>
+						<div th:if="${session.usession.empType == 'manager'}">
+						<li class="nav-item dropdown">
+							<a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown" type="button"> Manager </a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" th:href="@{/manager/pending}"> Leave Applications for Approval</a></li>
+								<li><a class="dropdown-item" th:href="@{/manager/leave-history}"> Subordinates Leave History</a></li>
+								<li><a class="dropdown-item" th:href="@{/reportAPI/search}"> Generate Reports</a></li>
+							</ul>
+						</li>
+						</div > 
+						<div th:if="${session.usession.empType == 'employee'}">
+						<li class="nav-item dropdown">
+							<a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown" type="button"> Employee </a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" th:href="@{/manager/pending/}"> Update OT Hours</a></li>
+							</ul>
+						</li>
+						</div >
+					</ul>
+					<ul class="navbar-nav ms-auto">
+						<li class="nav-item"><a class="nav-link" href="/home/login"> Logout </a></li>
+					</ul>
+				</div>
+				<div class="collapse navbar-collapse" id="main_nav" th:if="${session.usession.empType == 'admin'}">
+					<ul class="navbar-nav">
+						<li class="nav-item active"> <a class="nav-link" href="#">Manage Leave Type </a> </li>
+						<li class="nav-item"><a class="nav-link" href="#"> Manage Staff </a></li>
+						<li class="nav-item"><a class="nav-link" href="#"> Manage Approval Hierarchy </a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</div>
+</body>
+
+</html>
+

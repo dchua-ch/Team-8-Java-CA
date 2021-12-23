@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head">	
+</head>
+<body>
+	<div th:replace="fragments/layout.html::menu"/>
+	<h1>My leaving applications History in this year</h1 >
+	<div >
+		<table class="table table-striped">
+			<tr class="listHeading">
+				<th><span th:text="#{fieldLabel.reference}"></span></th>
+				<th><span th:text="#{fieldLabel.leaveType}"></span></th>
+				<th><span th:text="#{fieldLabel.startDate}"></span></th>
+				<th><span th:text="#{fieldLabel.endDate}"></span></th>
+				<th><span th:text="#{fieldLabel.status}"></span></th>
+				<th><span th:text="#{fieldLabel.Details}"></span></th>
+				
+				
+			</tr>
+			<tr th:each="leave:${leaves}" class="listRecord">
+				<td align="left" th:text="${leave.leaveId}">Id</td>
+				<td align="left" th:text="${leave.leaveType}">leaveType</td>
+				<td align="left" th:text="${leave.startDate}">From</td>
+				<td align="left" th:text="${leave.endDate}">To</td>
+				<td align="left" th:text="${leave.status}">status</td>
+				<td align="left" ><a href="ldetails.html" th:href="@{/staff/history/details/}+${leave.leaveId}" th.utext="#{leave.viewdetails}">View details</a></td>
+				
+			</tr  >
+		</table>
+	</div  >
+</body>
+
+</html>
