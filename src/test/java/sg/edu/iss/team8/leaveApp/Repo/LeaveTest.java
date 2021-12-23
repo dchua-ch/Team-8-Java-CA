@@ -41,7 +41,7 @@ public class LeaveTest {
   @Autowired
 	private LeaveService lservice;
 	
-  	/*
+  	
 	@Test
 	@Order(1)
 	public void testCreateLeave() throws ParseException {
@@ -90,7 +90,7 @@ public class LeaveTest {
 
 	@Test
 	@Order(4)
-	public void tesLeaveExclusionCalculation() throws ParseException {
+	public void tesLeaveExclusionCalculation() {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Leave leave = new Leave(LocalDate.parse("2021-12-15", format), LocalDate.parse("2021-12-22", format), LeaveEnum.ANNUAL , "...",
@@ -102,7 +102,7 @@ public class LeaveTest {
 	
 	@Test
 	@Order(5)
-	public void testLeaveExclusionCalculation2() throws ParseException {
+	public void testLeaveExclusionCalculation2() {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Leave leave = new Leave(LocalDate.parse("2021-12-15", format), LocalDate.parse("2021-12-30", format), LeaveEnum.ANNUAL , "...",
@@ -114,7 +114,7 @@ public class LeaveTest {
 	
 	@Test
 	@Order(6)
-	public void testLeaveExclusionCalculation3() throws ParseException {
+	public void testLeaveExclusionCalculation3() {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Leave leave = new Leave(LocalDate.parse("2021-12-15", format), LocalDate.parse("2021-12-22", format), LeaveEnum.MEDICAL , "...",
@@ -126,13 +126,26 @@ public class LeaveTest {
 
 	@Test
 	@Order(7)
-	public void testLeaveExclusionCalculation4() throws ParseException {
+	public void testLeaveExclusionCalculation4() {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Leave leave = new Leave(LocalDate.parse("2021-11-03", format), LocalDate.parse("2021-11-05", format), LeaveEnum.ANNUAL , "...",
 				"...", "91111", StatusEnum.APPLIED, "...");
 		int result = lservice.calculateDaysToExclude(leave);
 		assertEquals(result, 1);	//should exclude 1 because 4 Nov is PH.
+	}
+	
+	@Test
+	@Order(8)
+	public void testUpdateLeave() {
+		List<Leave> leaves = lrepo.findAll();
+		Integer id1 = leaves.get(0).getLeaveId();
+		Leave sampleLeave1 = lrepo.findLeaveById(id1);
+		lservice.updateLeave(sampleLeave1);
+		Leave sampleLeaveUpdated = lrepo.findLeaveById(id1);
+		StatusEnum result = sampleLeaveUpdated.getStatus();
+		assertEquals(result, StatusEnum.UPDATED);
+		
 	}
 	
 	/*
