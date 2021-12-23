@@ -62,7 +62,7 @@
 						</div >
 					</ul>
 					<ul class="navbar-nav ms-auto">
-						<li class="nav-item"><a class="nav-link" href="/home/login"> Logout </a></li>
+						<li class="nav-item"><a class="nav-link" th:href="@{/logout}"> Logout </a></li>
 					</ul>
 				</div>
 				<div class="collapse navbar-collapse" id="main_nav" th:if="${#authorization.expression('hasAuthority(''admin'')')}">

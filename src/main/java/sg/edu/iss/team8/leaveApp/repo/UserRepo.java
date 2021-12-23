@@ -53,5 +53,8 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 
 	@Query("select U from User U where TYPE(U) = :type and U.userId = :id")
 	public User getOneUser(String type, String id);
+	
+	@Query("select U from User U where U.username = :username")
+	public User getUserByUsername(@Param("username") String username);
 }
 

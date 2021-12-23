@@ -1,5 +1,6 @@
 package sg.edu.iss.team8.leaveApp.controller;
 
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -29,6 +30,7 @@ import sg.edu.iss.team8.leaveApp.model.Employee;
 import sg.edu.iss.team8.leaveApp.model.Leave;
 import sg.edu.iss.team8.leaveApp.service.EmployeeService;
 import sg.edu.iss.team8.leaveApp.service.LeaveService;
+import sg.edu.iss.team8.leaveApp.service.UserService;
 
 @RestController
 @RequestMapping(value = "/reportAPI")
@@ -40,11 +42,13 @@ public class ReportController {
 	@Autowired
 	LeaveService lService; 
 	
+	@Autowired
+	UserService uService;
+	
 	
 	@RequestMapping(value="/search", method=RequestMethod.GET)
-	public ModelAndView loadReport(HttpSession session) {
-		UserSession usession = (UserSession) session.getAttribute("usession"); 
-		List<Employee> subordinates = eService.findSubordinates(usession.getUser().userId);
+	public ModelAndView loadReport(Principal principle) {
+		List<Employee> subordinates = eService.findSubordinates(uService.findUserByUsername(principle.getName()).userId);
 		
 		ModelAndView mav = new ModelAndView("manager-report", "sub", subordinates);
 		mav.addObject("outcome", new Outcome()); 
