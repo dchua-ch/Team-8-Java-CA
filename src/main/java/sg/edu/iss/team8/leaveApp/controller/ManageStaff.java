@@ -122,9 +122,8 @@ public class ManageStaff {
         urepo.updateUserTypeById(staff.getUser_type(), Integer.valueOf(id));
         //change user type, can't success
 //        urepo.updateUserType(staff.getUser_type(), staff.getUserId());
-
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String encoderPasswod = encoder.encode(staff.getPassword());
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        String encoderPasswod = encoder.encode(staff.getPassword());
 
         if (staff.getUser_type().equals("employee")){
             Employee updateEmployee = emrepo.findById(Integer.valueOf(id)).get();
