@@ -40,10 +40,10 @@ public class Employee extends User{
 		super(name);
 	}
 	
-	public Employee(String name, String username, String password, 
+	public Employee(String name, String username, String password, boolean enabled,
 			Integer annualLeaveN, Integer medicalLeaveN, 
 			Integer compLeaveN, Integer reportsTo) {
-		super(name, username, password); 
+		super(name, username, password, enabled); 
 		this.annualLeaveN = annualLeaveN;
 		this.medicalLeaveN = medicalLeaveN;
 		this.compLeaveN = compLeaveN;
