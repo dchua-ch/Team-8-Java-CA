@@ -34,15 +34,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         ;
     }
  
-    /*@Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-            .anyRequest().authenticated()
-            .and()
-            .formLogin().permitAll()
-            .and()
-            .logout().permitAll();     
-    }*/
     
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
@@ -65,35 +56,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public HttpSessionEventPublisher httpSessionEventPublisher() {
 		return new HttpSessionEventPublisher();
 	}
+}
 
     
-	/*@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http
-			.authorizeRequests()
-				.antMatchers("/").permitAll()
-                .antMatchers("/hello").hasRole("ADMIN")
-                .antMatchers("/dashboard").hasAnyRole("ADMIN", "USER")
-				.anyRequest().authenticated()
-				.and()
-			.formLogin()
-				.loginPage("/login")
-				.permitAll()
-				.and()
-			.logout()
-				.permitAll();
-	}*/
-
-	/*@Bean
-	public UserDetailsService userDetailsService(){
-		UserBuilder users = User.withDefaultPasswordEncoder();
-		InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-		manager.createUser(users.username("user").password("password").roles("USER").build());
-		manager.createUser(users.username("admin").password("password").roles("ADMIN").build());
-		manager.createUser(users.username("mary").password("password").roles("ADMIN").build());
-
-		return manager;
-	}*/
 	
-	
-}
