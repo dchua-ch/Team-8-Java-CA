@@ -50,15 +50,7 @@
 							</ul>
 						</li>
 						</div > 
-						<div th:if="${#authorization.expression('hasAuthority(''employee'')')}">
-						<li class="nav-item dropdown">
-							<a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown" type="button"> Employee </a>
-							<ul class="dropdown-menu">
-								<!--<li><a class="dropdown-item" th:href="@{/staff/addOT}"> Update OT Hours</a></li>
-								<li><a class="dropdown-item" th:href="@{/staff/listOT}"> My OT Hours</a></li>-->
-							</ul>
-						</li>
-						</div >
+
 					</ul>
 					<ul class="navbar-nav ms-auto">
 						<li class="nav-item"><a class="nav-link" th:href="@{/logout}"> Logout </a></li>
