@@ -16,7 +16,6 @@
             <th><span th:text="userId"></span></th>
             <th><span th:text="userName"></span></th>
             <th><span th:text="password"></span></th>
-<!--            <th><span th:text="#{fieldLabel.user_type}"></span></th>-->
             <th><span th:text="edit"></span></th>
             <th><span th:text="delete"></span></th>
         </tr>
@@ -27,7 +26,6 @@
             <td th:text="${user.userId}">Id</td>
             <td th:text="${user.name}">Name</td>
             <td th:text="${user.password}">Password</td>
-<!--            <td th:text="${user.user_type}">Employee</td>-->
 
             <td><a th:href="@{/admin/user/edit/}+${user.userId}"
                    class="btn btn-default"><span th:text="edit"></span></a></td>

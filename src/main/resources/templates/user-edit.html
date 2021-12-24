@@ -19,21 +19,12 @@
             <td th:if="${#fields.hasErrors('user_type')}" th:errors="*{user_type}"></td>
         </tr>
 
-        <!--        <tr>-->
-        <!--            <td><span th:text="userId"></span></td>-->
-        <!--            <td><input type="text" th:field="*{userId}" /></td>-->
-        <!--            <td th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"></td>-->
-        <!--        </tr>-->
         <tr>
             <td><span th:text="name"></span></td>
             <td><input type="text" th:field="*{name}" /></td>
             <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></td>
         </tr>
-<!--        <tr>-->
-<!--            <td><span th:text="password"></span></td>-->
-<!--            <td><input type="text" th:field="*{password}" /></td>-->
-<!--            <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></td>-->
-<!--        </tr>-->
+
         <tr>
             <td><span th:text="username"></span></td>
             <td><input type="text" th:field="*{username}" /></td>
@@ -58,11 +49,6 @@
             <td th:if="${#fields.hasErrors('medicalLeaveN')}" th:errors="*{medicalLeaveN}"></td>
         </tr>
 
-<!--        <tr>-->
-<!--            <td><span th:text="reports_to"></span></td>-->
-<!--            <td><input type="text" th:field="*{reportsTo}" /></td>-->
-<!--            <td th:if="${#fields.hasErrors('reportsTo')}" th:errors="*{reportsTo}"></td>-->
-<!--        </tr>-->
 
         <tr>
             <td><label>reports_to</label></td>
