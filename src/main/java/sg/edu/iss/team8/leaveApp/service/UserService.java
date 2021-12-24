@@ -14,5 +14,6 @@ public interface UserService {
 	void removeUser(User user);
 
 	User findUserByUsername(String username);
+	
 }
 

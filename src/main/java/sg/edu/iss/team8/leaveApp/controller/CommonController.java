@@ -17,41 +17,29 @@ import sg.edu.iss.team8.leaveApp.model.User;
 import sg.edu.iss.team8.leaveApp.repo.UserRepo;
 import sg.edu.iss.team8.leaveApp.service.UserService;
 
-@Controller
-@RequestMapping("/home")
-public class CommonController {
-	@Autowired
-	private UserService uService;
-	@Autowired
-	private UserRepo urepo;
-	
-	@RequestMapping(value = "/authenticate")
-	public String authenticate(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model,
-			HttpSession session) {
-		UserSession usession = new UserSession();
-		if (bindingResult.hasErrors()) {
-			return "login";
-		}
-		else {
-			User u = uService.authenticate(user.getUsername(), user.getPassword());
-			System.out.println(user.getUsername());
-			System.out.println(user.getPassword());
-			if (u == null) {
-				return "login";
-			}
-			String empType = uService.getEmpTypeByUID(u.getUserId());
-			usession.setUser(u);
-			usession.setEmpType(empType);
-			session.setAttribute("usession", usession);
-//			return "redirect:/staff/addot";
-			return "dashboard";
-		}
-	}
-	
-	@RequestMapping(value = "/login")
-	public String login(Model model) {
-		model.addAttribute("user", new User());
-		return "login";
-	}
-
-}
+/*
+ * @Controller
+ * 
+ * @RequestMapping("/home") public class CommonController {
+ * 
+ * @Autowired private UserService uService;
+ * 
+ * @Autowired private UserRepo urepo;
+ * 
+ * @RequestMapping(value = "/authenticate") public String
+ * authenticate(@ModelAttribute("user") @Valid User user, BindingResult
+ * bindingResult, Model model, HttpSession session) { UserSession usession = new
+ * UserSession(); if (bindingResult.hasErrors()) { return "login"; } else { User
+ * u = uService.authenticate(user.getUsername(), user.getPassword());
+ * System.out.println(user.getUsername());
+ * System.out.println(user.getPassword()); if (u == null) { return "login"; }
+ * String empType = uService.getEmpTypeByUID(u.getUserId());
+ * usession.setUser(u); usession.setEmpType(empType);
+ * session.setAttribute("usession", usession); // return
+ * "redirect:/staff/addot"; return "dashboard"; } }
+ * 
+ * @RequestMapping(value = "/login") public String login(Model model) {
+ * model.addAttribute("user", new User()); return "login"; }
+ * 
+ * }
+ */

@@ -11,14 +11,11 @@
         <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
         Authenticated username:
         <div sec:authentication="name"></div>
-        Authenticated user roles:
+        Authenticated user role:
         <div sec:authentication="principal.authorities"></div>
         
 
         <h2>>You are in User Dashboard </h2>
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Sign Out"/>
-        </form>
-    
+
 </body>
 </html>
