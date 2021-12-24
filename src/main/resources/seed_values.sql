@@ -213,7 +213,7 @@ VALUES
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(25, '...', '...', 95555, str_to_date('2020-01-10', '%Y-%m-%d'), 'MEDICAL', str_to_date('2021-00-08', '%Y-%m-%d'), 'APPROVED', '...', '5');
+(25, '...', '...', 95555, str_to_date('2020-01-10', '%Y-%m-%d'), 'MEDICAL', str_to_date('2021-01-08', '%Y-%m-%d'), 'APPROVED', '...', '5');
 
 INSERT INTO leaveapp.overtime_hours
 (overtime_id, date, hours, reason, status, userid)
