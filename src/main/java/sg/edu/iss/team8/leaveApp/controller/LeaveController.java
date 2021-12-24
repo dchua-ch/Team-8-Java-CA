@@ -203,21 +203,15 @@ public class LeaveController {
 		LeaveEnum previousLeaveType = leave.getLeaveType();
 		LocalDate startDate = convertToLocalDate(leaveInput.getStartDate());
 		LocalDate endDate = convertToLocalDate(leaveInput.getEndDate());
-		leave.setStartDate(startDate);
-		leave.setEndDate(endDate);
-		leave.setAddtnlReason(leaveInput.getAddtnlReason());
-		leave.setLeaveType(leaveInput.getLeaveType());
-		leave.setAddtnlReason(leaveInput.getAddtnlReason());
-		leave.setWorkDissemination(leaveInput.getWorkDissemination());
-		leave.setContact(leaveInput.getContact());
+
 		
 		/*
 		 * Add logic for leave deduction here
 		 */
 		Employee employee = leave.getEmployee();
 		LeaveEnum leaveType = leaveInput.getLeaveType();
-		int periodDays = lService.calculatePeriodDays(leave);
-		int daysToExclude = lService.calculateDaysToExclude(leave);
+		int periodDays = lService.calculatePeriodDays(leaveInput);
+		int daysToExclude = lService.calculateDaysToExclude(leaveInput);
 		int totalLeavesToDeduct = periodDays - daysToExclude;
 		System.out.println("Leaves to deduct: "+ totalLeavesToDeduct);
 		if(leaveType == previousLeaveType)
@@ -316,13 +310,13 @@ public class LeaveController {
 				employee.setCompLeaveN(employee.getCompLeaveN() + previousLeavesToDeduct);
 			}
 		}
-//		leave.setStartDate(startDate);
-//		leave.setEndDate(endDate);
-//		leave.setAddtnlReason(leaveInput.getAddtnlReason());
-//		leave.setLeaveType(leaveType);
-//		leave.setAddtnlReason(leaveInput.getAddtnlReason());
-//		leave.setWorkDissemination(leaveInput.getWorkDissemination());
-//		leave.setContact(leaveInput.getContact());
+		leave.setStartDate(startDate);
+		leave.setEndDate(endDate);
+		leave.setAddtnlReason(leaveInput.getAddtnlReason());
+		leave.setLeaveType(leaveType);
+		leave.setAddtnlReason(leaveInput.getAddtnlReason());
+		leave.setWorkDissemination(leaveInput.getWorkDissemination());
+		leave.setContact(leaveInput.getContact());
 		urepo.saveAndFlush(employee);
 		lService.updateLeave(leave);
 		String msg = "Leave was successfully updated.";
