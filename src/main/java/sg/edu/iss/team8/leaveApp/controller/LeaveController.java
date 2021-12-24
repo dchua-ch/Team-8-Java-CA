@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
 import sg.edu.iss.team8.leaveApp.helpers.LeaveEnum;
 import sg.edu.iss.team8.leaveApp.helpers.LeaveInput;
 import sg.edu.iss.team8.leaveApp.model.Employee;
@@ -85,8 +84,6 @@ public class LeaveController {
 		return "apply-leave";
 	}
 	
-
-	
 	//submit the Leave to persist
 	@PostMapping("/submit")
 	public String submitLeave(@ModelAttribute("leave") @Valid LeaveInput leaveInput,
@@ -100,10 +97,7 @@ public class LeaveController {
 		Employee employee = eService.findByUserId(userId);
 		leaveInput.setEmployee(employee);
 		System.out.println(leaveInput.getEmployee().getUserId());
-		
 		LeaveEnum leaveType = leaveInput.getLeaveType();
-	
-
 		Leave leave = new Leave(leaveInput);	
 		//needs logic for checking if annual leave period <= 14 days.
 		//if period <= 14, weekends should not be included in the leave count
@@ -154,7 +148,6 @@ public class LeaveController {
 			}
 		}
 		urepo.saveAndFlush(employee);
-		
 		lService.submitLeave(leave);
 		String msg = "Leave was successfully submitted.";
 		System.out.println(msg);
@@ -176,30 +169,20 @@ public class LeaveController {
 			System.out.println(leave.getLeaveId());
 		}
 		model.addAttribute("leaves",leaves);
-	
 		return "select-leave";
 	}
-	
-
 	
 	//get the Leave object to display on the update page
 	@GetMapping("/update/{leaveId}")
 	public String updateLeavePage(@PathVariable("leaveId") Integer leaveId,
 									Model model) {
 		Leave currentLeave = lService.findLeaveById(leaveId);
-		
-		
 		int periodDays = lService.calculatePeriodDays(currentLeave);
 		int daysToExclude = lService.calculateDaysToExclude(currentLeave);
 		int totalLeavesToDeduct = periodDays - daysToExclude;
 		System.out.println("Leaves deducted in: " + totalLeavesToDeduct);
-		
-		
-		
 		LeaveInput leaveInput = new LeaveInput(currentLeave);
 		model.addAttribute("leave", leaveInput);
-
-		
 		return "update-leave";
 	}
 	
@@ -212,7 +195,6 @@ public class LeaveController {
 		}
 	
 		Leave leave = lService.findLeaveById(leaveInput.getLeaveId());
-	
 		LocalDate startDate = convertToLocalDate(leaveInput.getStartDate());
 		LocalDate endDate = convertToLocalDate(leaveInput.getEndDate());
 		int previousPeriodDays = lService.calculatePeriodDays(leave);
@@ -228,14 +210,11 @@ public class LeaveController {
 		leave.setWorkDissemination(leaveInput.getWorkDissemination());
 		leave.setContact(leaveInput.getContact());
 		System.out.println("Previous leaves deducted: " + previousLeavesToDeduct);
-		
 		/*
 		 * Add logic for leave deduction here
 		 */
 		Employee employee = leave.getEmployee();
 		LeaveEnum leaveType = leaveInput.getLeaveType();
-	
-		
 		int periodDays = lService.calculatePeriodDays(leave);
 		int daysToExclude = lService.calculateDaysToExclude(leave);
 		int totalLeavesToDeduct = periodDays - daysToExclude;
@@ -336,7 +315,6 @@ public class LeaveController {
 			}
 		}
 		urepo.saveAndFlush(employee);
-		
 		lService.updateLeave(leave);
 		String msg = "Leave was successfully updated.";
 		System.out.println(msg);
@@ -347,10 +325,6 @@ public class LeaveController {
 	@GetMapping("/delete/{leaveId}")
 	public String deleteLeave(@PathVariable("leaveId") Integer leaveId) {
 		Leave leaveToDelete = lService.findLeaveById(leaveId);
-		
-		
-		
-		
 		int periodDays = lService.calculatePeriodDays(leaveToDelete);
 		int daysToExclude = lService.calculateDaysToExclude(leaveToDelete);
 		int compensation = periodDays - daysToExclude;
@@ -368,9 +342,6 @@ public class LeaveController {
 		{
 			employee.setCompLeaveN(employee.getCompLeaveN() + compensation);
 		}
-		
-		
-		
 		lService.deleteLeave(leaveToDelete);
 		String msg = "Leave was successfully deleted.";
 		System.out.println(msg);
@@ -398,8 +369,6 @@ public class LeaveController {
 		{
 			employee.setCompLeaveN(employee.getCompLeaveN() + compensation);
 		}
-		
-		
 		lService.cancelLeave(leaveToCancel);
 		String msg = "Leave was successfully cancelled.";
 		System.out.println(msg);
