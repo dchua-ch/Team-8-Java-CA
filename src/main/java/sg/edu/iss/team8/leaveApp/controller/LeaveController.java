@@ -99,12 +99,6 @@ public class LeaveController {
 		System.out.println(leaveInput.getEmployee().getUserId());
 		LeaveEnum leaveType = leaveInput.getLeaveType();
 		Leave leave = new Leave(leaveInput);	
-		//needs logic for checking if annual leave period <= 14 days.
-		//if period <= 14, weekends should not be included in the leave count
-		//LocalDate start = leave.getStartDate();
-		//LocalDate end = leave.getEndDate();
-		//LocalDate startDate = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		//LocalDate endDate = end.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		int periodDays = lService.calculatePeriodDays(leave);
 		int daysToExclude = lService.calculateDaysToExclude(leave);
 		int totalLeavesToDeduct = periodDays - daysToExclude;
