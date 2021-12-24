@@ -1,5 +1,5 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="fragments/layout.html :: html_head">	
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,11 +8,13 @@
     
 </head>
 <body>
-    <div  th:object="${leave}">
-    <p>Leave is cancelled</p>
-    <p>
-    	<a th:href = "@{'/staff/history/'}">Leave History</a >
-    </p>
+
+    
+	<div th:replace="fragments/layout.html::menu"/>
+	    <p>Leave is cancelled</p>
+	    <p>
+	    	<a th:href = "@{'/staff/balance/'}">Leave Balance</a >
+	    </p>
     </div >
 </body>
 </html>

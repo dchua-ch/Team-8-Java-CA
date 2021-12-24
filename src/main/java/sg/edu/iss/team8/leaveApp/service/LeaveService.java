@@ -2,9 +2,9 @@ package sg.edu.iss.team8.leaveApp.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-
 import java.util.List;
 
+import sg.edu.iss.team8.leaveApp.helpers.LeaveInput;
 import sg.edu.iss.team8.leaveApp.model.Leave;
 
 public interface LeaveService {
@@ -20,6 +20,10 @@ public interface LeaveService {
 	public int calculatePeriodDays(Leave leave);
 	
 	public int calculateDaysToExclude(Leave leave);
+	
+	public int calculatePeriodDays(LeaveInput leave);
+	
+	public int calculateDaysToExclude(LeaveInput leave);
 	
 	public Leave submitLeave(Leave leave);
 	

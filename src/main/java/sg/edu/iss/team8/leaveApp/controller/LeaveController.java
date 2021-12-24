@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import sg.edu.iss.team8.leaveApp.helpers.LeaveBag;
 import sg.edu.iss.team8.leaveApp.helpers.LeaveEnum;
 import sg.edu.iss.team8.leaveApp.helpers.LeaveInput;
 import sg.edu.iss.team8.leaveApp.model.Employee;
@@ -86,8 +85,6 @@ public class LeaveController {
 		return "apply-leave";
 	}
 	
-
-	
 	//submit the Leave to persist
 	@PostMapping("/submit")
 	public String submitLeave(@ModelAttribute("leave") @Valid LeaveInput leaveInput,
@@ -100,10 +97,7 @@ public class LeaveController {
 		Employee employee = eService.findByUserId(userId);
 		leaveInput.setEmployee(employee);
 		System.out.println(leaveInput.getEmployee().getUserId());
-		
 		LeaveEnum leaveType = leaveInput.getLeaveType();
-	
-
 		Leave leave = new Leave(leaveInput);	
 		//needs logic for checking if annual leave period <= 14 days.
 		//if period <= 14, weekends should not be included in the leave count
@@ -154,7 +148,6 @@ public class LeaveController {
 			}
 		}
 		urepo.saveAndFlush(employee);
-		
 		lService.submitLeave(leave);
 		String msg = "Leave was successfully submitted.";
 		System.out.println(msg);
@@ -176,106 +169,155 @@ public class LeaveController {
 			System.out.println(leave.getLeaveId());
 		}
 		model.addAttribute("leaves",leaves);
-	
 		return "select-leave";
 	}
-	
-
 	
 	//get the Leave object to display on the update page
 	@GetMapping("/update/{leaveId}")
 	public String updateLeavePage(@PathVariable("leaveId") Integer leaveId,
 									Model model) {
 		Leave currentLeave = lService.findLeaveById(leaveId);
-		
-		LocalDate startDate = currentLeave.getStartDate();
-		LocalDate endDate = currentLeave.getEndDate();
-		Period period = Period.between(startDate, endDate);
-		int periodDays = Math.abs(period.getDays());
+		int periodDays = lService.calculatePeriodDays(currentLeave);
 		int daysToExclude = lService.calculateDaysToExclude(currentLeave);
 		int totalLeavesToDeduct = periodDays - daysToExclude;
-		//System.out.println("Leaves deducted in: " + totalLeavesToDeduct);
-		
-		LeaveBag leaveBag = new LeaveBag(totalLeavesToDeduct);
-		System.out.println("Leaves deducted in: " + leaveBag.getDuration());
+		System.out.println("Leaves deducted in: " + totalLeavesToDeduct);
 		LeaveInput leaveInput = new LeaveInput(currentLeave);
 		model.addAttribute("leave", leaveInput);
-		model.addAttribute("leaveBag", leaveBag);
-		
 		return "update-leave";
 	}
 	
 	//update the Leave with the new values from the page
 	@PostMapping("/update/{leaveId}")
-	public String updateLeave(@ModelAttribute("leave")  LeaveInput leaveInput, 
-								@ModelAttribute("leaveBag") LeaveBag leaveBag,
+	public String updateLeave(@ModelAttribute("leave") @Valid LeaveInput leaveInput, 
 								BindingResult result) {
 		if (result.hasErrors()) {
 			return "leave-update-error";
 		}
+	
 		Leave leave = lService.findLeaveById(leaveInput.getLeaveId());
+		
+		int previousPeriodDays = lService.calculatePeriodDays(leave);
+		int previousDaysToExclude = lService.calculateDaysToExclude(leave);
+		int previousLeavesToDeduct = previousPeriodDays - previousDaysToExclude;;
+		System.out.println("Previous leaves deducted: " + previousLeavesToDeduct);
+		LeaveEnum previousLeaveType = leave.getLeaveType();
 		LocalDate startDate = convertToLocalDate(leaveInput.getStartDate());
 		LocalDate endDate = convertToLocalDate(leaveInput.getEndDate());
-		leave.setStartDate(startDate);
-		leave.setEndDate(endDate);
-		leave.setAddtnlReason(leaveInput.getAddtnlReason());
-		leave.setLeaveType(leaveInput.getLeaveType());
-		leave.setAddtnlReason(leaveInput.getAddtnlReason());
-		leave.setWorkDissemination(leaveInput.getWorkDissemination());
-		leave.setContact(leaveInput.getContact());
-		System.out.println("Leaves deducted out: " + leaveBag.getDuration());
+
 		
 		/*
 		 * Add logic for leave deduction here
-		 * 
+		 */
 		Employee employee = leave.getEmployee();
 		LeaveEnum leaveType = leaveInput.getLeaveType();
-	
-		Period period = Period.between(startDate, endDate);
-		int periodDays = Math.abs(period.getDays());
-		int daysToExclude = lService.calculateDaysToExclude(leave);
+		int periodDays = lService.calculatePeriodDays(leaveInput);
+		int daysToExclude = lService.calculateDaysToExclude(leaveInput);
 		int totalLeavesToDeduct = periodDays - daysToExclude;
 		System.out.println("Leaves to deduct: "+ totalLeavesToDeduct);
-		if (leaveType == LeaveEnum.ANNUAL) 
+		if(leaveType == previousLeaveType)
 		{
-			System.out.println("Annual leave balance: "+ (employee.getAnnualLeaveN() - totalLeavesToDeduct));
-			if(employee.getAnnualLeaveN() - totalLeavesToDeduct <= 0)
+			if (leaveType == LeaveEnum.ANNUAL) 
 			{
-				return "annual-leave-exceeded";
-			}
-			else
+				System.out.println("Annual leave balance: "+ (employee.getAnnualLeaveN()  + previousLeavesToDeduct - totalLeavesToDeduct));
+				if(employee.getAnnualLeaveN() + previousLeavesToDeduct - totalLeavesToDeduct <= 0)
+				{
+					return "annual-leave-exceeded";
+				}
+				else
+				{
+					employee.setAnnualLeaveN(employee.getAnnualLeaveN() + previousLeavesToDeduct - totalLeavesToDeduct);
+				}
+			} 
+			
+			else if (leaveType == LeaveEnum.MEDICAL) 
 			{
-				employee.setAnnualLeaveN(employee.getAnnualLeaveN() - totalLeavesToDeduct);
-			}
-		} 
-		
-		else if (leaveType == LeaveEnum.MEDICAL) 
-		{
-			System.out.println("Medical leave balance: "+ (employee.getMedicalLeaveN() - totalLeavesToDeduct));
-			if(employee.getMedicalLeaveN() - totalLeavesToDeduct <= 0)
+				System.out.println("Medical leave balance: "+ (employee.getMedicalLeaveN() + previousLeavesToDeduct - totalLeavesToDeduct));
+				if(employee.getMedicalLeaveN() + previousLeavesToDeduct- totalLeavesToDeduct <= 0)
+				{
+					return "medical-leave-exceeded";
+				}
+				else
+				{
+					employee.setMedicalLeaveN(employee.getMedicalLeaveN() + previousLeavesToDeduct- totalLeavesToDeduct);
+				}
+			} 
+			
+			else if (leaveType == LeaveEnum.COMPENSATION) 
 			{
-				return "medical-leave-exceeded";
-			}
-			else
-			{
-				employee.setMedicalLeaveN(employee.getMedicalLeaveN() - totalLeavesToDeduct);
-			}
-		} 
-		
-		else if (leaveType == LeaveEnum.COMPENSATION) 
-		{
-			System.out.println("Annual leave balance: "+ (employee.getCompLeaveN() - totalLeavesToDeduct));
-			if(employee.getCompLeaveN() - totalLeavesToDeduct <= 0)
-			{
-				return "compensation-leave-exceeded";
-			}
-			else
-			{
-				employee.setCompLeaveN(employee.getCompLeaveN() - totalLeavesToDeduct);
+				System.out.println("Annual leave balance: "+ (employee.getCompLeaveN() + previousLeavesToDeduct - totalLeavesToDeduct));
+				if(employee.getCompLeaveN()  + previousLeavesToDeduct- totalLeavesToDeduct <= 0)
+				{
+					return "compensation-leave-exceeded";
+				}
+				else
+				{
+					employee.setCompLeaveN(employee.getCompLeaveN() + previousLeavesToDeduct - totalLeavesToDeduct);
+				}
 			}
 		}
+		else
+		{
+			if (leaveType == LeaveEnum.ANNUAL) 
+			{
+				System.out.println("Annual leave balance: "+ (employee.getAnnualLeaveN() - totalLeavesToDeduct));
+				if(employee.getAnnualLeaveN() - totalLeavesToDeduct <= 0)
+				{
+					return "annual-leave-exceeded";
+				}
+				else
+				{
+					employee.setAnnualLeaveN(employee.getAnnualLeaveN() - totalLeavesToDeduct);
+				}
+			} 
+			
+			else if (leaveType == LeaveEnum.MEDICAL) 
+			{
+				System.out.println("Medical leave balance: "+ (employee.getMedicalLeaveN() - totalLeavesToDeduct));
+				if(employee.getMedicalLeaveN() - totalLeavesToDeduct <= 0)
+				{
+					return "medical-leave-exceeded";
+				}
+				else
+				{
+					employee.setMedicalLeaveN(employee.getMedicalLeaveN() - totalLeavesToDeduct);
+				}
+			} 
+			
+			else if (leaveType == LeaveEnum.COMPENSATION) 
+			{
+				System.out.println("Compensation leave balance: "+ (employee.getCompLeaveN() - totalLeavesToDeduct));
+				if(employee.getCompLeaveN() - totalLeavesToDeduct <= 0)
+				{
+					System.out.println("Failed to update to compensation leave");
+					return "compensation-leave-exceeded";
+				}
+				else
+				{
+					employee.setCompLeaveN(employee.getCompLeaveN() - totalLeavesToDeduct);
+				}
+			}
+			
+			if (previousLeaveType == LeaveEnum.ANNUAL)
+			{
+				employee.setAnnualLeaveN(employee.getAnnualLeaveN() + previousLeavesToDeduct);
+			}
+			else if (previousLeaveType == LeaveEnum.MEDICAL)
+			{
+				employee.setMedicalLeaveN(employee.getMedicalLeaveN() + previousLeavesToDeduct);
+			}
+			else if (leaveType == LeaveEnum.COMPENSATION)
+			{
+				employee.setCompLeaveN(employee.getCompLeaveN() + previousLeavesToDeduct);
+			}
+		}
+		leave.setStartDate(startDate);
+		leave.setEndDate(endDate);
+		leave.setAddtnlReason(leaveInput.getAddtnlReason());
+		leave.setLeaveType(leaveType);
+		leave.setAddtnlReason(leaveInput.getAddtnlReason());
+		leave.setWorkDissemination(leaveInput.getWorkDissemination());
+		leave.setContact(leaveInput.getContact());
 		urepo.saveAndFlush(employee);
-		*/
 		lService.updateLeave(leave);
 		String msg = "Leave was successfully updated.";
 		System.out.println(msg);
@@ -286,6 +328,23 @@ public class LeaveController {
 	@GetMapping("/delete/{leaveId}")
 	public String deleteLeave(@PathVariable("leaveId") Integer leaveId) {
 		Leave leaveToDelete = lService.findLeaveById(leaveId);
+		int periodDays = lService.calculatePeriodDays(leaveToDelete);
+		int daysToExclude = lService.calculateDaysToExclude(leaveToDelete);
+		int compensation = periodDays - daysToExclude;
+		LeaveEnum leaveType = leaveToDelete.getLeaveType();
+		Employee employee = leaveToDelete.getEmployee();
+		if (leaveType == LeaveEnum.ANNUAL)
+		{
+			employee.setAnnualLeaveN(employee.getAnnualLeaveN() + compensation);
+		}
+		else if (leaveType == LeaveEnum.MEDICAL)
+		{
+			employee.setMedicalLeaveN(employee.getMedicalLeaveN() + compensation);
+		}
+		else if (leaveType == LeaveEnum.COMPENSATION)
+		{
+			employee.setCompLeaveN(employee.getCompLeaveN() + compensation);
+		}
 		lService.deleteLeave(leaveToDelete);
 		String msg = "Leave was successfully deleted.";
 		System.out.println(msg);
@@ -296,6 +355,23 @@ public class LeaveController {
 	@GetMapping("/cancel/{leaveId}")
 	public String cancelLeave(@PathVariable("leaveId") Integer leaveId) {
 		Leave leaveToCancel = lService.findLeaveById(leaveId);
+		int periodDays = lService.calculatePeriodDays(leaveToCancel);
+		int daysToExclude = lService.calculateDaysToExclude(leaveToCancel);
+		int compensation = periodDays - daysToExclude;
+		LeaveEnum leaveType = leaveToCancel.getLeaveType();
+		Employee employee = leaveToCancel.getEmployee();
+		if (leaveType == LeaveEnum.ANNUAL)
+		{
+			employee.setAnnualLeaveN(employee.getAnnualLeaveN() + compensation);
+		}
+		else if (leaveType == LeaveEnum.MEDICAL)
+		{
+			employee.setMedicalLeaveN(employee.getMedicalLeaveN() + compensation);
+		}
+		else if (leaveType == LeaveEnum.COMPENSATION)
+		{
+			employee.setCompLeaveN(employee.getCompLeaveN() + compensation);
+		}
 		lService.cancelLeave(leaveToCancel);
 		String msg = "Leave was successfully cancelled.";
 		System.out.println(msg);

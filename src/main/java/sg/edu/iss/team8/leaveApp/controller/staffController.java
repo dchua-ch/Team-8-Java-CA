@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -108,6 +109,16 @@ public class staffController {
 		Leave leave = lrepo.getById(id);
 		mav.addObject("leave", leave);
 		return mav;	
+	}
+	
+	@GetMapping("/balance/")
+	public String leaveBalance(Model model,HttpSession session)
+	{
+		UserSession usession = (UserSession) session.getAttribute("usession");
+		Integer userId = usession.getUser().getUserId();
+		Employee employee = eService.findByUserId(userId);
+		model.addAttribute("employee",employee);
+		return "staff-leave-balance";
 	}
 	
 	//Overtime

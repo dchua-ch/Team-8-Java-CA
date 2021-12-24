@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import sg.edu.iss.team8.leaveApp.helpers.LeaveEnum;
 import sg.edu.iss.team8.leaveApp.helpers.MonthYear;
 import sg.edu.iss.team8.leaveApp.helpers.OTEnum;
 import sg.edu.iss.team8.leaveApp.helpers.Outcome;
@@ -104,6 +105,26 @@ public class ManagerController {
 			if (outcome.getDecision().trim().equalsIgnoreCase(StatusEnum.APPROVED.toString())) {
 				leave.setStatus(StatusEnum.APPROVED);
 			} else {
+				//<--- Additional code included to compensate leave
+				int periodDays = lService.calculatePeriodDays(leave);
+				int daysToExclude = lService.calculateDaysToExclude(leave);
+				int compensation = periodDays - daysToExclude;
+				LeaveEnum leaveType = leave.getLeaveType();
+				Employee employee = leave.getEmployee();
+				if (leaveType == LeaveEnum.ANNUAL)
+				{
+					employee.setAnnualLeaveN(employee.getAnnualLeaveN() + compensation);
+				}
+				else if (leaveType == LeaveEnum.MEDICAL)
+				{
+					employee.setMedicalLeaveN(employee.getMedicalLeaveN() + compensation);
+				}
+				else if (leaveType == LeaveEnum.COMPENSATION)
+				{
+					employee.setCompLeaveN(employee.getCompLeaveN() + compensation);
+				}
+				urepo.saveAndFlush(employee);
+				//<--- Additional code included to compensate leave
 				leave.setStatus(StatusEnum.REJECTED);
 			}
 			leave.setComments(outcome.getComments());

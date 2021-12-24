@@ -264,3 +264,4 @@ INSERT INTO leaveapp.overtime_hours
 (overtime_id, date, hours, reason, status, userid)
 VALUES
 (10, str_to_date('2021-11-15', '%Y-%m-%d'), 2, 'Project C', 'APPLIED', 3);
+
