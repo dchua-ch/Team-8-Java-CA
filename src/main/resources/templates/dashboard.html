@@ -7,15 +7,32 @@
 <head th:replace="fragments/layout.html :: html_head"/>
 
 <body>
-	<div th:replace="fragments/layout.html::menu"/></div>
+	<div th:replace="fragments/layout.html::menu"/>
         <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-        Authenticated username:
-        <div sec:authentication="name"></div>
-        Authenticated user role:
-        <div sec:authentication="principal.authorities"></div>
-        
+        <h2>Your leave balance </h2>
+    </div>
+    
+    <div>
 
-        <h2>>You are in User Dashboard </h2>
+		<table class="table table-striped">
+			<tr class="listHeading">
+				<th><span>Annual Leave</span></th>
+				<th><span>Medical Leave</span></th>
+				<th><span>Compensation Leave</span></th>
+				
+				
+				
+			</tr>
+			<tr class="listRecord">
+				<td align="left" th:text="${employee.annualLeaveN}"></td>
+				<td align="left" th:text="${employee.medicalLeaveN}"></td>
+				<td align="left" th:text="${employee.compLeaveN}"></td>
+				
+				
+			</tr  >
+			</table>
+		</div>
+
 
 </body>
 </html>
