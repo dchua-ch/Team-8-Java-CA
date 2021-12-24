@@ -18,11 +18,9 @@ public class LeaveValidator implements Validator {
 	
 	@Override
 	public void validate(Object obj, Errors e) {
-		//Leave leave = (Leave) obj;
 		LeaveInput leave = (LeaveInput) obj;
-		//ValidationUtils.rejectIfEmpty(e, "leaveId", "error.leave.leaveId.empty");
-		//ValidationUtils.rejectIfEmpty(e, "startDate", "error.leave.startDate.empty", "Start Date required");
-		//ValidationUtils.rejectIfEmpty(e, "endDate", "error.leave.endDate.empty", "End Date required");
+		ValidationUtils.rejectIfEmpty(e, "startDate", "error.leave.startDate.empty", "Start Date required");
+		ValidationUtils.rejectIfEmpty(e, "endDate", "error.leave.endDate.empty", "End Date required");
 		ValidationUtils.rejectIfEmpty(e, "leaveType", "error.leave.leaveType.empty", "Leave Type required");
 		ValidationUtils.rejectIfEmpty(e, "addtnlReason", "error.leave.addtnlReason.empty", "Reason required");
 		
