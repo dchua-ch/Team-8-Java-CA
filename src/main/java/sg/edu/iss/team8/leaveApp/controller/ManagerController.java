@@ -121,6 +121,7 @@ public class ManagerController {
 				{
 					employee.setCompLeaveN(employee.getCompLeaveN() + compensation);
 				}
+				urepo.saveAndFlush(employee);
 				//<--- Additional code included to compensate leave
 				leave.setStatus(StatusEnum.REJECTED);
 			}
