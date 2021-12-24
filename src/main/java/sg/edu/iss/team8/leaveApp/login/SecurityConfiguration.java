@@ -40,7 +40,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http
 			.authorizeRequests()
 				.antMatchers("/adminDashboard").hasAuthority("admin")
+				.antMatchers("/admin/**").hasAuthority("admin")
 				.antMatchers("/dashboard").hasAnyAuthority("employee", "manager")
+				.antMatchers("/leave/**").hasAnyAuthority("employee", "manager")
+				.antMatchers("/staff/**").hasAnyAuthority("employee", "manager")
+				.antMatchers("/manager/**").hasAuthority("manager")
+				.antMatchers("/reportAPI/**").hasAuthority("manager")
 				.anyRequest().authenticated()
 			.and().formLogin()
 				.successHandler(successHandler)

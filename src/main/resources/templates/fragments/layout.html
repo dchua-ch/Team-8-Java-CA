@@ -21,7 +21,7 @@
 				</button>
 				<div class="collapse navbar-collapse" id="main_nav" th:if="${#authorization.expression('hasAnyAuthority(''manager'', ''employee'')')}">
 					<ul class="navbar-nav">
-						<li class="nav-item active"> <a class="nav-link" href="#">My Calendar </a> </li>
+						
 						
 						<li class="nav-item dropdown">
 						<a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown" type="button"> My Leaves </a>
@@ -31,7 +31,6 @@
 								<li><a class="dropdown-item" th:href="@{/staff/history/all}"> My Leaves History (All)</a></li>
 							</ul>
 						</li>
-						<li class="nav-item"><a class="nav-link" href="#"> My Profile </a></li>
 						<li class="nav-item dropdown">
 							<a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown" type="button"> Overtime </a>
 							<ul class="dropdown-menu">
