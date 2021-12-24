@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+
+<head th:replace="fragments/layout.html :: html_head"/>
 <body>
+<div th:replace="fragments/layout.html::menu"/>
 <h1>Something went wrong! </h1>
 
-<a href="/dashboard">For staff</a><br>
-<a href="/adminDashboard">For admin</a>
+<p>You may not have access right to this page</p>
 </body>
 </html>

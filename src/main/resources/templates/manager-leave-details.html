@@ -72,6 +72,7 @@
 					&nbsp;&nbsp;
 					<div class="form-group col-md-4">
 						<label for="comments">Comments:</label>
+						<p><i>compulsory field</i></p>
 						<textarea class="form-control" id="comments" rows="4" th:field="${outcome.comments}"></textarea>
 						<p th:if="${#fields.hasErrors('${outcome.comments}')}" th:errors="${outcome.comments}"></p >
 
