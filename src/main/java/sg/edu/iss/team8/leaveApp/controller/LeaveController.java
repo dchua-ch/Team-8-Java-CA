@@ -203,13 +203,7 @@ public class LeaveController {
 		LeaveEnum previousLeaveType = leave.getLeaveType();
 		LocalDate startDate = convertToLocalDate(leaveInput.getStartDate());
 		LocalDate endDate = convertToLocalDate(leaveInput.getEndDate());
-//		leave.setStartDate(startDate);
-//		leave.setEndDate(endDate);
-//		leave.setAddtnlReason(leaveInput.getAddtnlReason());
-//		leave.setLeaveType(leaveInput.getLeaveType());
-//		leave.setAddtnlReason(leaveInput.getAddtnlReason());
-//		leave.setWorkDissemination(leaveInput.getWorkDissemination());
-//		leave.setContact(leaveInput.getContact());
+
 		
 		/*
 		 * Add logic for leave deduction here
