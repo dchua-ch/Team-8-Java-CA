@@ -29,6 +29,8 @@ public interface LeaveService {
 	
 	public void updateLeave(Leave leave);
 	
+	public void updateLeave1(Leave leave);
+	
 	public void deleteLeave(Leave leave);
 	
 	public void cancelLeave(Leave leave);

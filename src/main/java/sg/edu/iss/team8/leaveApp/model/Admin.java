@@ -1,3 +1,4 @@
+
 package sg.edu.iss.team8.leaveApp.model;
 
 import javax.persistence.DiscriminatorValue;
@@ -18,7 +19,7 @@ public class Admin extends User {
 		super(name);
 	}
 	
-	public Admin(String name, String username, String password) {
-		super(name, username, password); 
+	public Admin(String name, String username, String password, boolean enabled) {
+		super(name, username, password, enabled); 
 	}
 }

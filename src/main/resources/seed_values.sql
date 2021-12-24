@@ -1,6 +1,7 @@
 DROP SCHEMA IF EXISTS leaveapp;
 CREATE SCHEMA leaveapp;
 USE leaveapp;
+
 CREATE TABLE leaveapp.user (
 	user_type VARCHAR(45) NOT NULL,
 	user_id INTEGER NOT NULL AUTO_INCREMENT,
@@ -11,8 +12,9 @@ CREATE TABLE leaveapp.user (
 	comp_leaven INTEGER NULL,
 	medical_leaven INTEGER NULL,
 	reports_to INTEGER NULL,
+	enabled BOOLEAN NULL,
 	PRIMARY KEY (user_id));
-	
+
 CREATE TABLE leaveapp.leaves (
 	leave_id INTEGER NOT NULL AUTO_INCREMENT,
 	addtnl_reason VARCHAR(45) NULL,
@@ -44,36 +46,36 @@ CREATE TABLE leaveapp.overtime_hours (
 		REFERENCES leaveapp.user (user_id)
 		ON DELETE NO ACTION
 		ON UPDATE NO ACTION);
-		
-INSERT INTO leaveapp.user
-(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to)
-VALUES
-('manager', 1, 'Peter', 'pwd', 'peter', 18, 0, 60, null);
 
 INSERT INTO leaveapp.user
-(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to)
+(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to, enabled)
 VALUES
-('manager', 2, 'Jane', 'pwd', 'jane', 18, 0, 60, 1);
+('manager', 1, 'Peter', '$2a$12$wuywrgwcmm3ceYoYz1z9q.74U0MdSiukjz4uF1WyYqILJPtusTrVS', 'peter', 18, 0, 60, null, true);
 
 INSERT INTO leaveapp.user
-(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to)
+(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to, enabled)
 VALUES
-('employee', 3, 'Jack', 'pwd', 'jack', 18, 0, 60, 1);
+('manager', 2, 'Jane', '$2a$12$wuywrgwcmm3ceYoYz1z9q.74U0MdSiukjz4uF1WyYqILJPtusTrVS', 'jane', 18, 0, 60, 1, true);
 
 INSERT INTO leaveapp.user
-(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to)
+(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to, enabled)
 VALUES
-('employee', 4, 'Jill', 'pwd', 'jill', 18, 0, 60, 1);
+('employee', 3, 'Jack', '$2a$12$wuywrgwcmm3ceYoYz1z9q.74U0MdSiukjz4uF1WyYqILJPtusTrVS', 'jack', 18, 0, 60, 1, true);
 
 INSERT INTO leaveapp.user
-(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to)
+(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to, enabled)
 VALUES
-('employee', 5, 'Jake', 'pwd', 'jake', 18, 0, 60, 2);
+('employee', 4, 'Jill', '$2a$12$wuywrgwcmm3ceYoYz1z9q.74U0MdSiukjz4uF1WyYqILJPtusTrVS', 'jill', 18, 0, 60, 1, true);
 
 INSERT INTO leaveapp.user
-(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to)
+(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to, enabled)
 VALUES
-('admin', 6, 'Adam', 'pwd', 'adam', null, null, null, null);
+('employee', 5, 'Jake', '$2a$12$wuywrgwcmm3ceYoYz1z9q.74U0MdSiukjz4uF1WyYqILJPtusTrVS', 'jake', 18, 0, 60, 2, true);
+
+INSERT INTO leaveapp.user
+(user_type, user_id, name, password, username, annual_leaven, comp_leaven, medical_leaven, reports_to, enabled)
+VALUES
+('admin', 6, 'Adam', '$2a$12$wuywrgwcmm3ceYoYz1z9q.74U0MdSiukjz4uF1WyYqILJPtusTrVS', 'adam', null, null, null, null, true);
 
 
 
@@ -97,102 +99,121 @@ VALUES
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(4, '...', '...', 92222, str_to_date('2021-01-10', '%Y-%m-%d'), 'ANNUAL', str_to_date('2021-01-07', '%Y-%m-%d'), 'APPLIED', '...', '2');
+(4, '...', '...', 91111, str_to_date('2020-01-10', '%Y-%m-%d'), 'ANNUAL', str_to_date('2020-01-08', '%Y-%m-%d'), 'APPLIED', '...', '1');
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(5, '...', '...', 92222, str_to_date('2021-01-10', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-01-08', '%Y-%m-%d'), 'DELETED', '...', '2');
+(5, '...', '...', 92222, str_to_date('2021-01-10', '%Y-%m-%d'), 'ANNUAL', str_to_date('2021-01-07', '%Y-%m-%d'), 'APPLIED', '...', '2');
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(6, '...', '...', 92222, str_to_date('2021-01-10', '%Y-%m-%d'), 'MEDICAL', str_to_date('2021-01-08', '%Y-%m-%d'), 'APPROVED', '...', '2');
+(6, '...', '...', 92222, str_to_date('2021-01-10', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-01-08', '%Y-%m-%d'), 'DELETED', '...', '2');
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(7, '...', '...', 92222, str_to_date('2021-04-01', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-03-29', '%Y-%m-%d'), 'APPROVED', '...', '2');
-
-
-INSERT INTO leaveapp.leaves
-(leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
-VALUES
-(8, '...', '...', 93333, str_to_date('2021-01-10', '%Y-%m-%d'), 'ANNUAL', str_to_date('2021-01-06', '%Y-%m-%d'), 'APPLIED', '...', '3');
-
+(7, '...', '...', 92222, str_to_date('2021-01-10', '%Y-%m-%d'), 'MEDICAL', str_to_date('2021-01-08', '%Y-%m-%d'), 'APPROVED', '...', '2');
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(9, '...', '...', 93333, str_to_date('2021-01-10', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-01-08', '%Y-%m-%d'), 'DELETED', '...', '3');
+(8, '...', '...', 92222, str_to_date('2021-04-01', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-03-29', '%Y-%m-%d'), 'APPROVED', '...', '2');
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(10, '...', '...', 93333, str_to_date('2021-01-09', '%Y-%m-%d'), 'MEDICAL', str_to_date('2021-01-01', '%Y-%m-%d'), 'APPROVED', '...', '3');
+(9, '...', '...', 92222, str_to_date('2020-04-01', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2020-03-29', '%Y-%m-%d'), 'APPROVED', '...', '2');
 
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(11, '...', '...', 93333, str_to_date('2021-01-15', '%Y-%m-%d'), 'ANNUAL', str_to_date('2021-01-09', '%Y-%m-%d'), 'UPDATED', '...', '3');
+(10, '...', '...', 93333, str_to_date('2021-01-10', '%Y-%m-%d'), 'ANNUAL', str_to_date('2021-01-06', '%Y-%m-%d'), 'APPLIED', '...', '3');
 
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(12, '...', '...', 93333, str_to_date('2021-03-15', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-03-10', '%Y-%m-%d'), 'APPROVED', '...', '3');
+(11, '...', '...', 93333, str_to_date('2021-01-10', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-01-08', '%Y-%m-%d'), 'DELETED', '...', '3');
+
+INSERT INTO leaveapp.leaves
+(leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
+VALUES
+(12, '...', '...', 93333, str_to_date('2021-01-09', '%Y-%m-%d'), 'MEDICAL', str_to_date('2021-01-01', '%Y-%m-%d'), 'APPROVED', '...', '3');
 
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(13, '...', '...', 94444, str_to_date('2021-01-15', '%Y-%m-%d'), 'ANNUAL', str_to_date('2021-01-11', '%Y-%m-%d'), 'APPLIED', '...', '4');
+(13, '...', '...', 93333, str_to_date('2021-01-15', '%Y-%m-%d'), 'ANNUAL', str_to_date('2021-01-09', '%Y-%m-%d'), 'UPDATED', '...', '3');
 
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(14, '...', '...', 94444, str_to_date('2021-05-12', '%Y-%m-%d'), 'ANNUAL', str_to_date('2021-05-08', '%Y-%m-%d'), 'APPLIED', '...', '4');
+(14, '...', '...', 93333, str_to_date('2021-03-15', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-03-10', '%Y-%m-%d'), 'APPROVED', '...', '3');
+
+INSERT INTO leaveapp.leaves
+(leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
+VALUES
+(15, '...', '...', 93333, str_to_date('2020-03-15', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2020-03-10', '%Y-%m-%d'), 'APPROVED', '...', '3');
+
+INSERT INTO leaveapp.leaves
+(leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
+VALUES
+(16, '...', '...', 94444, str_to_date('2021-01-15', '%Y-%m-%d'), 'ANNUAL', str_to_date('2021-01-11', '%Y-%m-%d'), 'APPLIED', '...', '4');
 
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(15, '...', '...', 94444, str_to_date('2021-01-10', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-01-08', '%Y-%m-%d'), 'DELETED', '...', '4');
+(17, '...', '...', 94444, str_to_date('2021-05-12', '%Y-%m-%d'), 'ANNUAL', str_to_date('2021-05-08', '%Y-%m-%d'), 'APPLIED', '...', '4');
 
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(16, '...', '...', 94444, str_to_date('2021-01-10', '%Y-%m-%d'), 'MEDICAL', str_to_date('2021-01-08', '%Y-%m-%d'), 'APPROVED', '...', '4');
+(18, '...', '...', 94444, str_to_date('2021-01-10', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-01-08', '%Y-%m-%d'), 'DELETED', '...', '4');
 
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(17, '...', '...', 94444, str_to_date('2021-01-09', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-01-08', '%Y-%m-%d'), 'APPLIED', '...', '4');
+(19, '...', '...', 94444, str_to_date('2021-01-10', '%Y-%m-%d'), 'MEDICAL', str_to_date('2021-01-08', '%Y-%m-%d'), 'APPROVED', '...', '4');
 
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(18, '...', '...', 94444, str_to_date('2021-07-23', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-07-20', '%Y-%m-%d'), 'APPROVED', '...', '4');
+(20, '...', '...', 94444, str_to_date('2021-01-09', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-01-08', '%Y-%m-%d'), 'APPLIED', '...', '4');
+
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(19, '...', '...', 95555, str_to_date('2021-01-10', '%Y-%m-%d'), 'ANNUAL', str_to_date('2021-01-08', '%Y-%m-%d'), 'APPLIED', '...', '5');
+(21, '...', '...', 94444, str_to_date('2020-07-23', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2020-07-20', '%Y-%m-%d'), 'APPROVED', '...', '4');
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(20, '...', '...', 95555, str_to_date('2021-05-07', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-05-01', '%Y-%m-%d'), 'DELETED', '...', '5');
+(22, '...', '...', 95555, str_to_date('2021-01-10', '%Y-%m-%d'), 'ANNUAL', str_to_date('2021-01-08', '%Y-%m-%d'), 'APPLIED', '...', '5');
 
 INSERT INTO leaveapp.leaves
 (leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
 VALUES
-(21, '...', '...', 95555, str_to_date('2021-01-10', '%Y-%m-%d'), 'MEDICAL', str_to_date('2021-01-08', '%Y-%m-%d'), 'APPROVED', '...', '5');
+(23, '...', '...', 95555, str_to_date('2021-05-07', '%Y-%m-%d'), 'COMPENSATION', str_to_date('2021-05-01', '%Y-%m-%d'), 'DELETED', '...', '5');
+
+INSERT INTO leaveapp.leaves
+(leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
+VALUES
+(24, '...', '...', 95555, str_to_date('2021-01-10', '%Y-%m-%d'), 'MEDICAL', str_to_date('2021-01-08', '%Y-%m-%d'), 'APPROVED', '...', '5');
+
+INSERT INTO leaveapp.leaves
+(leave_id, addtnl_reason, comments, contact, end_date, leave_type, start_date, status, work_dissemination, userid)
+VALUES
+(25, '...', '...', 95555, str_to_date('2020-01-10', '%Y-%m-%d'), 'MEDICAL', str_to_date('2021-01-08', '%Y-%m-%d'), 'APPROVED', '...', '5');
 
 INSERT INTO leaveapp.overtime_hours
 (overtime_id, date, hours, reason, status, userid)
@@ -243,3 +264,4 @@ INSERT INTO leaveapp.overtime_hours
 (overtime_id, date, hours, reason, status, userid)
 VALUES
 (10, str_to_date('2021-11-15', '%Y-%m-%d'), 2, 'Project C', 'APPLIED', 3);
+

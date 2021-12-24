@@ -29,4 +29,9 @@ public class UserServiceImpl implements UserService{
 	public void removeUser(User user) {
 		urepo.delete(user);
 	}
+	
+	@Override
+	public User findUserByUsername(String username) {
+		return urepo.getUserByUsername(username);
+	}
 }

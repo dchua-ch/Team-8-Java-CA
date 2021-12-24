@@ -1,0 +1,17 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+
+<head th:replace="fragments/layout.html :: html_head"/>
+
+<body>
+	<div th:replace="fragments/layout.html::menu"/></div>
+        <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+        
+
+        <h2>>You are in Admin Dashboard </h2>
+
+</body>
+</html>

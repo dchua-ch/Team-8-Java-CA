@@ -122,9 +122,8 @@ public class ManageStaff {
         urepo.updateUserTypeById(staff.getUser_type(), Integer.valueOf(id));
         //change user type, can't success
 //        urepo.updateUserType(staff.getUser_type(), staff.getUserId());
-
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String encoderPasswod = encoder.encode(staff.getPassword());
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        String encoderPasswod = encoder.encode(staff.getPassword());
 
         if (staff.getUser_type().equals("employee")){
             Employee updateEmployee = emrepo.findById(Integer.valueOf(id)).get();
@@ -134,7 +133,7 @@ public class ManageStaff {
             updateEmployee.setReportsTo(staff.getReportsTo());
             updateEmployee.setName(staff.getName());
             updateEmployee.setUsername(staff.getUsername());
-            updateEmployee.setPassword(encoderPasswod);
+//            updateEmployee.setPassword(encoderPasswod);
 
             emrepo.saveAndFlush(updateEmployee);
 
@@ -147,7 +146,7 @@ public class ManageStaff {
             updateManager.setReportsTo(staff.getReportsTo());
             updateManager.setName(staff.getName());
             updateManager.setUsername(staff.getUsername());
-            updateManager.setPassword(encoderPasswod);
+//            updateManager.setPassword(encoderPasswod);
             marepo.saveAndFlush(updateManager);
 
         }else if(staff.getUser_type().equals("admin")){
@@ -155,7 +154,7 @@ public class ManageStaff {
             Admin updateAdmin = adrepo.findById(Integer.valueOf(id)).get();
             updateAdmin.setName(staff.getName());
             updateAdmin.setUsername(staff.getUsername());
-            updateAdmin.setPassword(encoderPasswod);
+//            updateAdmin.setPassword(encoderPasswod);
             adrepo.saveAndFlush(updateAdmin);
         }
 
@@ -214,24 +213,26 @@ public class ManageStaff {
         //after encode
         System.out.println("after encode");
         System.out.println(encoderPasswod);
+        
+        staff.setEnabled(true);
 
         System.out.println(staff.getUser_type());
         if (staff.getUser_type().equals("employee")){
 
-            Employee myEmployee = new Employee(staff.getName(),staff.getUsername(),encoderPasswod,staff.getAnnualLeaveN(),
+            Employee myEmployee = new Employee(staff.getName(),staff.getUsername(),encoderPasswod, staff.getEnabled(), staff.getAnnualLeaveN(),
                     staff.getMedicalLeaveN(),staff.getCompLeaveN(),staff.getReportsTo());
 //            Employee myEmployee = new Employee(staff.getName());
             urepo.saveAndFlush(myEmployee);
 
         }else if(staff.getUser_type().equals("manager")){
 
-            Manager myManager = new Manager(staff.getName(),staff.getUsername(),encoderPasswod,staff.getAnnualLeaveN(),
+            Manager myManager = new Manager(staff.getName(),staff.getUsername(),encoderPasswod, staff.getEnabled(), staff.getAnnualLeaveN(),
                     staff.getMedicalLeaveN(),staff.getCompLeaveN(),staff.getReportsTo());
             urepo.saveAndFlush(myManager);
 
         }else if(staff.getUser_type().equals("admin")){
             // admin
-            Admin myAdmin = new Admin(staff.getName(),staff.getUsername(),encoderPasswod);
+            Admin myAdmin = new Admin(staff.getName(),staff.getUsername(),encoderPasswod, staff.getEnabled());
             urepo.saveAndFlush(myAdmin);
         }
         mav.setViewName("forward:/admin/user/list");

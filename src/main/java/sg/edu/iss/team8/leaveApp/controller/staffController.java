@@ -1,5 +1,6 @@
 package sg.edu.iss.team8.leaveApp.controller;
 
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,6 +40,7 @@ import sg.edu.iss.team8.leaveApp.service.EmployeeService;
 import sg.edu.iss.team8.leaveApp.service.LeaveService;
 import sg.edu.iss.team8.leaveApp.service.OvertimeHoursService;
 import sg.edu.iss.team8.leaveApp.service.OvertimeHoursServiceImpl;
+import sg.edu.iss.team8.leaveApp.service.UserService;
 import sg.edu.iss.team8.leaveApp.validator.OvertimeHoursValidator;
 
 @Controller
@@ -52,6 +54,9 @@ public class staffController {
 
 	@Autowired
 	LeaveService lService;
+	
+	@Autowired 
+	UserService uService;
 	
 	//Check all personal leaves in current year
 //	@RequestMapping(value = "/history/")
@@ -74,11 +79,10 @@ public class staffController {
 //	}
 	//Check all personal leaves in current year
 	@RequestMapping(value = "/history/", method = RequestMethod.GET)
-	public ModelAndView leaveHistory(HttpSession session) {
-		UserSession usession = (UserSession) session.getAttribute("usession");
+	public ModelAndView leaveHistory(Principal principal) {
 		Calendar date = Calendar.getInstance();
 		ArrayList<Leave> all = new ArrayList<Leave>();
-		List<Leave> leaves = lService.findLeaveByUID(usession.getUser().userId);
+		List<Leave> leaves = lService.findLeaveByUID(uService.findUserByUsername(principal.getName()).userId);
 		
 		for(Leave l : leaves) {
 			if(l.getStartDate().getYear() == date.get(Calendar.YEAR)) {
@@ -90,10 +94,9 @@ public class staffController {
 	}
 	//Check all personal leaves
 	@RequestMapping(value = "/history/all")
-	public String personalAllHistory(Model model, HttpSession session) {
-		UserSession usession = (UserSession) session.getAttribute("usession");
+	public String personalAllHistory(Model model, Principal principal) {
 		ArrayList<Leave> all1 = new ArrayList<Leave>();
-		all1.addAll(lService.findLeaveByUID(usession.getUser().userId));
+		all1.addAll(lService.findLeaveByUID(uService.findUserByUsername(principal.getName()).userId));
 		model.addAttribute("leaves", all1);
 		return "staff-leave-history-all";
 		}
@@ -139,10 +142,9 @@ public class staffController {
 	}
 	
 	@RequestMapping(value = "/addot")
-	public String addOTForm(HttpSession session, Model model) {
-		UserSession usession = (UserSession) session.getAttribute("usession");
-		if (usession != null) {
-			User u = usession.getUser();
+	public String addOTForm(Principal principal, Model model) {
+		User u = uService.findUserByUsername(principal.getName());
+		if (u != null) {
 			model.addAttribute("OTHours", new OvertimeHoursInput());
 			return "ot-form";
 		}
@@ -151,27 +153,34 @@ public class staffController {
 	
 	@RequestMapping(value = "/saveot")
 	public String saveOTHours(@ModelAttribute("OTHours") @Valid OvertimeHoursInput OTHours, BindingResult bindingResult, Model model,
-			HttpSession session){
-		UserSession usession = (UserSession) session.getAttribute("usession");
+			Principal principal){
+		User u = uService.findUserByUsername(principal.getName());
 		if (bindingResult.hasErrors()) {
 			return "ot-form";
 		}
-		if (usession != null) {
-			User u = usession.getUser();
-			OvertimeHours ot = new OvertimeHours(OTHours);
-			ot.setEmployee((Employee) u);
-			ot.setStatus(OTEnum.APPLIED);
-			oservice.saveOTHours(ot);
-			return "redirect:/staff/listot";
+		if (u != null) {
+			
+			if (u.getClass().getSimpleName().equalsIgnoreCase("admin")) {
+				return "adminerror";
 			}
+			else {
+					OvertimeHours ot = new OvertimeHours(OTHours);
+					ot.setEmployee((Employee) u);
+					ot.setStatus(OTEnum.APPLIED);
+					oservice.saveOTHours(ot);
+					return "redirect:/staff/listot";
+			}
+		}
 		return "forward:/home/login";
 	}
 	
 	@RequestMapping(value = "/listot")
-	public String listOT(HttpSession session, Model model) {
-		UserSession usession = (UserSession) session.getAttribute("usession");
-		if (usession != null) {
-			User u = usession.getUser();
+	public String listOT(Principal principal, Model model) {
+		User u = uService.findUserByUsername(principal.getName());
+		if (u != null) { //if not logged in
+			if (u.getClass().getSimpleName().equalsIgnoreCase("admin")) {
+				return "adminerror";
+			}
 			model.addAttribute("OTHistory", oservice.findOTHoursByUserId(u.getUserId()));
 			return "ot-list";
 		}
