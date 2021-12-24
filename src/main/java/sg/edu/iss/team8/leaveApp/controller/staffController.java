@@ -112,10 +112,10 @@ public class staffController {
 	}
 	
 	@GetMapping("/balance/")
-	public String leaveBalance(Model model,HttpSession session)
+	public String leaveBalance(Model model,Principal principal)
 	{
-		UserSession usession = (UserSession) session.getAttribute("usession");
-		Integer userId = usession.getUser().getUserId();
+
+		Integer userId = uService.findUserByUsername(principal.getName()).userId;
 		Employee employee = eService.findByUserId(userId);
 		model.addAttribute("employee",employee);
 		return "staff-leave-balance";
