@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<head>
-	<title>Club Application Home</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
-</head>
 
-<h1>
-	Leave Application Portal
-</h1>
+<head th:replace="fragments/layout.html :: html_head"/>
+<body>
+<div th:replace="fragments/layout.html::menu"/>
+<h1>Leave Application Page </h1>
 
-<h2><a href=# th:href= "@{/login}">Log into LAPS</a></h2>
-
+</body>
+</html>
