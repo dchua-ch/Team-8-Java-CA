@@ -195,13 +195,14 @@ public class LeaveController {
 		}
 	
 		Leave leave = lService.findLeaveById(leaveInput.getLeaveId());
-		LocalDate startDate = convertToLocalDate(leaveInput.getStartDate());
-		LocalDate endDate = convertToLocalDate(leaveInput.getEndDate());
+		
 		int previousPeriodDays = lService.calculatePeriodDays(leave);
 		int previousDaysToExclude = lService.calculateDaysToExclude(leave);
 		int previousLeavesToDeduct = previousPeriodDays - previousDaysToExclude;;
-		//int previousLeavesToDeduct = Math.abs(( Period.between(leave.getStartDate(), leave.getEndDate())).getDays()) - lService.calculateDaysToExclude(leave);
+		System.out.println("Previous leaves deducted: " + previousLeavesToDeduct);
 		LeaveEnum previousLeaveType = leave.getLeaveType();
+		LocalDate startDate = convertToLocalDate(leaveInput.getStartDate());
+		LocalDate endDate = convertToLocalDate(leaveInput.getEndDate());
 		leave.setStartDate(startDate);
 		leave.setEndDate(endDate);
 		leave.setAddtnlReason(leaveInput.getAddtnlReason());
@@ -209,7 +210,7 @@ public class LeaveController {
 		leave.setAddtnlReason(leaveInput.getAddtnlReason());
 		leave.setWorkDissemination(leaveInput.getWorkDissemination());
 		leave.setContact(leaveInput.getContact());
-		System.out.println("Previous leaves deducted: " + previousLeavesToDeduct);
+		
 		/*
 		 * Add logic for leave deduction here
 		 */
@@ -290,9 +291,10 @@ public class LeaveController {
 			
 			else if (leaveType == LeaveEnum.COMPENSATION) 
 			{
-				System.out.println("Annual leave balance: "+ (employee.getCompLeaveN() - totalLeavesToDeduct));
+				System.out.println("Compensation leave balance: "+ (employee.getCompLeaveN() - totalLeavesToDeduct));
 				if(employee.getCompLeaveN() - totalLeavesToDeduct <= 0)
 				{
+					System.out.println("Failed to update to compensation leave");
 					return "compensation-leave-exceeded";
 				}
 				else
@@ -314,6 +316,13 @@ public class LeaveController {
 				employee.setCompLeaveN(employee.getCompLeaveN() + previousLeavesToDeduct);
 			}
 		}
+//		leave.setStartDate(startDate);
+//		leave.setEndDate(endDate);
+//		leave.setAddtnlReason(leaveInput.getAddtnlReason());
+//		leave.setLeaveType(leaveType);
+//		leave.setAddtnlReason(leaveInput.getAddtnlReason());
+//		leave.setWorkDissemination(leaveInput.getWorkDissemination());
+//		leave.setContact(leaveInput.getContact());
 		urepo.saveAndFlush(employee);
 		lService.updateLeave(leave);
 		String msg = "Leave was successfully updated.";
